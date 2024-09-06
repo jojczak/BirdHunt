@@ -1,9 +1,8 @@
 package pl.jojczak.birdhunt.base
 
-import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 
-abstract class BaseUIStage: Stage(
+abstract class BaseUIStage : BaseStage(
     ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT)
 ) {
     companion object {

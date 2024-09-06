@@ -3,6 +3,8 @@ package pl.jojczak.birdhunt.assetsloader
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.badlogic.gdx.utils.I18NBundle
 
 object AssetsLoader {
     private var assetManager: AssetManager? = null
@@ -20,11 +22,12 @@ object AssetsLoader {
         }
     }
 
-    fun get(asset: Asset) : Any {
+    @Suppress("UNCHECKED_CAST")
+    fun <T> get(asset: Asset): T {
         Gdx.app.log(TAG, "get $asset")
         if (!assetManager!!.update()) throw UnfinishedAssetLoadingException()
 
-        return assetManager!!.get(assets[asset]!!.first, assets[asset]!!.second)
+        return assetManager!!.get(assets[asset]!!.first, assets[asset]!!.second) as T
     }
 
     fun progress(): Float = assetManager!!.progress
@@ -39,11 +42,20 @@ object AssetsLoader {
         assetManager = AssetManager()
     }
 
+    fun dispose() {
+        Gdx.app.log(TAG, "Disposing asset manager")
+        assetManager?.dispose()
+        assetManager = null
+    }
+
     private val assets = mapOf(
-        Asset.TX_LOGO to Pair("logo.png", Texture::class.java)
+        Asset.I18N to Pair("i18n/texts", I18NBundle::class.java),
+        Asset.UI_SKIN to Pair("myUi/jj_pixel_ui.json", Skin::class.java),
+        Asset.TX_LOGO to Pair("logo.png", Texture::class.java),
+        Asset.TX_BIRD to Pair("bird.png", Texture::class.java)
     )
 
-    private class UnfinishedAssetLoadingException: RuntimeException()
+    private class UnfinishedAssetLoadingException : RuntimeException()
 
     private const val TAG = "AssetsLoader"
 }

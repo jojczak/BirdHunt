@@ -1,5 +1,8 @@
 package pl.jojczak.birdhunt.assetsloader
 
 enum class Asset {
-    TX_LOGO
+    I18N,
+    UI_SKIN,
+    TX_LOGO,
+    TX_BIRD
 }

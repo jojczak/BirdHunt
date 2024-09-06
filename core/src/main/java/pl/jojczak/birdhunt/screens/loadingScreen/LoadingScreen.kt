@@ -7,7 +7,7 @@ import pl.jojczak.birdhunt.main.MainAction
 
 class LoadingScreen(
     mainActionReceiver: (action: MainAction) -> Unit
-): BaseScreen(
+) : BaseScreen<LoadingAction>(
     mainActionReceiver = mainActionReceiver
 ) {
     override fun show() {

@@ -8,12 +8,15 @@ import pl.jojczak.birdhunt.main.MainAction
 
 class MainMenuScreen(
     mainActionReceiver: (action: MainAction) -> Unit
-): BaseScreen(
+) : BaseScreen<MainMenuScreenAction>(
     mainActionReceiver = mainActionReceiver
 ) {
-    private val mainMenuStage = MainMenuStage()
+    private val mainMenuStage = MainMenuStage(::onAction).apply {
+        fadeIn()
+    }
 
     override fun show() {
+        Gdx.app.log(TAG, "show MainMenuScreen")
         super.show()
         Gdx.input.inputProcessor = mainMenuStage
     }
@@ -27,12 +30,30 @@ class MainMenuScreen(
     }
 
     override fun resize(width: Int, height: Int) {
+        Gdx.app.log(TAG, "resize MainMenuScreen width: $width, height: $height")
         super.resize(width, height)
         mainMenuStage.viewport.update(width, height, true)
     }
 
     override fun dispose() {
+        Gdx.app.log(TAG, "dispose MainMenuScreen")
         super.dispose()
         mainMenuStage.dispose()
+    }
+
+    override fun onAction(action: MainMenuScreenAction) {
+        Gdx.app.log(TAG, "action received: $action")
+
+        when (action) {
+            MainMenuScreenAction.StartGame -> {
+                mainMenuStage.fadeOut {
+                    mainActionReceiver(MainAction.NavigateToGameplay)
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val TAG = "MainMenuScreen"
     }
 }

@@ -3,7 +3,7 @@ package pl.jojczak.birdhunt.base
 import com.badlogic.gdx.Screen
 import pl.jojczak.birdhunt.main.MainAction
 
-abstract class BaseScreen(
+abstract class BaseScreen<ActionType>(
     protected val mainActionReceiver: (action: MainAction) -> Unit
 ) : Screen {
     override fun show() = Unit
@@ -19,4 +19,6 @@ abstract class BaseScreen(
     override fun hide() = Unit
 
     override fun dispose() = Unit
+
+    open fun onAction(action: ActionType) = Unit
 }
