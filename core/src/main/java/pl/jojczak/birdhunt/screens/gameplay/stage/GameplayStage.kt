@@ -1,7 +1,7 @@
 package pl.jojczak.birdhunt.screens.gameplay.stage
 
 import pl.jojczak.birdhunt.base.BaseStage
-import pl.jojczak.birdhunt.screens.gameplay.stage.actors.BirdActor
+import pl.jojczak.birdhunt.screens.gameplay.stage.actors.birdactor.BirdActor
 import pl.jojczak.birdhunt.screens.gameplay.stage.actors.ScopeActor
 import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
 import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance

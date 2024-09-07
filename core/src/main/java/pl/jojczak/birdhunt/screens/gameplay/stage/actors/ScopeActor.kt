@@ -1,6 +1,5 @@
 package pl.jojczak.birdhunt.screens.gameplay.stage.actors
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import pl.jojczak.birdhunt.assetsloader.Asset
@@ -55,7 +54,6 @@ class ScopeActor: BaseActor(), SPenHelper.EventListener {
     override fun onSPenButtonEvent(event: SPenHelper.ButtonEvent) = Unit
 
     override fun onSPenMotionEvent(x: Float, y: Float) {
-        Gdx.app.log(TAG, "onSPenMotionEvent: $x, $y")
         this.x += x * MOTION_MULTIPLIER
         this.y += y * MOTION_MULTIPLIER
     }

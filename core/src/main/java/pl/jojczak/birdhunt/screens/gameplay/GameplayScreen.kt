@@ -6,8 +6,6 @@ import com.badlogic.gdx.utils.ScreenUtils
 import pl.jojczak.birdhunt.base.BaseScreen
 import pl.jojczak.birdhunt.main.MainAction
 import pl.jojczak.birdhunt.screens.gameplay.stage.GameplayStage
-import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
-import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
 
 class GameplayScreen(
     mainActionReceiver: (action: MainAction) -> Unit
