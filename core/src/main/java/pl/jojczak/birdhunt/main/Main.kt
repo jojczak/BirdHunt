@@ -6,9 +6,15 @@ import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.screens.gameplay.GameplayScreen
 import pl.jojczak.birdhunt.screens.loadingScreen.LoadingScreen
 import pl.jojczak.birdhunt.screens.mainmenu.MainMenuScreen
+import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
+import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
 
 class Main : Game() {
     override fun create() {
+        if (sPenHelperInstance.implType == SPenHelper.ImplType.DESKTOP) {
+            sPenHelperInstance.connect({}, {})
+        }
+
         setScreen(LoadingScreen(::onAction))
     }
 
@@ -26,6 +32,11 @@ class Main : Game() {
                 setScreen(GameplayScreen(::onAction))
             }
         }
+    }
+
+    override fun render() {
+        sPenHelperInstance.act()
+        super.render()
     }
 
     override fun dispose() {

@@ -16,6 +16,7 @@ apply plugin: 'org.jetbrains.kotlin.jvm'
 
 
 import io.github.fourlastor.construo.Target
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
 mainClassName = 'pl.jojczak.birdhunt.lwjgl3.Lwjgl3Launcher'
@@ -26,7 +27,7 @@ java.targetCompatibility = 11
 if (JavaVersion.current().isJava9Compatible()) {
         compileJava.options.release.set(11)
 }
-kotlin.compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+kotlin.compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
 
 dependencies {
   implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"

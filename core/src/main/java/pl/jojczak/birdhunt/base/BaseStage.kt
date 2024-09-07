@@ -1,5 +1,6 @@
 package pl.jojczak.birdhunt.base
 
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
@@ -10,6 +11,8 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
+import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
+import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
 
 abstract class BaseStage(
     viewport: Viewport? = null
@@ -57,9 +60,25 @@ abstract class BaseStage(
         addAction(fadeOutAction(callback))
     }
 
+    override fun dispose() {
+        for (actor in actors) {
+            if (actor is SPenHelper.EventListener) {
+                sPenHelperInstance.removeEventListener(actor)
+            }
+        }
+        super.dispose()
+    }
+
+    override fun actorRemoved(actor: Actor) {
+        if (actor is SPenHelper.EventListener) {
+            sPenHelperInstance.removeEventListener(actor)
+        }
+        super.actorRemoved(actor)
+    }
+
     companion object {
         private const val WORLD_WIDTH = 200f
-        private const val WORLD_HEIGHT = 356f
+        private const val WORLD_HEIGHT = 300f
 
         private const val FADE_DURATION = 0.25f
     }

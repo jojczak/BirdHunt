@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 buildscript {
   repositories {
     mavenCentral()
@@ -9,7 +11,7 @@ buildscript {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:8.5.1'
+    classpath 'com.android.tools.build:gradle:8.5.2'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
   }
@@ -52,7 +54,7 @@ configure(subprojects - project(':android')) {
       assetsFile.append(it + "\n")
     }
   }
-  compileKotlin.compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+  compileKotlin.compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
 
 }
 

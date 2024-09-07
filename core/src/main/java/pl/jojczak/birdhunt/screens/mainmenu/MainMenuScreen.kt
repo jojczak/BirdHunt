@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.ScreenUtils
 import pl.jojczak.birdhunt.base.BaseScreen
 import pl.jojczak.birdhunt.main.MainAction
+import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
+import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
 
 class MainMenuScreen(
     mainActionReceiver: (action: MainAction) -> Unit
@@ -23,7 +25,7 @@ class MainMenuScreen(
 
     override fun render(delta: Float) {
         super.render(delta)
-        ScreenUtils.clear(Color.BLACK)
+        ScreenUtils.clear(Color.SKY)
 
         mainMenuStage.act(delta)
         mainMenuStage.draw()

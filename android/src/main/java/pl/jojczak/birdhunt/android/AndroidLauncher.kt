@@ -1,18 +1,30 @@
-package pl.jojczak.birdhunt.android;
+package pl.jojczak.birdhunt.android
 
-import android.os.Bundle;
+import android.os.Bundle
+import com.badlogic.gdx.backends.android.AndroidApplication
+import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
+import pl.jojczak.birdhunt.main.Main
+import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
 
-import com.badlogic.gdx.backends.android.AndroidApplication;
-import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import pl.jojczak.birdhunt.main.Main;
+/** Launches the Android application.  */
+class AndroidLauncher : AndroidApplication() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-/** Launches the Android application. */
-public class AndroidLauncher extends AndroidApplication {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        AndroidApplicationConfiguration configuration = new AndroidApplicationConfiguration();
-        configuration.useImmersiveMode = true; // Recommended, but not required.
-        initialize(new Main(), configuration);
+        sPenHelperInstance = SPenHelperAndroidImpl(this)
+
+        val configuration = AndroidApplicationConfiguration()
+        configuration.useImmersiveMode = true // Recommended, but not required.
+        initialize(Main(), configuration)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        sPenHelperInstance.connect({}, {})
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sPenHelperInstance.disconnect()
     }
 }
