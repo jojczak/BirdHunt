@@ -1,20 +1,25 @@
 package pl.jojczak.birdhunt.screens.gameplay.stage.actors.birdactor
 
 import com.badlogic.gdx.Gdx
+import pl.jojczak.birdhunt.screens.gameplay.stage.actors.birdactor.BirdActor.Companion.BASE_SPEED
 import kotlin.math.cos
 import kotlin.math.sin
 
 class BirdMovementHelper(
-    private val baseSpeed: Float
+    private val onMovementChanged: (BirdMovementType) -> Unit
 ) {
     private var movementType: BirdMovementType = BirdMovementType.RightBottom()
+        set(value) {
+            field = value
+            onMovementChanged(value)
+        }
 
     fun update(
         bird: BirdActor,
         delta: Float
     ) {
-        var newX = bird.x + (cos(movementType.angle) * (baseSpeed * delta))
-        var newY = bird.y + (sin(movementType.angle) * (baseSpeed * delta))
+        var newX = bird.x + (cos(movementType.angle) * (BASE_SPEED * delta))
+        var newY = bird.y + (sin(movementType.angle) * (BASE_SPEED * delta))
 
         if (newX < 0) {
             newX = 0f

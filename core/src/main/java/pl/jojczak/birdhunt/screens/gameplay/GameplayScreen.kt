@@ -33,6 +33,7 @@ class GameplayScreen(
         Gdx.app.log(TAG, "resize GameplayScreen width: $width, height: $height")
         super.resize(width, height)
         gameplayStage.viewport.update(width, height, true)
+        gameplayStage.onResize(width, height)
     }
 
     override fun dispose() {

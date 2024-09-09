@@ -4,13 +4,13 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.Actor
 
 abstract class BaseActor : Actor() {
-    private var isStage = false
+    protected var isStage = false
 
     override fun act(delta: Float) {
         super.act(delta)
         if (hasParent() && !isStage) {
-            onStage()
             isStage = true
+            onStage()
         }
     }
 
@@ -20,4 +20,6 @@ abstract class BaseActor : Actor() {
         batch.setColor(batch.color.r, batch.color.g, batch.color.b, parentAlpha)
         super.draw(batch, parentAlpha)
     }
+
+    open fun onResize(scrWidth: Int, scrHeight: Int) = Unit
 }

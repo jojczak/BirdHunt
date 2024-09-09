@@ -13,12 +13,11 @@ class BirdActor : BaseActor() {
     private val deadTexture = textureFrames[0][textureFrames[0].size - 1]
 
     private val animationHelper = BirdAnimationHelper(
-        animationFrames = Array(textureFrames[0].size - 1) { i -> textureFrames[0][i] },
-        frameDuration = FRAME_DURATION
+        animationFrames = Array(textureFrames[0].size - 1) { i -> textureFrames[0][i] }
     )
 
     private val movementHelper = BirdMovementHelper(
-        baseSpeed = BASE_SPEED
+        onMovementChanged = ::onMovementChanged
     )
 
     init {
@@ -41,12 +40,17 @@ class BirdActor : BaseActor() {
 
     override fun draw(batch: Batch, parentAlpha: Float) {
         super.draw(batch, parentAlpha)
-        batch.draw(animationHelper.getFrame(), x, y)
+        batch.draw(animationHelper.getFrame(), x, y, width / 2, height / 2, width, height, scaleX, scaleY, rotation)
+    }
+
+    private fun onMovementChanged(movement: BirdMovementType) {
+        addAction(animationHelper.getAnimationForMovement(movement))
     }
 
     companion object {
         private const val FRAME_SIZE = 32
-        private const val FRAME_DURATION = 0.075f
-        private const val BASE_SPEED = 100f
+        const val FRAME_DURATION = 0.075f
+        const val BASE_SPEED = 100f
+        const val MV_ANIM_DUR = 0.25f
     }
 }

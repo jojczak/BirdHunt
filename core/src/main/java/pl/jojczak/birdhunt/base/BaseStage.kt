@@ -60,6 +60,14 @@ abstract class BaseStage(
         addAction(fadeOutAction(callback))
     }
 
+    open fun onResize(scrWidth: Int, scrHeight: Int) {
+        for (actor in actors) {
+            if (actor is BaseActor) {
+                actor.onResize(scrWidth, scrHeight)
+            }
+        }
+    }
+
     override fun dispose() {
         for (actor in actors) {
             if (actor is SPenHelper.EventListener) {

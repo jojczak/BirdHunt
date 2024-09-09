@@ -65,6 +65,7 @@ object AssetsLoader {
         Asset.TX_LOGO to Pair("logo.png", Texture::class.java),
         Asset.TX_BIRD to Pair("bird.png", Texture::class.java),
         Asset.TX_SCOPE to Pair("scope.png", Texture::class.java),
+        Asset.TX_SHOTGUN to Pair("shotgun.png", Texture::class.java),
     )
 
     private class UnfinishedAssetLoadingException : RuntimeException()

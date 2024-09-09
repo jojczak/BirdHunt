@@ -5,5 +5,6 @@ enum class Asset {
     UI_SKIN,
     TX_LOGO,
     TX_BIRD,
-    TX_SCOPE
+    TX_SCOPE,
+    TX_SHOTGUN
 }
