@@ -1,4 +1,4 @@
-package pl.jojczak.birdhunt.screens.gameplay.stage.actors
+package pl.jojczak.birdhunt.screens.gameplay.stage.actors.shotgunactor
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
@@ -9,7 +9,7 @@ import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
 import kotlin.math.atan2
 
-class ShotgunActor: BaseActor() {
+class ShotgunActor : BaseActor() {
     private val texture = AssetsLoader.get<Texture>(Asset.TX_SHOTGUN)
     private val textureFrames = TextureRegion.split(texture, FRAME_WIDTH, FRAME_HEIGHT)[0]
 
@@ -18,7 +18,8 @@ class ShotgunActor: BaseActor() {
             if (value.y <= 1) value.y = 1f
             field = value
         }
-    private var angleToScope = 0f
+    var angleToScope: ShotgunAngle = ShotgunAngle.Center(0f)
+        private set
 
     init {
         setSize(
@@ -38,18 +39,18 @@ class ShotgunActor: BaseActor() {
         val deltaX = scopePosition.x - x
         val deltaY = scopePosition.y - y
         val angleRadians = atan2(deltaY, deltaX)
-        angleToScope = angleRadians * (180f / Math.PI.toFloat()) - 90
+        angleToScope = ShotgunAngle.getAngle(angleRadians * (180f / Math.PI.toFloat()) - 90)
     }
 
     override fun draw(batch: Batch, parentAlpha: Float) {
         super.draw(batch, parentAlpha)
 
         when (angleToScope) {
-            in -MAX_ANGLE..-MED_ANGLE -> batch.draw(textureFrames[0], x - X_OFFSET, y, 0f, 0f, width, height, scaleX, scaleY, rotation)
-            in -MED_ANGLE..-LOW_ANGLE -> batch.draw(textureFrames[1], x - X_OFFSET, y, 0f, 0f, width, height, scaleX, scaleY, rotation)
-            in -LOW_ANGLE..LOW_ANGLE -> batch.draw(textureFrames[2], x - X_OFFSET, y, 0f, 0f, width, height, scaleX, scaleY, rotation)
-            in LOW_ANGLE..MED_ANGLE -> batch.draw(textureFrames[1], x + X_OFFSET, y, 0f, 0f, width, height, -scaleX, scaleY, rotation)
-            in MED_ANGLE..MAX_ANGLE -> batch.draw(textureFrames[0], x + X_OFFSET, y, 0f, 0f, width, height, -scaleX, scaleY, rotation)
+            is ShotgunAngle.Left -> batch.draw(textureFrames[0], x + X_OFFSET, y, 0f, 0f, width, height, -scaleX, scaleY, rotation)
+            is ShotgunAngle.SlLeft -> batch.draw(textureFrames[1], x + X_OFFSET, y, 0f, 0f, width, height, -scaleX, scaleY, rotation)
+            is ShotgunAngle.Center -> batch.draw(textureFrames[2], x - X_OFFSET, y, 0f, 0f, width, height, scaleX, scaleY, rotation)
+            is ShotgunAngle.SlRight -> batch.draw(textureFrames[1], x - X_OFFSET, y, 0f, 0f, width, height, scaleX, scaleY, rotation)
+            is ShotgunAngle.Right -> batch.draw(textureFrames[0], x - X_OFFSET, y, 0f, 0f, width, height, scaleX, scaleY, rotation)
         }
     }
 
@@ -67,6 +68,14 @@ class ShotgunActor: BaseActor() {
         }
     }
 
+    fun getBarrelPos() = when (angleToScope) {
+        is ShotgunAngle.Left -> Vector2(x - 18f, FRAME_HEIGHT.toFloat() - 2f)
+        is ShotgunAngle.SlLeft -> Vector2(x - 8f, FRAME_HEIGHT.toFloat() + 2f)
+        is ShotgunAngle.Center -> Vector2(x, FRAME_HEIGHT.toFloat() + 4f)
+        is ShotgunAngle.SlRight -> Vector2(x + 8f, FRAME_HEIGHT.toFloat() + 2f)
+        is ShotgunAngle.Right -> Vector2(x + 18f, FRAME_HEIGHT.toFloat() - 2f)
+    }
+
     companion object {
         private const val TAG = "ShotgunActor"
 
@@ -74,9 +83,5 @@ class ShotgunActor: BaseActor() {
         private const val FRAME_HEIGHT = 52
 
         private const val X_OFFSET = 5f
-
-        private const val MAX_ANGLE = 90f
-        private const val MED_ANGLE = 30f
-        private const val LOW_ANGLE = 10f
     }
 }

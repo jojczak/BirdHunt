@@ -86,7 +86,7 @@ abstract class BaseStage(
 
     companion object {
         private const val WORLD_WIDTH = 200f
-        private const val WORLD_HEIGHT = 300f
+        private const val WORLD_HEIGHT = 320f
 
         private const val FADE_DURATION = 0.25f
     }

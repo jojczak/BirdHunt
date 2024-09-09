@@ -66,6 +66,14 @@ class SPenHelperDesktopImpl : SPenHelper {
 
         lastMouseX = mouseX
         lastMouseY = mouseY
+
+        if (Gdx.input.justTouched()) {
+            Gdx.app.log(TAG, "justTouched")
+            eventListeners.forEach { listener ->
+                listener.onSPenButtonEvent(SPenHelper.ButtonEvent.DOWN)
+                listener.onSPenButtonEvent(SPenHelper.ButtonEvent.UP)
+            }
+        }
     }
 
     companion object {
