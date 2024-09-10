@@ -1,4 +1,4 @@
-package pl.jojczak.birdhunt.screens.gameplay.stage.actors.shotgunactor
+package pl.jojczak.birdhunt.actors.shotgunactor
 
 sealed class ShotgunAngle(val degrees: Float) {
     class Right(degrees: Float) : ShotgunAngle(degrees)

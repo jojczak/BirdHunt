@@ -1,4 +1,4 @@
-package pl.jojczak.birdhunt.screens.gameplay.stage.actors.birdactor
+package pl.jojczak.birdhunt.actors.birdactor
 
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction
 import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction
-import pl.jojczak.birdhunt.screens.gameplay.stage.actors.birdactor.BirdActor.Companion.FRAME_DURATION
-import pl.jojczak.birdhunt.screens.gameplay.stage.actors.birdactor.BirdActor.Companion.MV_ANIM_DUR
+import pl.jojczak.birdhunt.actors.birdactor.BirdActor.Companion.FRAME_DURATION
+import pl.jojczak.birdhunt.actors.birdactor.BirdActor.Companion.MV_ANIM_DUR
 
 class BirdAnimationHelper(
     animationFrames: Array<TextureRegion>

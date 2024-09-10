@@ -20,7 +20,7 @@ abstract class BaseStage(
     viewport ?: ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT)
 ) {
     protected val skin = AssetsLoader.get<Skin>(Asset.UI_SKIN)
-    protected val i18n = AssetsLoader.get<I18NBundle>(Asset.I18N)
+    protected val i18N = AssetsLoader.get<I18NBundle>(Asset.I18N)
 
     private fun fadeInAction(callback: () -> Unit) = SequenceAction(
         ColorAction().apply {
@@ -85,8 +85,8 @@ abstract class BaseStage(
     }
 
     companion object {
-        private const val WORLD_WIDTH = 200f
-        private const val WORLD_HEIGHT = 320f
+        const val WORLD_WIDTH = 200f
+        const val WORLD_HEIGHT = 320f
 
         private const val FADE_DURATION = 0.25f
     }

@@ -8,5 +8,8 @@ abstract class BaseUIStage : BaseStage(
     companion object {
         private const val WORLD_WIDTH = 1080f
         private const val WORLD_HEIGHT = 1920f
+        private const val UI_RATIO = WORLD_WIDTH / BaseStage.WORLD_WIDTH
+
+        fun Number.toGameSize() = this.toFloat() * UI_RATIO
     }
 }

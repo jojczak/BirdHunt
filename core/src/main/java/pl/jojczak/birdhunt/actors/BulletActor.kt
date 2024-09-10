@@ -1,4 +1,4 @@
-package pl.jojczak.birdhunt.screens.gameplay.stage.actors
+package pl.jojczak.birdhunt.actors
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
@@ -52,7 +52,7 @@ class BulletActor(
 
     override fun draw(batch: Batch, parentAlpha: Float) {
         super.draw(batch, parentAlpha)
-        batch.draw(texture, x - width / 2, y - height / 2, 0f, 0f, width, height, scaleX, scaleY, rotation, 0, 0, texture.width, texture.height, false, false)
+        batch.draw(texture, x - width / 2, y - height / 2, width / 2, height / 2, width, height, scaleX, scaleY, rotation, 0, 0, texture.width, texture.height, false, false)
     }
 
     companion object {

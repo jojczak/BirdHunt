@@ -1,4 +1,4 @@
-package pl.jojczak.birdhunt.screens.gameplay.stage.actors.birdactor
+package pl.jojczak.birdhunt.actors.birdactor
 
 import kotlin.math.PI
 import kotlin.random.Random

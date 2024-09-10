@@ -1,11 +1,11 @@
-package pl.jojczak.birdhunt.screens.gameplay.stage
+package pl.jojczak.birdhunt.stages
 
 import com.badlogic.gdx.math.Vector2
 import pl.jojczak.birdhunt.base.BaseStage
-import pl.jojczak.birdhunt.screens.gameplay.stage.actors.BulletActor
-import pl.jojczak.birdhunt.screens.gameplay.stage.actors.ScopeActor
-import pl.jojczak.birdhunt.screens.gameplay.stage.actors.shotgunactor.ShotgunActor
-import pl.jojczak.birdhunt.screens.gameplay.stage.actors.birdactor.BirdActor
+import pl.jojczak.birdhunt.actors.BulletActor
+import pl.jojczak.birdhunt.actors.ScopeActor
+import pl.jojczak.birdhunt.actors.shotgunactor.ShotgunActor
+import pl.jojczak.birdhunt.actors.birdactor.BirdActor
 import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
 import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
 
@@ -57,5 +57,7 @@ class GameplayStage : BaseStage(), SPenHelper.EventListener {
 
     companion object {
         private const val TAG = "GameplayStage"
+
+        const val BIRDS_PER_ROUND = 6
     }
 }

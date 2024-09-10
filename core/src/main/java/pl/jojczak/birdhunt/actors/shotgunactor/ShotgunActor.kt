@@ -1,4 +1,4 @@
-package pl.jojczak.birdhunt.screens.gameplay.stage.actors.shotgunactor
+package pl.jojczak.birdhunt.actors.shotgunactor
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
@@ -69,18 +69,18 @@ class ShotgunActor : BaseActor() {
     }
 
     fun getBarrelPos() = when (angleToScope) {
-        is ShotgunAngle.Left -> Vector2(x - 18f, FRAME_HEIGHT.toFloat() - 2f)
-        is ShotgunAngle.SlLeft -> Vector2(x - 8f, FRAME_HEIGHT.toFloat() + 2f)
+        is ShotgunAngle.Left -> Vector2(x - 24f, FRAME_HEIGHT.toFloat() - 2f)
+        is ShotgunAngle.SlLeft -> Vector2(x - 9f, FRAME_HEIGHT.toFloat() + 2f)
         is ShotgunAngle.Center -> Vector2(x, FRAME_HEIGHT.toFloat() + 4f)
-        is ShotgunAngle.SlRight -> Vector2(x + 8f, FRAME_HEIGHT.toFloat() + 2f)
-        is ShotgunAngle.Right -> Vector2(x + 18f, FRAME_HEIGHT.toFloat() - 2f)
+        is ShotgunAngle.SlRight -> Vector2(x + 9f, FRAME_HEIGHT.toFloat() + 2f)
+        is ShotgunAngle.Right -> Vector2(x + 24f, FRAME_HEIGHT.toFloat() - 2f)
     }
 
     companion object {
         private const val TAG = "ShotgunActor"
 
         private const val FRAME_WIDTH = 26
-        private const val FRAME_HEIGHT = 52
+        const val FRAME_HEIGHT = 52
 
         private const val X_OFFSET = 5f
     }

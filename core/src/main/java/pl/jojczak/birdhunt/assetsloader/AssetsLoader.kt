@@ -60,13 +60,14 @@ object AssetsLoader {
     }
 
     private val assets = mapOf(
-        Asset.I18N to Pair("i18n/texts", I18NBundle::class.java),
-        Asset.UI_SKIN to Pair("myUi/jj_pixel_ui.json", Skin::class.java),
-        Asset.TX_LOGO to Pair("logo.png", Texture::class.java),
-        Asset.TX_BIRD to Pair("bird.png", Texture::class.java),
-        Asset.TX_SCOPE to Pair("scope.png", Texture::class.java),
-        Asset.TX_SHOTGUN to Pair("shotgun.png", Texture::class.java),
-        Asset.TX_BULLET to Pair("bullet.png", Texture::class.java),
+        Asset.I18N to               Pair("i18n/texts",                  I18NBundle::class.java),
+        Asset.UI_SKIN to            Pair("myUi/jj_pixel_ui.json",       Skin::class.java),
+        Asset.UI_BULLET to          Pair("bullet_ui.png",               Texture::class.java),
+        Asset.TX_LOGO to            Pair("logo.png",                    Texture::class.java),
+        Asset.TX_BIRD to            Pair("bird.png",                    Texture::class.java),
+        Asset.TX_SCOPE to           Pair("scope.png",                   Texture::class.java),
+        Asset.TX_SHOTGUN to         Pair("shotgun.png",                 Texture::class.java),
+        Asset.TX_BULLET to          Pair("bullet.png",                  Texture::class.java),
     )
 
     private class UnfinishedAssetLoadingException : RuntimeException()

@@ -1,7 +1,7 @@
-package pl.jojczak.birdhunt.screens.gameplay.stage.actors.birdactor
+package pl.jojczak.birdhunt.actors.birdactor
 
 import com.badlogic.gdx.Gdx
-import pl.jojczak.birdhunt.screens.gameplay.stage.actors.birdactor.BirdActor.Companion.BASE_SPEED
+import pl.jojczak.birdhunt.actors.birdactor.BirdActor.Companion.BASE_SPEED
 import kotlin.math.cos
 import kotlin.math.sin
 
