@@ -1,24 +1,25 @@
-package pl.jojczak.birdhunt.stages
+package pl.jojczak.birdhunt.stages.gameplay
 
 import com.badlogic.gdx.math.Vector2
-import pl.jojczak.birdhunt.base.BaseStage
 import pl.jojczak.birdhunt.actors.BulletActor
 import pl.jojczak.birdhunt.actors.ScopeActor
-import pl.jojczak.birdhunt.actors.shotgunactor.ShotgunActor
 import pl.jojczak.birdhunt.actors.birdactor.BirdActor
-import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
+import pl.jojczak.birdhunt.actors.shotgunactor.ShotgunActor
+import pl.jojczak.birdhunt.base.BaseStage
+import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper
 import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
 
-class GameplayStage : BaseStage(), SPenHelper.EventListener {
-    private val birdActor = BirdActor()
-    private val scopeActor = ScopeActor()
+class GameplayStage(
+    private val gameplayHelper: GameplayHelper
+) : BaseStage() {
+    private var birdActor: BirdActor? = null
+    private val scopeActor = ScopeActor(gameplayHelper)
     private val shotgunActor = ShotgunActor()
 
     init {
-        addActor(birdActor)
         addActor(scopeActor)
         addActor(shotgunActor)
-        sPenHelperInstance.addEventListener(this)
+        gameplayHelper.addGameplayListener(GameplayEventListener())
         sPenHelperInstance.registerSPenEvents()
     }
 
@@ -37,27 +38,28 @@ class GameplayStage : BaseStage(), SPenHelper.EventListener {
         )
     }
 
-    override fun onSPenButtonEvent(event: SPenHelper.ButtonEvent) {
-        when (event) {
-            SPenHelper.ButtonEvent.DOWN -> gunShot()
-            SPenHelper.ButtonEvent.UP -> {}
-            SPenHelper.ButtonEvent.UNKNOWN -> {}
+    private fun spawnBird() {
+        birdActor = BirdActor(gameplayHelper)
+        addActor(birdActor)
+        birdActor?.toBack()
+    }
+
+    private inner class GameplayEventListener: GameplayHelper.GameplayEventListener {
+        override fun spawnBird() {
+            this@GameplayStage.spawnBird()
+        }
+
+        override fun gunShot() {
+            this@GameplayStage.gunShot()
         }
     }
 
-    override fun onSPenMotionEvent(x: Float, y: Float) {
-
-    }
-
     override fun dispose() {
-        sPenHelperInstance.removeEventListener(this)
         sPenHelperInstance.unregisterSPenEvents()
         super.dispose()
     }
 
     companion object {
         private const val TAG = "GameplayStage"
-
-        const val BIRDS_PER_ROUND = 6
     }
 }

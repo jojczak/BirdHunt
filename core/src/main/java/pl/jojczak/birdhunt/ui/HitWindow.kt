@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Window
 import com.badlogic.gdx.utils.I18NBundle
 import pl.jojczak.birdhunt.assetsloader.Asset.Companion.FONT_75
-import pl.jojczak.birdhunt.stages.GameplayStage
+import pl.jojczak.birdhunt.screens.gameplay.ScreenGameplayHelperImpl.Companion.BIRDS_PER_ROUND
 
 class HitWindow(
     i18N: I18NBundle,
@@ -36,6 +36,6 @@ class HitWindow(
     }
 
     companion object {
-        private const val MAX_BIRDS = "/${GameplayStage.BIRDS_PER_ROUND}"
+        private const val MAX_BIRDS = "/${BIRDS_PER_ROUND}"
     }
 }

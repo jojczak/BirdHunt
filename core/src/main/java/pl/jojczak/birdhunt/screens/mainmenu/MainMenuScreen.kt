@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.ScreenUtils
 import pl.jojczak.birdhunt.base.BaseScreen
 import pl.jojczak.birdhunt.main.MainAction
-import pl.jojczak.birdhunt.stages.MainMenuStage
+import pl.jojczak.birdhunt.stages.mainmenu.MainMenuStage
 
 class MainMenuScreen(
     mainActionReceiver: (action: MainAction) -> Unit

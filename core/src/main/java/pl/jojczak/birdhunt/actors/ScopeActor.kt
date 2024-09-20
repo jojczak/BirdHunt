@@ -5,10 +5,14 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
+import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper
+import pl.jojczak.birdhunt.screens.gameplay.GameplayState
 import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
 import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
 
-class ScopeActor: BaseActor(), SPenHelper.EventListener {
+class ScopeActor(
+    private val gameplayHelper: GameplayHelper
+): BaseActor(), SPenHelper.EventListener {
     private val texture = AssetsLoader.get<Texture>(Asset.TX_SCOPE)
 
     init {
@@ -54,6 +58,8 @@ class ScopeActor: BaseActor(), SPenHelper.EventListener {
     override fun onSPenButtonEvent(event: SPenHelper.ButtonEvent) = Unit
 
     override fun onSPenMotionEvent(x: Float, y: Float) {
+        if (gameplayHelper.getState() is GameplayState.Paused) return
+
         this.x += x * MOTION_MULTIPLIER
         this.y += y * MOTION_MULTIPLIER
     }

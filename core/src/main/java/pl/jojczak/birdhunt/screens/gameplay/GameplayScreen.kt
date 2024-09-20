@@ -5,20 +5,23 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.ScreenUtils
 import pl.jojczak.birdhunt.base.BaseScreen
 import pl.jojczak.birdhunt.main.MainAction
-import pl.jojczak.birdhunt.stages.GameplayStage
-import pl.jojczak.birdhunt.stages.GameplayUIStage
+import pl.jojczak.birdhunt.stages.gameplay.GameplayStage
+import pl.jojczak.birdhunt.stages.gameplay.GameplayUIStage
+import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
 
 class GameplayScreen(
     mainActionReceiver: (action: MainAction) -> Unit
 ) : BaseScreen<GameplayScreenAction>(
     mainActionReceiver = mainActionReceiver
 ) {
-    private val gameplayStage = GameplayStage()
-    private val gameplayUIStage = GameplayUIStage()
+    private val gameplayHelper: ScreenGameplayHelper = ScreenGameplayHelperImpl(::onAction)
+    private val gameplayStage = GameplayStage(gameplayHelper)
+    private val gameplayUIStage = GameplayUIStage(gameplayHelper)
 
     override fun show() {
         Gdx.app.log(TAG, "show gameplay screen")
         super.show()
+        sPenHelperInstance.addEventListener(gameplayHelper)
         Gdx.input.inputProcessor = gameplayUIStage
         gameplayStage.fadeIn()
         gameplayUIStage.fadeIn()
@@ -28,6 +31,7 @@ class GameplayScreen(
         super.render(delta)
         ScreenUtils.clear(Color.SKY)
 
+        gameplayHelper.act(delta)
         gameplayStage.act(delta)
         gameplayUIStage.act(delta)
         gameplayStage.draw()
@@ -43,11 +47,26 @@ class GameplayScreen(
         gameplayUIStage.onResize(width, height)
     }
 
+    override fun onAction(action: GameplayScreenAction) {
+        super.onAction(action)
+        Gdx.app.log(TAG, "onAction: $action")
+
+        when (action) {
+            is GameplayScreenAction.Exit -> {
+                gameplayStage.fadeOut()
+                gameplayUIStage.fadeOut {
+                    mainActionReceiver(MainAction.NavigateToMainMenu)
+                }
+            }
+        }
+    }
+
     override fun dispose() {
         Gdx.app.log(TAG, "dispose GameplayScreen")
-        super.dispose()
+        sPenHelperInstance.removeEventListener(gameplayHelper)
         gameplayStage.dispose()
         gameplayUIStage.dispose()
+        super.dispose()
     }
 
     companion object {

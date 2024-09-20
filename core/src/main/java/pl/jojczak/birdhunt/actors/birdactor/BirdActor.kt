@@ -6,8 +6,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
+import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper
+import pl.jojczak.birdhunt.screens.gameplay.GameplayState
 
-class BirdActor : BaseActor() {
+class BirdActor(
+    private val gameplayHelper: GameplayHelper
+) : BaseActor() {
     private val texture = AssetsLoader.get<Texture>(Asset.TX_BIRD)
     private val textureFrames = TextureRegion.split(texture, FRAME_SIZE, FRAME_SIZE)
     private val deadTexture = textureFrames[0][textureFrames[0].size - 1]
@@ -34,6 +38,8 @@ class BirdActor : BaseActor() {
 
     override fun act(delta: Float) {
         super.act(delta)
+
+        if (gameplayHelper.getState() !is GameplayState.Playing) return
         animationHelper.update(delta)
         movementHelper.update(this, delta)
     }
