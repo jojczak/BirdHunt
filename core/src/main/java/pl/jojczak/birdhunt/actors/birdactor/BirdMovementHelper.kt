@@ -8,7 +8,12 @@ import kotlin.math.sin
 class BirdMovementHelper(
     private val onMovementChanged: (BirdMovementType) -> Unit
 ) {
-    private var movementType: BirdMovementType = BirdMovementType.RightBottom()
+    private var movementType: BirdMovementType = listOf(
+        BirdMovementType.RightBottom(),
+        BirdMovementType.LeftTop(),
+        BirdMovementType.RightTop(),
+        BirdMovementType.LeftBottom()
+    ).random().also { onMovementChanged(it) }
         set(value) {
             field = value
             onMovementChanged(value)

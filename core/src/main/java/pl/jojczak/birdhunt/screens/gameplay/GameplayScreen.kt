@@ -14,7 +14,7 @@ class GameplayScreen(
 ) : BaseScreen<GameplayScreenAction>(
     mainActionReceiver = mainActionReceiver
 ) {
-    private val gameplayHelper: ScreenGameplayHelper = ScreenGameplayHelperImpl(::onAction)
+    private val gameplayHelper: ScreenGameplayHelper = ScreenGameplayHelper(::onAction)
     private val gameplayStage = GameplayStage(gameplayHelper)
     private val gameplayUIStage = GameplayUIStage(gameplayHelper)
 

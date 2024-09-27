@@ -18,9 +18,9 @@ class GameplayUIStage(
     private val gameplayHelper: GameplayHelper
 ) : BaseUIStage() {
     private val scoreWidget = ScoreWidget(i18N, skin)
-    private val shotWindow = ShotWindow(i18N, skin)
-    private val roundWindow = RoundWindow(i18N, skin)
-    private val hitWindow = HitWindow(i18N, skin)
+    private val shotWindow = ShotWindow(i18N, skin, gameplayHelper)
+    private val roundWindow = RoundWindow(i18N, skin, gameplayHelper)
+    private val hitWindow = HitWindow(i18N, skin, gameplayHelper)
     private val countdownLabel = CountdownLabel(i18N, skin, gameplayHelper)
     private val pauseWindow = PauseWindow(i18N, skin, gameplayHelper)
     private val pauseButton = TextButton("||", skin).apply {
@@ -54,8 +54,6 @@ class GameplayUIStage(
         addActor(bottomContainer)
         addActor(countdownLabel)
         addActor(pauseWindow)
-
-        shotWindow.shots = 3
     }
 
     inner class GameplayEventListener : GameplayHelper.GameplayEventListener {

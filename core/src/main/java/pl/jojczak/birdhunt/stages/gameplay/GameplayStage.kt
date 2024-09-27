@@ -1,6 +1,9 @@
 package pl.jojczak.birdhunt.stages.gameplay
 
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import pl.jojczak.birdhunt.actors.BulletActor
 import pl.jojczak.birdhunt.actors.ScopeActor
 import pl.jojczak.birdhunt.actors.birdactor.BirdActor
@@ -31,6 +34,7 @@ class GameplayStage(
     private fun gunShot() {
         addActor(
             BulletActor(
+                gameplayHelper = gameplayHelper,
                 startPos = Vector2(shotgunActor.getBarrelPos()),
                 endPos = Vector2(scopeActor.x, scopeActor.y),
                 angle = shotgunActor.angleToScope.degrees
@@ -42,15 +46,31 @@ class GameplayStage(
         birdActor = BirdActor(gameplayHelper)
         addActor(birdActor)
         birdActor?.toBack()
+        gameplayHelper.action(GameplayHelper.GameplayAction.BirdSpawned)
     }
 
-    private inner class GameplayEventListener: GameplayHelper.GameplayEventListener {
-        override fun spawnBird() {
-            this@GameplayStage.spawnBird()
+    fun checkIfShotHitBird() = birdActor?.let { bird ->
+        scopeActor.x > bird.x && scopeActor.x < bird.x + bird.width &&
+            scopeActor.y > bird.y && scopeActor.y < bird.y + bird.height &&
+            !bird.isDead
+    } ?: false
+
+    private inner class GameplayEventListener : GameplayHelper.GameplayEventListener {
+        override fun spawnBird(delay: Float) {
+            addAction(SequenceAction(
+                DelayAction(delay),
+                RunnableAction().apply {
+                    setRunnable {
+                        this@GameplayStage.spawnBird()
+                    }
+                }
+            ))
         }
 
         override fun gunShot() {
             this@GameplayStage.gunShot()
+            if (checkIfShotHitBird()) gameplayHelper.action(GameplayHelper.GameplayAction.BirdHit)
+            else gameplayHelper.action(GameplayHelper.GameplayAction.ShotMissed)
         }
     }
 
