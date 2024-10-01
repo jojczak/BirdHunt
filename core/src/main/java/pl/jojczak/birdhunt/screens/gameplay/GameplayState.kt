@@ -11,4 +11,9 @@ sealed class GameplayState(
 
     class Playing : GameplayState()
     data class Paused(val previousState: GameplayState) : GameplayState()
+
+    sealed class GameOver : GameplayState() {
+        data object OutOfAmmo : GameOver()
+        data object OutOfTime: GameOver()
+    }
 }

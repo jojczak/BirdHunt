@@ -4,11 +4,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper.Companion.BIRDS_PER_ROUND
 import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper.Companion.BIRD_SPAWN_DELAY
 import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper.Companion.SHOTS
+import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper.Companion.SHOT_TIME
 import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
 
 interface GameplayHelper {
     fun getState(): GameplayState
     fun addGameplayListener(listener: GameplayEventListener)
+    fun removeGameplayListener(listener: GameplayEventListener)
     fun action(action: GameplayAction)
 
     interface GameplayEventListener {
@@ -19,6 +21,7 @@ interface GameplayHelper {
         fun shotsUpdated(shots: Int) = Unit
         fun hitUpdated(hit: Int) = Unit
         fun roundUpdated(round: Int) = Unit
+        fun reset() = Unit
     }
 
     sealed class GameplayAction {
@@ -29,11 +32,13 @@ interface GameplayHelper {
         data object ShotMissed : GameplayAction()
         data object BirdHit : GameplayAction()
         data object BirdSpawned : GameplayAction()
+        data object RestartGame : GameplayAction()
     }
 
     companion object {
         const val BIRDS_PER_ROUND = 6
         const val BIRD_SPAWN_DELAY = 1f
+        const val SHOT_TIME = 6f
         const val SHOTS = 3
     }
 }
@@ -82,7 +87,12 @@ class ScreenGameplayHelper(
             }
 
             is GameplayState.Paused -> Unit
-            is GameplayState.Playing -> Unit
+            is GameplayState.Playing -> {
+                if (gameplayState.elapsedTime > SHOT_TIME) {
+                    gameplayState = GameplayState.GameOver.OutOfTime
+                }
+            }
+            is GameplayState.GameOver -> Unit
         }
     }
 
@@ -90,6 +100,10 @@ class ScreenGameplayHelper(
 
     override fun addGameplayListener(listener: GameplayHelper.GameplayEventListener) {
         gameplayListeners.add(listener)
+    }
+
+    override fun removeGameplayListener(listener: GameplayHelper.GameplayEventListener) {
+        gameplayListeners.remove(listener)
     }
 
     override fun action(action: GameplayHelper.GameplayAction) {
@@ -118,11 +132,16 @@ class ScreenGameplayHelper(
             }
 
             GameplayHelper.GameplayAction.ShotMissed -> {
-                canShot = true
+                if (shots > 0) {
+                    canShot = true
+                } else {
+                    gameplayState = GameplayState.GameOver.OutOfAmmo
+                }
             }
 
             GameplayHelper.GameplayAction.BirdHit -> {
                 gameplayListeners.notify { birdHit() }
+                gameplayState.elapsedTime = 0f
                 hit++
 
                 if (hit < BIRDS_PER_ROUND) {
@@ -138,6 +157,14 @@ class ScreenGameplayHelper(
             GameplayHelper.GameplayAction.BirdSpawned -> {
                 canShot = true
                 shots = SHOTS
+            }
+
+            GameplayHelper.GameplayAction.RestartGame -> {
+                shots = SHOTS
+                hit = 0
+                round = 1
+                gameplayState = GameplayState.Init()
+                gameplayListeners.notify { reset() }
             }
         }
     }

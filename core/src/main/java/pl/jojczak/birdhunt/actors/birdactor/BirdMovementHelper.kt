@@ -8,7 +8,7 @@ import kotlin.math.sin
 class BirdMovementHelper(
     private val onMovementChanged: (BirdMovementType) -> Unit
 ) {
-    private var movementType: BirdMovementType = listOf(
+    var movementType: BirdMovementType = listOf(
         BirdMovementType.RightBottom(),
         BirdMovementType.LeftTop(),
         BirdMovementType.RightTop(),

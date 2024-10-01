@@ -7,6 +7,7 @@ import pl.jojczak.birdhunt.base.BaseUIStage
 import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper
 import pl.jojczak.birdhunt.screens.gameplay.GameplayState
 import pl.jojczak.birdhunt.ui.CountdownLabel
+import pl.jojczak.birdhunt.ui.GameOverWindow
 import pl.jojczak.birdhunt.ui.HitWindow
 import pl.jojczak.birdhunt.ui.PauseWindow
 import pl.jojczak.birdhunt.ui.RoundWindow
@@ -17,12 +18,13 @@ import pl.jojczak.birdhunt.utils.ButtonListener
 class GameplayUIStage(
     private val gameplayHelper: GameplayHelper
 ) : BaseUIStage() {
-    private val scoreWidget = ScoreWidget(i18N, skin)
+    private val scoreWidget = ScoreWidget(i18N, skin, gameplayHelper)
     private val shotWindow = ShotWindow(i18N, skin, gameplayHelper)
     private val roundWindow = RoundWindow(i18N, skin, gameplayHelper)
     private val hitWindow = HitWindow(i18N, skin, gameplayHelper)
     private val countdownLabel = CountdownLabel(i18N, skin, gameplayHelper)
     private val pauseWindow = PauseWindow(i18N, skin, gameplayHelper)
+    private val gameOverWindow = GameOverWindow(i18N, skin, gameplayHelper)
     private val pauseButton = TextButton("||", skin).apply {
         addListener(ButtonListener { _, _ ->
             gameplayHelper.action(GameplayHelper.GameplayAction.PauseGame)
@@ -54,6 +56,7 @@ class GameplayUIStage(
         addActor(bottomContainer)
         addActor(countdownLabel)
         addActor(pauseWindow)
+        addActor(gameOverWindow)
     }
 
     inner class GameplayEventListener : GameplayHelper.GameplayEventListener {

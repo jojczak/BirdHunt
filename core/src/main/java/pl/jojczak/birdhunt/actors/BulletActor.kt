@@ -35,7 +35,7 @@ class BulletActor(
     }
 
     override fun act(delta: Float) {
-        if (gameplayHelper.getState() !is GameplayState.Playing) return
+        if (gameplayHelper.getState() is GameplayState.Paused) return
         super.act(delta)
     }
 

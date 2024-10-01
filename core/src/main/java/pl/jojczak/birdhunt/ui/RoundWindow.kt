@@ -28,5 +28,11 @@ class RoundWindow(
             roundLabel.setText("$round")
             addAction(getFlashingAnim(roundLabel))
         }
+
+        override fun reset() {
+            for (action in actions) {
+                removeAction(action)
+            }
+        }
     }
 }

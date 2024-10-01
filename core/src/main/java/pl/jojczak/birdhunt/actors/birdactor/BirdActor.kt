@@ -1,5 +1,6 @@
 package pl.jojczak.birdhunt.actors.birdactor
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
@@ -19,6 +20,8 @@ class BirdActor(
     private val texture = AssetsLoader.get<Texture>(Asset.TX_BIRD)
     private val textureFrames = TextureRegion.split(texture, FRAME_SIZE, FRAME_SIZE)
     private val deadTexture = textureFrames[0][textureFrames[0].size - 1]
+
+    private val gameplayEventListener = GameplayEventListener()
 
     var isDead = false
         private set
@@ -43,6 +46,20 @@ class BirdActor(
         }
     )
 
+    private fun getGameOverAnimation(onAnimEnd: () -> Unit) = SequenceAction(
+        MoveToAction().apply {
+            this.x = this@BirdActor.x
+            this.y = this@BirdActor.stage.height
+            this.duration = DEAD_ANIM_DUR
+            this.interpolation = Interpolation.linear
+        },
+        RunnableAction().apply {
+            setRunnable {
+                onAnimEnd()
+            }
+        }
+    )
+
     private val animationHelper = BirdAnimationHelper(
         animationFrames = Array(textureFrames[0].size - 1) { i -> textureFrames[0][i] }
     )
@@ -53,7 +70,7 @@ class BirdActor(
 
     init {
         setSize(FRAME_SIZE.toFloat(), FRAME_SIZE.toFloat())
-        gameplayHelper.addGameplayListener(GameplayEventListener())
+        gameplayHelper.addGameplayListener(gameplayEventListener)
     }
 
     override fun onStage() {
@@ -66,9 +83,12 @@ class BirdActor(
 
     override fun act(delta: Float) {
         super.act(delta)
+        val gameplayState = gameplayHelper.getState()
 
-        if (gameplayHelper.getState() !is GameplayState.Playing || isDead) return
+        if (gameplayState is GameplayState.Paused || isDead) return
         animationHelper.update(delta)
+
+        if (gameplayState is GameplayState.GameOver) return
         movementHelper.update(this, delta)
     }
 
@@ -85,20 +105,40 @@ class BirdActor(
         addAction(animationHelper.getAnimationForMovement(movement))
     }
 
+    override fun remove(): Boolean {
+        Gdx.app.log(TAG, "Removing bird from stage")
+        gameplayHelper.removeGameplayListener(gameplayEventListener)
+        return super.remove()
+    }
+
     private inner class GameplayEventListener : GameplayHelper.GameplayEventListener {
         override fun birdHit() {
+            Gdx.app.log(TAG, "Starting dead animation")
             isDead = true
             addAction(getDeadAnimation {
                 remove()
             })
         }
+
+        override fun onGameplayStateChanged(state: GameplayState) {
+            if (state is GameplayState.GameOver) {
+                Gdx.app.log(TAG, "Starting game over animation")
+                movementHelper.movementType = BirdMovementType.RightTop()
+                addAction(getGameOverAnimation {
+                    remove()
+                })
+            }
+        }
     }
 
     companion object {
+        private const val TAG = "BirdActor"
+
         private const val FRAME_SIZE = 32
         const val FRAME_DURATION = 0.075f
         const val BASE_SPEED = 100f
         const val MV_ANIM_DUR = 0.25f
         const val DEAD_ANIM_DUR = 0.7f
+        const val GAME_OVER_ANIM_DUR = 1f
     }
 }

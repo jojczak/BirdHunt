@@ -43,6 +43,13 @@ class HitWindow(
                 }
             )
         }
+
+        override fun reset() {
+            for (action in actions) {
+                removeAction(action)
+                hit = hit
+            }
+        }
     }
 
     companion object {
