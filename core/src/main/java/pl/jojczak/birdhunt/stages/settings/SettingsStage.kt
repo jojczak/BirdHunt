@@ -19,6 +19,7 @@ import pl.jojczak.birdhunt.utils.PREF_SENSITIVITY_DEFAULT
 import java.util.Locale
 
 class SettingsStage(
+    private val isFromMainMenu: Boolean,
     private val settingsScreenActionReceiver: (action: SettingsScreenAction) -> Unit
 ) : BaseUIStage() {
     private val preferences = Gdx.app.getPreferences(PREF_NAME)
@@ -77,7 +78,9 @@ class SettingsStage(
         when (action) {
             SettingsStageAction.NavigateToMainMenu -> {
                 preferences.flush()
-                fadeOut {
+                if (isFromMainMenu) fadeOut {
+                    settingsScreenActionReceiver(SettingsScreenAction.NavigateToMainMenu)
+                } else {
                     settingsScreenActionReceiver(SettingsScreenAction.NavigateToMainMenu)
                 }
             }

@@ -41,8 +41,6 @@ class GameplayScreen(
     override fun resize(width: Int, height: Int) {
         Gdx.app.log(TAG, "resize GameplayScreen width: $width, height: $height")
         super.resize(width, height)
-        gameplayStage.viewport.update(width, height, true)
-        gameplayUIStage.viewport.update(width, height, true)
         gameplayStage.onResize(width, height)
         gameplayUIStage.onResize(width, height)
     }

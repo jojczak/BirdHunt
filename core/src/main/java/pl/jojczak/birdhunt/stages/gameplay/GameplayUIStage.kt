@@ -76,7 +76,7 @@ class GameplayUIStage(
     private fun onAction(action: GameplayUIAction) {
         when (action) {
             GameplayUIAction.NavigateToSettings -> {
-                settingsStage = SettingsStage(::onSettingsStageAction).also { sS ->
+                settingsStage = SettingsStage(false, ::onSettingsStageAction).also { sS ->
                     sS.fadeIn()
                 }
                 Gdx.app.input.inputProcessor = settingsStage
@@ -102,6 +102,12 @@ class GameplayUIStage(
         override fun onGameplayStateChanged(state: GameplayState) {
             pauseButton.isDisabled = state is GameplayState.Paused
         }
+    }
+
+    override fun onResize(scrWidth: Int, scrHeight: Int) {
+        super.onResize(scrWidth, scrHeight)
+        settingsStage?.onResize(scrWidth, scrHeight)
+        viewport.update(scrWidth, scrHeight, true)
     }
 
     companion object {

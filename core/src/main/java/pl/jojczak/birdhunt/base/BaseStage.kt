@@ -88,6 +88,6 @@ abstract class BaseStage(
         const val WORLD_WIDTH = 200f
         const val WORLD_HEIGHT = 320f
 
-        private const val FADE_DURATION = 0.25f
+        private const val FADE_DURATION = 0.20f
     }
 }

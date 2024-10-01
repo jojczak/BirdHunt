@@ -52,6 +52,6 @@ abstract class BaseTable : Table() {
     }
 
     companion object {
-        private const val FADE_DURATION = 0.25f
+        private const val FADE_DURATION = 0.20f
     }
 }

@@ -40,6 +40,11 @@ class MainMenuStage(
         addActor(containerTable)
     }
 
+    override fun onResize(scrWidth: Int, scrHeight: Int) {
+        super.onResize(scrWidth, scrHeight)
+        viewport.update(scrWidth, scrHeight, true)
+    }
+
     companion object {
         private const val TAG = "MainMenuStage"
 

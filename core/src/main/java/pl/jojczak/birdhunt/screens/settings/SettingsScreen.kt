@@ -12,7 +12,7 @@ class SettingsScreen(
 ) : BaseScreen<SettingsScreenAction>(
     mainActionReceiver
 ) {
-    private val settingsStage = SettingsStage(::onAction).apply {
+    private val settingsStage = SettingsStage(true, ::onAction).apply {
         fadeIn()
     }
 

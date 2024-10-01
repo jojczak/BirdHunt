@@ -74,6 +74,11 @@ class GameplayStage(
         }
     }
 
+    override fun onResize(scrWidth: Int, scrHeight: Int) {
+        super.onResize(scrWidth, scrHeight)
+        viewport.update(scrWidth, scrHeight, true)
+    }
+
     override fun dispose() {
         sPenHelperInstance.unregisterSPenEvents()
         super.dispose()
