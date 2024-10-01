@@ -22,6 +22,7 @@ interface GameplayHelper {
         fun hitUpdated(hit: Int) = Unit
         fun roundUpdated(round: Int) = Unit
         fun reset() = Unit
+        fun resumed() = Unit
     }
 
     sealed class GameplayAction {
@@ -117,6 +118,7 @@ class ScreenGameplayHelper(
                 if (gameplayState is GameplayState.Paused) {
                     gameplayState = (gameplayState as GameplayState.Paused).previousState
                 }
+                gameplayListeners.notify { resumed() }
             }
 
             GameplayHelper.GameplayAction.ExitGame -> {

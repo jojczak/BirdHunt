@@ -6,6 +6,7 @@ import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.screens.gameplay.GameplayScreen
 import pl.jojczak.birdhunt.screens.loadingScreen.LoadingScreen
 import pl.jojczak.birdhunt.screens.mainmenu.MainMenuScreen
+import pl.jojczak.birdhunt.screens.settings.SettingsScreen
 import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
 import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
 
@@ -30,6 +31,11 @@ class Main : Game() {
             MainAction.NavigateToGameplay -> {
                 getScreen().dispose()
                 setScreen(GameplayScreen(::onAction))
+            }
+
+            MainAction.NavigateToSettings -> {
+                getScreen().dispose()
+                setScreen(SettingsScreen(::onAction))
             }
         }
     }

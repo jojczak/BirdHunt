@@ -47,9 +47,15 @@ class MainMenuScreen(
         Gdx.app.log(TAG, "action received: $action")
 
         when (action) {
-            MainMenuScreenAction.StartGame -> {
+            MainMenuScreenAction.NavigateToGameplay -> {
                 mainMenuStage.fadeOut {
                     mainActionReceiver(MainAction.NavigateToGameplay)
+                }
+            }
+
+            MainMenuScreenAction.NavigateToSettings -> {
+                mainMenuStage.fadeOut {
+                    mainActionReceiver(MainAction.NavigateToSettings)
                 }
             }
         }
