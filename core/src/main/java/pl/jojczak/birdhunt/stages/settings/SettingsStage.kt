@@ -25,7 +25,7 @@ class SettingsStage(
     private val preferences = Gdx.app.getPreferences(PREF_NAME)
 
     private val sensitivityLabel = Label("", skin, Asset.FONT_46, Color.BLACK)
-    private val sensitivitySlider = Slider(10f, 30f, 0.1f, false, skin).also { sS ->
+    private val sensitivitySlider = Slider(1f, 40f, 0.1f, false, skin).also { sS ->
         sS.addListener(SliderChangeListener())
     }
 
@@ -39,7 +39,12 @@ class SettingsStage(
 
     private val backButton = TextButton(i18N.get("back_bt"), skin).also { bB ->
         bB.addListener(ButtonListener { _, _ ->
-            onAction(SettingsStageAction.NavigateToMainMenu)
+            preferences.flush()
+            if (isFromMainMenu) fadeOut {
+                settingsScreenActionReceiver(SettingsScreenAction.NavigateToMainMenu)
+            } else {
+                settingsScreenActionReceiver(SettingsScreenAction.NavigateToMainMenu)
+            }
         })
     }
 
@@ -57,11 +62,10 @@ class SettingsStage(
     }
 
     private fun updateSensitivityLabel() {
-        val sensitivity = preferences.getFloat(PREF_SENSITIVITY, PREF_SENSITIVITY_DEFAULT)
         sensitivityLabel.setText(
             i18N.format(
                 "settings_sensitivity_label",
-                String.format(Locale.getDefault(), "%.1f", sensitivity)
+                String.format(Locale.getDefault(), "%.1f", sensitivitySlider.value)
             )
         )
     }
@@ -71,19 +75,6 @@ class SettingsStage(
             Gdx.app.log(TAG, "Sensitivity changed to ${sensitivitySlider.value}")
             preferences.putFloat(PREF_SENSITIVITY, sensitivitySlider.value)
             updateSensitivityLabel()
-        }
-    }
-
-    private fun onAction(action: SettingsStageAction) {
-        when (action) {
-            SettingsStageAction.NavigateToMainMenu -> {
-                preferences.flush()
-                if (isFromMainMenu) fadeOut {
-                    settingsScreenActionReceiver(SettingsScreenAction.NavigateToMainMenu)
-                } else {
-                    settingsScreenActionReceiver(SettingsScreenAction.NavigateToMainMenu)
-                }
-            }
         }
     }
 

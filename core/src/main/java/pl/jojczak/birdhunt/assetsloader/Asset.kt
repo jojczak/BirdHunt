@@ -4,6 +4,7 @@ enum class Asset {
     I18N,
     UI_SKIN,
     UI_BULLET,
+    UI_S_PEN,
     TX_LOGO,
     TX_BIRD,
     TX_SCOPE,

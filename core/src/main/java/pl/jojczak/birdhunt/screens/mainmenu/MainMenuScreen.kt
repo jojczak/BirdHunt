@@ -57,6 +57,12 @@ class MainMenuScreen(
                     mainActionReceiver(MainAction.NavigateToSettings)
                 }
             }
+
+            MainMenuScreenAction.NavigateToAbout -> {
+                mainMenuStage.fadeOut {
+                    mainActionReceiver(MainAction.NavigateToAbout)
+                }
+            }
         }
     }
 

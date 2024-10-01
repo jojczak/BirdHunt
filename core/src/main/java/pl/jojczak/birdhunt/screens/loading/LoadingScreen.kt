@@ -1,4 +1,4 @@
-package pl.jojczak.birdhunt.screens.loadingScreen
+package pl.jojczak.birdhunt.screens.loading
 
 import com.badlogic.gdx.Gdx
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
