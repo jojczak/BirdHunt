@@ -81,8 +81,8 @@ class AboutStage(
     }
 
     override fun onResize(scrWidth: Int, scrHeight: Int) {
-        super.onResize(scrWidth, scrHeight)
         viewport.update(scrWidth, scrHeight, true)
+        super.onResize(scrWidth, scrHeight)
     }
 
     companion object {

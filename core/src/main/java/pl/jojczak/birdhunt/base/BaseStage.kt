@@ -1,5 +1,7 @@
 package pl.jojczak.birdhunt.base
 
+import com.badlogic.gdx.Application
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction
@@ -86,7 +88,11 @@ abstract class BaseStage(
 
     companion object {
         const val WORLD_WIDTH = 200f
-        const val WORLD_HEIGHT = 320f
+        val WORLD_HEIGHT = if (Gdx.app.type == Application.ApplicationType.Android) {
+            200f
+        } else {
+            320f
+        }
 
         private const val FADE_DURATION = 0.20f
     }
