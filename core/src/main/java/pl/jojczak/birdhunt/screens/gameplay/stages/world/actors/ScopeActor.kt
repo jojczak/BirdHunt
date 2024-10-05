@@ -79,6 +79,7 @@ class ScopeActor(
     }
 
     companion object {
+        @Suppress("unused")
         private const val TAG = "ScopeActor"
 
         private const val MOTION_MULTIPLIER = 10f

@@ -110,6 +110,7 @@ class GameplayUIStage(
     }
 
     companion object {
+        @Suppress("unused")
         private const val TAG = "GameplayUIStage"
 
         private const val CELL_SIZE = 190f

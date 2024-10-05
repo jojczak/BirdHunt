@@ -48,6 +48,7 @@ class GameOverWindow(
     }
 
     companion object {
+        @Suppress("unused")
         private const val TAG = "GameOverWindow"
 
         private const val PAD = 25f

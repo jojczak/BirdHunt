@@ -80,6 +80,7 @@ class GameplayStage(
     }
 
     companion object {
+        @Suppress("unused")
         private const val TAG = "GameplayStage"
     }
 }

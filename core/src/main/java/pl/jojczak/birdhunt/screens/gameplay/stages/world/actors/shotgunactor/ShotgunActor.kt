@@ -77,6 +77,7 @@ class ShotgunActor : BaseActor() {
     }
 
     companion object {
+        @Suppress("unused")
         private const val TAG = "ShotgunActor"
 
         private const val FRAME_WIDTH = 26

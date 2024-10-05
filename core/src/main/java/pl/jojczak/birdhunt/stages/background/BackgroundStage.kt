@@ -12,6 +12,7 @@ class BackgroundStage : BaseStage() {
     }
 
     companion object {
+        @Suppress("unused")
         private const val TAG = "BackgroundStage"
     }
 }

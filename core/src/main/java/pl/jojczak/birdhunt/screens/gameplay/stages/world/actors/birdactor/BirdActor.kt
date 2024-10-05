@@ -139,6 +139,5 @@ class BirdActor(
         const val BASE_SPEED = 100f
         const val MV_ANIM_DUR = 0.25f
         const val DEAD_ANIM_DUR = 0.7f
-        const val GAME_OVER_ANIM_DUR = 1f
     }
 }

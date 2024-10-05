@@ -81,6 +81,7 @@ class AboutStage(
     }
 
     companion object {
+        @Suppress("unused")
         private const val TAG = "SettingsStage"
 
         private const val PR_PAD = 25f

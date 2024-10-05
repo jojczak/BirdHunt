@@ -76,6 +76,7 @@ class FarLandsActor : BaseActor() {
     }
 
     companion object {
+        @Suppress("unused")
         private const val TAG = "FarLandsActor"
 
         private const val ANIM_DUR = 0.5f
