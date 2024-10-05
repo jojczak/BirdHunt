@@ -63,6 +63,7 @@ abstract class BaseStage(
     }
 
     open fun onResize(scrWidth: Int, scrHeight: Int) {
+        viewport.update(scrWidth, scrHeight, true)
         for (actor in actors) {
             if (actor is BaseActor) {
                 actor.onResize(scrWidth, scrHeight)

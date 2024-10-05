@@ -80,11 +80,6 @@ class AboutStage(
         }
     }
 
-    override fun onResize(scrWidth: Int, scrHeight: Int) {
-        viewport.update(scrWidth, scrHeight, true)
-        super.onResize(scrWidth, scrHeight)
-    }
-
     companion object {
         private const val TAG = "SettingsStage"
 

@@ -69,6 +69,7 @@ object AssetsLoader {
         Asset.TX_SCOPE to           Pair("scope.png",                   Texture::class.java),
         Asset.TX_SHOTGUN to         Pair("shotgun.png",                 Texture::class.java),
         Asset.TX_BULLET to          Pair("bullet.png",                  Texture::class.java),
+        Asset.TX_FAR_LANDS to       Pair("farlands.png",                Texture::class.java),
     )
 
     private class UnfinishedAssetLoadingException : RuntimeException()

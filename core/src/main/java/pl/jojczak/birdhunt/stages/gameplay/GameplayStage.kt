@@ -1,5 +1,6 @@
 package pl.jojczak.birdhunt.stages.gameplay
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
@@ -72,11 +73,6 @@ class GameplayStage(
             if (checkIfShotHitBird()) gameplayHelper.action(GameplayHelper.GameplayAction.BirdHit)
             else gameplayHelper.action(GameplayHelper.GameplayAction.ShotMissed)
         }
-    }
-
-    override fun onResize(scrWidth: Int, scrHeight: Int) {
-        viewport.update(scrWidth, scrHeight, true)
-        super.onResize(scrWidth, scrHeight)
     }
 
     override fun dispose() {

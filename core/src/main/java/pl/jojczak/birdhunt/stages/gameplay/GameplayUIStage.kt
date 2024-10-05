@@ -105,7 +105,6 @@ class GameplayUIStage(
     }
 
     override fun onResize(scrWidth: Int, scrHeight: Int) {
-        viewport.update(scrWidth, scrHeight, true)
         super.onResize(scrWidth, scrHeight)
         settingsStage?.onResize(scrWidth, scrHeight)
     }
