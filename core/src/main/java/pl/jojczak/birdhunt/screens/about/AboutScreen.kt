@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.ScreenUtils
 import pl.jojczak.birdhunt.base.BaseScreen
 import pl.jojczak.birdhunt.main.MainAction
-import pl.jojczak.birdhunt.stages.about.AboutStage
+import pl.jojczak.birdhunt.screens.about.stages.AboutStage
 
 class AboutScreen(
     mainActionReceiver: (action: MainAction) -> Unit

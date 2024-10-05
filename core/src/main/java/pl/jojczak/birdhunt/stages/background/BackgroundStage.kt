@@ -1,6 +1,6 @@
 package pl.jojczak.birdhunt.stages.background
 
-import pl.jojczak.birdhunt.actors.background.FarLandsActor
+import pl.jojczak.birdhunt.stages.background.actors.FarLandsActor
 import pl.jojczak.birdhunt.base.BaseStage
 
 class BackgroundStage : BaseStage() {

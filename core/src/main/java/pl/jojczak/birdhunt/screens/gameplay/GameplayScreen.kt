@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.ScreenUtils
 import pl.jojczak.birdhunt.base.BaseScreen
 import pl.jojczak.birdhunt.main.MainAction
-import pl.jojczak.birdhunt.stages.gameplay.GameplayStage
-import pl.jojczak.birdhunt.stages.gameplay.GameplayUIStage
+import pl.jojczak.birdhunt.screens.gameplay.stages.world.GameplayStage
+import pl.jojczak.birdhunt.screens.gameplay.stages.ui.GameplayUIStage
 import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
 
 class GameplayScreen(
