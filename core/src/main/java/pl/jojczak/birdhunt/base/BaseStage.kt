@@ -2,6 +2,7 @@ package pl.jojczak.birdhunt.base
 
 import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction
@@ -13,8 +14,10 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
-import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
-import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
+import pl.jojczak.birdhunt.utils.InsetsHelper
+import pl.jojczak.birdhunt.utils.SPenHelper
+import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 abstract class BaseStage(
     viewport: Viewport? = null
@@ -54,12 +57,21 @@ abstract class BaseStage(
         root.color.a = 0f
     }
 
+    override fun draw() {
+        viewport.apply()
+        super.draw()
+    }
+
     fun fadeIn(callback: () -> Unit = {}) {
         addAction(fadeInAction(callback))
     }
 
     fun fadeOut(callback: () -> Unit = {}) {
         addAction(fadeOutAction(callback))
+    }
+
+    protected fun Number.realToGameSize(): Float {
+        return this@BaseStage.viewport.unproject(Vector2(this.toFloat(), 0f)).x
     }
 
     open fun onResize(scrWidth: Int, scrHeight: Int) {
@@ -76,6 +88,9 @@ abstract class BaseStage(
             if (actor is SPenHelper.EventListener) {
                 sPenHelperInstance.removeEventListener(actor)
             }
+            if (actor is InsetsHelper.OnInsetsChangedListener) {
+                insetsHelperInstance.removeOnInsetsChangedListener(actor)
+            }
         }
         super.dispose()
     }
@@ -83,6 +98,9 @@ abstract class BaseStage(
     override fun actorRemoved(actor: Actor) {
         if (actor is SPenHelper.EventListener) {
             sPenHelperInstance.removeEventListener(actor)
+        }
+        if (actor is InsetsHelper.OnInsetsChangedListener) {
+            insetsHelperInstance.removeOnInsetsChangedListener(actor)
         }
         super.actorRemoved(actor)
     }

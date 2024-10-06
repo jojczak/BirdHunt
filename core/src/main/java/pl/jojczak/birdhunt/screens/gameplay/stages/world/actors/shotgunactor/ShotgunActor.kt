@@ -1,5 +1,6 @@
 package pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.shotgunactor
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
@@ -7,9 +8,11 @@ import com.badlogic.gdx.math.Vector2
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
+import pl.jojczak.birdhunt.utils.InsetsHelper
+import pl.jojczak.birdhunt.utils.insetsHelperInstance
 import kotlin.math.atan2
 
-class ShotgunActor : BaseActor() {
+class ShotgunActor : BaseActor(), InsetsHelper.OnInsetsChangedListener {
     private val texture = AssetsLoader.get<Texture>(Asset.TX_SHOTGUN)
     private val textureFrames = TextureRegion.split(texture, FRAME_WIDTH, FRAME_HEIGHT)[0]
 
@@ -26,6 +29,7 @@ class ShotgunActor : BaseActor() {
             FRAME_WIDTH.toFloat(),
             FRAME_HEIGHT.toFloat()
         )
+        insetsHelperInstance.addOnInsetsChangedListener(this)
     }
 
     override fun onStage() {
@@ -60,10 +64,12 @@ class ShotgunActor : BaseActor() {
     }
 
     private fun centerOnScreen() {
+        val bottomPadding = insetsHelperInstance.lastInsets.bottom.toGameSize()
+
         if (isStage) {
             setPosition(
                 stage.width / 2,
-                0f
+                bottomPadding
             )
         }
     }
@@ -74,6 +80,10 @@ class ShotgunActor : BaseActor() {
         is ShotgunAngle.Center -> Vector2(x, FRAME_HEIGHT.toFloat() + 4f)
         is ShotgunAngle.SlRight -> Vector2(x + 9f, FRAME_HEIGHT.toFloat() + 2f)
         is ShotgunAngle.Right -> Vector2(x + 24f, FRAME_HEIGHT.toFloat() - 2f)
+    }
+
+    override fun onInsetsChanged(insets: InsetsHelper.WindowInsets) {
+        onResize(Gdx.graphics.width, Gdx.graphics.height)
     }
 
     companion object {

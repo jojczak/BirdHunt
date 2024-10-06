@@ -44,8 +44,9 @@ class MainMenuScreen(
 
     override fun dispose() {
         Gdx.app.log(TAG, "dispose MainMenuScreen")
-        super.dispose()
         mainMenuStage.dispose()
+        backgroundStage.dispose()
+        super.dispose()
     }
 
     override fun onAction(action: MainMenuScreenAction) {

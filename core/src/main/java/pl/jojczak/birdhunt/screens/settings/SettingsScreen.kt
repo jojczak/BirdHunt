@@ -41,4 +41,9 @@ class SettingsScreen(
         super.resize(width, height)
         settingsStage.onResize(width, height)
     }
+
+    override fun dispose() {
+        settingsStage.dispose()
+        super.dispose()
+    }
 }

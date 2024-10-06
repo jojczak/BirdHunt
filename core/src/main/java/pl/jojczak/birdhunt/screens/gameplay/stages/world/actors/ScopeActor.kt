@@ -11,8 +11,8 @@ import pl.jojczak.birdhunt.screens.gameplay.GameplayState
 import pl.jojczak.birdhunt.utils.PREF_NAME
 import pl.jojczak.birdhunt.utils.PREF_SENSITIVITY
 import pl.jojczak.birdhunt.utils.PREF_SENSITIVITY_DEFAULT
-import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
-import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
+import pl.jojczak.birdhunt.utils.SPenHelper
+import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 class ScopeActor(
     private val gameplayHelper: GameplayHelper

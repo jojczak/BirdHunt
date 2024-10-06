@@ -8,8 +8,8 @@ import pl.jojczak.birdhunt.screens.gameplay.GameplayScreen
 import pl.jojczak.birdhunt.screens.loading.LoadingScreen
 import pl.jojczak.birdhunt.screens.mainmenu.MainMenuScreen
 import pl.jojczak.birdhunt.screens.settings.SettingsScreen
-import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
-import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
+import pl.jojczak.birdhunt.utils.SPenHelper
+import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 class Main : Game() {
     override fun create() {

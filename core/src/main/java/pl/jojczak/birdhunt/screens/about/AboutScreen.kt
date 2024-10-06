@@ -43,6 +43,11 @@ class AboutScreen(
         aboutStage.onResize(width, height)
     }
 
+    override fun dispose() {
+        aboutStage.dispose()
+        super.dispose()
+    }
+
     companion object {
         private const val TAG = "AboutScreen"
     }

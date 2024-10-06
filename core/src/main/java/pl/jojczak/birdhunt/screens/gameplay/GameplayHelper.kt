@@ -5,7 +5,7 @@ import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper.Companion.BIRDS_PER_R
 import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper.Companion.BIRD_SPAWN_DELAY
 import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper.Companion.SHOTS
 import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper.Companion.SHOT_TIME
-import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
+import pl.jojczak.birdhunt.utils.SPenHelper
 
 interface GameplayHelper {
     fun getState(): GameplayState

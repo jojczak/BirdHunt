@@ -3,12 +3,14 @@ package pl.jojczak.birdhunt.lwjgl3
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import pl.jojczak.birdhunt.main.Main
-import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
+import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 /** Launches the desktop (LWJGL3) application.  */
 fun main(args: Array<String>) {
     if (StartupHelper.startNewJvmIfRequired()) return  // This handles macOS support and helps on Windows.
     sPenHelperInstance = SPenHelperDesktopImpl()
+    insetsHelperInstance = InsetsHelperDesktopImpl()
     Lwjgl3Application(Main(), defaultConfiguration)
 }
 
@@ -25,7 +27,7 @@ private val defaultConfiguration: Lwjgl3ApplicationConfiguration
         //// useful for testing performance, but can also be very stressful to some hardware.
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
         setWindowedMode(DEFAULT_WIDTH, DEFAULT_HEIGHT)
-        setWindowSizeLimits(DEFAULT_WIDTH, DEFAULT_HEIGHT, Int.MAX_VALUE, Int.MAX_VALUE)
+        //setWindowSizeLimits(DEFAULT_WIDTH, DEFAULT_HEIGHT, Int.MAX_VALUE, Int.MAX_VALUE)
         //// You can change these files; they are in lwjgl3/src/main/resources/ .
         setWindowIcon(
             "libgdx128.png",

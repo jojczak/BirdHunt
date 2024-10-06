@@ -7,7 +7,7 @@ import pl.jojczak.birdhunt.base.BaseScreen
 import pl.jojczak.birdhunt.main.MainAction
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.GameplayStage
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.GameplayUIStage
-import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
+import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 class GameplayScreen(
     mainActionReceiver: (action: MainAction) -> Unit

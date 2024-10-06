@@ -10,7 +10,11 @@ enum class Asset {
     TX_SCOPE,
     TX_SHOTGUN,
     TX_BULLET,
-    TX_FAR_LANDS;
+    TX_BG_FAR_LANDS,
+    TX_BG_MOUNTAIN,
+    TX_BG_FOG,
+    TX_BG_CLOUDS,
+    TX_BG_GRASS;
 
     companion object {
         const val FONT_46 = "PixelifySans-46"

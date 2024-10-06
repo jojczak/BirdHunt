@@ -17,6 +17,7 @@ import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.RoundWindow
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.ScoreWidget
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.ShotWindow
 import pl.jojczak.birdhunt.utils.ButtonListener
+import pl.jojczak.birdhunt.utils.insetsHelperInstance
 
 class GameplayUIStage(
     private val gameplayHelper: GameplayHelper
@@ -46,7 +47,7 @@ class GameplayUIStage(
     }
 
     private val bottomContainer = Table().apply {
-        val bottomPad = (ShotgunActor.FRAME_HEIGHT.toGameSize() - CELL_SIZE) / 2f
+        val bottomPad = (ShotgunActor.FRAME_HEIGHT.uiToGameSize() - CELL_SIZE) / 2f
 
         setFillParent(true)
         bottom()

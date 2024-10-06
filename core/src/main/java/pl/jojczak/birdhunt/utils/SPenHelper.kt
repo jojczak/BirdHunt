@@ -1,4 +1,4 @@
-package pl.jojczak.birdhunt.utils.spenhelper
+package pl.jojczak.birdhunt.utils
 
 interface SPenHelper {
     val implType: ImplType

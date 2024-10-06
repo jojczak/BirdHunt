@@ -1,7 +1,7 @@
 package pl.jojczak.birdhunt.lwjgl3
 
 import com.badlogic.gdx.Gdx
-import pl.jojczak.birdhunt.utils.spenhelper.SPenHelper
+import pl.jojczak.birdhunt.utils.SPenHelper
 
 class SPenHelperDesktopImpl : SPenHelper {
     private var connected = false

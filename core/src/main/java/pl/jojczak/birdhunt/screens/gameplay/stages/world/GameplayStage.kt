@@ -10,7 +10,7 @@ import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.birdactor.BirdAc
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.shotgunactor.ShotgunActor
 import pl.jojczak.birdhunt.base.BaseStage
 import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper
-import pl.jojczak.birdhunt.utils.spenhelper.sPenHelperInstance
+import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 class GameplayStage(
     private val gameplayHelper: GameplayHelper
