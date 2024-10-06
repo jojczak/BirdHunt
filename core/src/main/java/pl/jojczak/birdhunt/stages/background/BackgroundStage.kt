@@ -31,6 +31,10 @@ class BackgroundStage : BaseStage() {
         textureAsset = Asset.TX_BG_CLOUDS
     )
 
+    private val grass = BackgroundActor(
+        textureAsset = Asset.TX_BG_GRASS
+    )
+
     private val onInsetsChanged = InsetsHelper.OnInsetsChangedListener { _ ->
         onResize(Gdx.graphics.width, Gdx.graphics.height)
     }
@@ -43,6 +47,7 @@ class BackgroundStage : BaseStage() {
         addActor(fog2)
         addActor(farLands)
         addActor(clouds)
+        addActor(grass)
     }
 
     override fun act(delta: Float) {
@@ -63,6 +68,13 @@ class BackgroundStage : BaseStage() {
             else {
                 clouds.isVisible = true
                 clouds.y = viewport.worldHeight - it - CLOUDS_PADDING
+            }
+        }
+        insets.bottom.realToGameSize().let {
+            if (it == 0f) grass.isVisible = false
+            else {
+                grass.isVisible = true
+                grass.y = -grass.height + it + GRASS_PADDING
             }
         }
 
@@ -92,5 +104,6 @@ class BackgroundStage : BaseStage() {
 
         private const val FOG_SPEED = 20f
         private const val CLOUDS_PADDING = 3f
+        private const val GRASS_PADDING = 2f
     }
 }

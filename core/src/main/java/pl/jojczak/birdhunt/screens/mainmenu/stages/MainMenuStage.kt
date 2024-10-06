@@ -1,12 +1,8 @@
 package pl.jojczak.birdhunt.screens.mainmenu.stages
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.Pixmap
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import pl.jojczak.birdhunt.base.BaseUIStage
 import pl.jojczak.birdhunt.screens.mainmenu.MainMenuScreenAction
 import pl.jojczak.birdhunt.utils.ButtonListener
