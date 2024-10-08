@@ -9,11 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
-import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper
-import pl.jojczak.birdhunt.screens.gameplay.GameplayState
 
 class BulletActor(
-    private val gameplayHelper: GameplayHelper,
     private val startPos: Vector2,
     private val endPos: Vector2,
     angle: Float
@@ -35,7 +32,6 @@ class BulletActor(
     }
 
     override fun act(delta: Float) {
-        if (gameplayHelper.getState() is GameplayState.Paused) return
         super.act(delta)
     }
 

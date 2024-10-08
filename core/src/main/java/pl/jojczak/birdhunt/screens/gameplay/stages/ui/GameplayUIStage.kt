@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import pl.jojczak.birdhunt.base.BaseUIStage
-import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper
-import pl.jojczak.birdhunt.screens.gameplay.GameplayState
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.CountdownLabel
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.GameOverWindow
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.HitWindow
@@ -18,20 +16,18 @@ import pl.jojczak.birdhunt.screens.settings.SettingsScreenAction
 import pl.jojczak.birdhunt.screens.settings.stages.SettingsStage
 import pl.jojczak.birdhunt.utils.ButtonListener
 
-class GameplayUIStage(
-    private val gameplayHelper: GameplayHelper
-) : BaseUIStage() {
-    private val scoreWidget = ScoreWidget(i18N, skin, gameplayHelper)
-    private val shotWindow = ShotWindow(i18N, skin, gameplayHelper)
-    private val roundWindow = RoundWindow(i18N, skin, gameplayHelper)
-    private val hitWindow = HitWindow(i18N, skin, gameplayHelper)
-    private val countdownLabel = CountdownLabel(i18N, skin, gameplayHelper)
-    private val pauseWindow = PauseWindow(i18N, skin, ::onAction, gameplayHelper)
-    private val gameOverWindow = GameOverWindow(i18N, skin, gameplayHelper)
+class GameplayUIStage : BaseUIStage() {
+    private val scoreWidget = ScoreWidget(i18N, skin)
+    private val shotWindow = ShotWindow(i18N, skin)
+    private val roundWindow = RoundWindow(i18N, skin)
+    private val hitWindow = HitWindow(i18N, skin)
+    private val countdownLabel = CountdownLabel(i18N, skin)
+    private val pauseWindow = PauseWindow(i18N, skin, ::onAction)
+    private val gameOverWindow = GameOverWindow(i18N, skin)
     private var settingsStage: SettingsStage? = null
     private val pauseButton = TextButton("||", skin).apply {
         addListener(ButtonListener { _, _ ->
-            gameplayHelper.action(GameplayHelper.GameplayAction.PauseGame)
+
         })
     }
 
@@ -55,7 +51,6 @@ class GameplayUIStage(
     }
 
     init {
-        gameplayHelper.addGameplayListener(GameplayEventListener())
         addActor(scoreWidget)
         addActor(bottomContainer)
         addActor(countdownLabel)
@@ -95,12 +90,6 @@ class GameplayUIStage(
                     settingsStage = null
                 }
             }
-        }
-    }
-
-    inner class GameplayEventListener : GameplayHelper.GameplayEventListener {
-        override fun onGameplayStateChanged(state: GameplayState) {
-            pauseButton.isDisabled = state is GameplayState.Paused
         }
     }
 

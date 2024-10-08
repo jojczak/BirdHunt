@@ -11,17 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
-import pl.jojczak.birdhunt.screens.gameplay.GameplayHelper
-import pl.jojczak.birdhunt.screens.gameplay.GameplayState
 
-class BirdActor(
-    private val gameplayHelper: GameplayHelper
-) : BaseActor() {
+class BirdActor : BaseActor() {
     private val texture = AssetsLoader.get<Texture>(Asset.TX_BIRD)
     private val textureFrames = TextureRegion.split(texture, FRAME_SIZE, FRAME_SIZE)
     private val deadTexture = textureFrames[0][textureFrames[0].size - 1]
-
-    private val gameplayEventListener = GameplayEventListener()
 
     var isDead = false
         private set
@@ -70,7 +64,6 @@ class BirdActor(
 
     init {
         setSize(FRAME_SIZE.toFloat(), FRAME_SIZE.toFloat())
-        gameplayHelper.addGameplayListener(gameplayEventListener)
     }
 
     override fun onStage() {
@@ -83,12 +76,8 @@ class BirdActor(
 
     override fun act(delta: Float) {
         super.act(delta)
-        val gameplayState = gameplayHelper.getState()
 
-        if (gameplayState is GameplayState.Paused || isDead) return
         animationHelper.update(delta)
-
-        if (gameplayState is GameplayState.GameOver) return
         movementHelper.update(this, delta)
     }
 
@@ -107,28 +96,7 @@ class BirdActor(
 
     override fun remove(): Boolean {
         Gdx.app.log(TAG, "Removing bird from stage")
-        gameplayHelper.removeGameplayListener(gameplayEventListener)
         return super.remove()
-    }
-
-    private inner class GameplayEventListener : GameplayHelper.GameplayEventListener {
-        override fun birdHit() {
-            Gdx.app.log(TAG, "Starting dead animation")
-            isDead = true
-            addAction(getDeadAnimation {
-                remove()
-            })
-        }
-
-        override fun onGameplayStateChanged(state: GameplayState) {
-            if (state is GameplayState.GameOver) {
-                Gdx.app.log(TAG, "Starting game over animation")
-                movementHelper.movementType = BirdMovementType.RightTop()
-                addAction(getGameOverAnimation {
-                    remove()
-                })
-            }
-        }
     }
 
     companion object {
