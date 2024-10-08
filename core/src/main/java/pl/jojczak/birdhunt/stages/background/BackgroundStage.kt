@@ -19,20 +19,20 @@ class BackgroundStage : BaseStage() {
 
     private val mountains = MovableBackgroundActor(
         textureAsset = Asset.TX_BG_MOUNTAIN,
-        startYPos = 100f,
-        scale = 2f
-    )
-
-    private val farLands = MovableBackgroundActor(
-        textureAsset = Asset.TX_BG_FAR_LANDS,
-        startYPos = 0f,
-        scale = 3f
+        screenBottom = 150f,
+        downScaleMultiplier = 50f
     )
 
     private val farLands2 = MovableBackgroundActor(
         textureAsset = Asset.TX_BG_FAR_LANDS_2,
-        startYPos = 60f,
-        scale = 2f
+        screenBottom = 100f,
+        downScaleMultiplier = 40f
+    )
+
+    private val farLands = MovableBackgroundActor(
+        textureAsset = Asset.TX_BG_FAR_LANDS,
+        screenBottom = -30f,
+        downScaleMultiplier = 30f
     )
 
     private val clouds = BackgroundActor(
@@ -90,6 +90,9 @@ class BackgroundStage : BaseStage() {
                 grass.y = -grass.height + it + GRASS_PADDING
             }
         }
+
+        fog1.x = 0f
+        fog2.x = 0f
 
         if (fog1.height < viewport.worldHeight) {
             fog1.setScale(viewport.worldHeight / fog1.height)
