@@ -1,6 +1,5 @@
 package pl.jojczak.birdhunt.android
 
-import android.content.res.Configuration
 import android.os.Bundle
 import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
@@ -27,10 +26,6 @@ class AndroidLauncher : AndroidApplication() {
             }
         )
     )
-
-    override fun onMultiWindowModeChanged(isInMultiWindowMode: Boolean, newConfig: Configuration?) {
-        super.onMultiWindowModeChanged(isInMultiWindowMode, newConfig)
-    }
 
     override fun onResume() {
         super.onResume()

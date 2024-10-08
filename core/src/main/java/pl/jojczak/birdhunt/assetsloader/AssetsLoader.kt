@@ -70,6 +70,7 @@ object AssetsLoader {
         Asset.TX_SHOTGUN        to      Pair("shotgun.png",                 Texture::class.java),
         Asset.TX_BULLET         to      Pair("bullet.png",                  Texture::class.java),
         Asset.TX_BG_FAR_LANDS   to      Pair("farlands.png",                Texture::class.java),
+        Asset.TX_BG_FAR_LANDS_2 to      Pair("farlands2.png",               Texture::class.java),
         Asset.TX_BG_MOUNTAIN    to      Pair("mountain.png",                Texture::class.java),
         Asset.TX_BG_FOG         to      Pair("fog.png",                     Texture::class.java),
         Asset.TX_BG_CLOUDS      to      Pair("clouds.png",                  Texture::class.java),

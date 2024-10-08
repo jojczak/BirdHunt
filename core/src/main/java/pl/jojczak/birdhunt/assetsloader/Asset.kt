@@ -11,6 +11,7 @@ enum class Asset {
     TX_SHOTGUN,
     TX_BULLET,
     TX_BG_FAR_LANDS,
+    TX_BG_FAR_LANDS_2,
     TX_BG_MOUNTAIN,
     TX_BG_FOG,
     TX_BG_CLOUDS,

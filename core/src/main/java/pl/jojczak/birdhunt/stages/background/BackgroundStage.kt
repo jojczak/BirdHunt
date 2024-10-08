@@ -1,8 +1,10 @@
 package pl.jojczak.birdhunt.stages.background
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.utils.ScreenUtils
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseStage
@@ -17,14 +19,20 @@ class BackgroundStage : BaseStage() {
 
     private val mountains = MovableBackgroundActor(
         textureAsset = Asset.TX_BG_MOUNTAIN,
-        startYPos = 50f,
-        scale = 2.5f
+        startYPos = 100f,
+        scale = 2f
     )
 
     private val farLands = MovableBackgroundActor(
         textureAsset = Asset.TX_BG_FAR_LANDS,
         startYPos = 0f,
         scale = 3f
+    )
+
+    private val farLands2 = MovableBackgroundActor(
+        textureAsset = Asset.TX_BG_FAR_LANDS_2,
+        startYPos = 60f,
+        scale = 2f
     )
 
     private val clouds = BackgroundActor(
@@ -41,13 +49,18 @@ class BackgroundStage : BaseStage() {
 
     init {
         insetsHelperInstance.addOnInsetsChangedListener(onInsetsChanged)
-        root.color.a = 1f
         addActor(mountains)
         addActor(fog1)
+        addActor(farLands2)
         addActor(fog2)
         addActor(farLands)
         addActor(clouds)
         addActor(grass)
+    }
+
+    override fun draw() {
+        ScreenUtils.clear(Color.SKY)
+        super.draw()
     }
 
     override fun act(delta: Float) {

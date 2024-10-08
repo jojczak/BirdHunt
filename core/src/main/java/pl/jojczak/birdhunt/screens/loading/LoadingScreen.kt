@@ -8,7 +8,8 @@ import pl.jojczak.birdhunt.main.MainAction
 class LoadingScreen(
     mainActionReceiver: (action: MainAction) -> Unit
 ) : BaseScreen<LoadingAction>(
-    mainActionReceiver = mainActionReceiver
+    mainActionReceiver = mainActionReceiver,
+    backgroundStage = null
 ) {
     override fun show() {
         super.show()
@@ -23,6 +24,7 @@ class LoadingScreen(
         Gdx.app.log(TAG, "render, loading progress: ${AssetsLoader.progress()}")
 
         if (AssetsLoader.finished()) {
+            mainActionReceiver(MainAction.SetupBackgroundStage)
             mainActionReceiver(MainAction.NavigateToMainMenu)
         }
     }

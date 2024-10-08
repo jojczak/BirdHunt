@@ -1,18 +1,19 @@
 package pl.jojczak.birdhunt.screens.gameplay
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.utils.ScreenUtils
 import pl.jojczak.birdhunt.base.BaseScreen
 import pl.jojczak.birdhunt.main.MainAction
-import pl.jojczak.birdhunt.screens.gameplay.stages.world.GameplayStage
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.GameplayUIStage
+import pl.jojczak.birdhunt.screens.gameplay.stages.world.GameplayStage
+import pl.jojczak.birdhunt.stages.background.BackgroundStage
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 class GameplayScreen(
-    mainActionReceiver: (action: MainAction) -> Unit
+    mainActionReceiver: (action: MainAction) -> Unit,
+    backgroundStage: BackgroundStage?
 ) : BaseScreen<GameplayScreenAction>(
-    mainActionReceiver = mainActionReceiver
+    mainActionReceiver = mainActionReceiver,
+    backgroundStage = backgroundStage
 ) {
     private val gameplayHelper: ScreenGameplayHelper = ScreenGameplayHelper(::onAction)
     private val gameplayStage = GameplayStage(gameplayHelper)
@@ -29,12 +30,11 @@ class GameplayScreen(
 
     override fun render(delta: Float) {
         super.render(delta)
-        ScreenUtils.clear(Color.SKY)
 
         gameplayHelper.act(delta)
         gameplayStage.act(delta)
-        gameplayUIStage.act(delta)
         gameplayStage.draw()
+        gameplayUIStage.act(delta)
         gameplayUIStage.draw()
     }
 
