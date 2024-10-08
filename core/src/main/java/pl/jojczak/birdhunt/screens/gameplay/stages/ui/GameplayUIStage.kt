@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import pl.jojczak.birdhunt.base.BaseUIStage
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.CountdownLabel
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.GameOverWindow
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.HitWindow
@@ -11,46 +12,55 @@ import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.PauseWindow
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.RoundWindow
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.ScoreWidget
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.ShotWindow
-import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.shotgunactor.ShotgunActor
 import pl.jojczak.birdhunt.screens.settings.SettingsScreenAction
 import pl.jojczak.birdhunt.screens.settings.stages.SettingsStage
 import pl.jojczak.birdhunt.utils.ButtonListener
 
-class GameplayUIStage : BaseUIStage() {
+class GameplayUIStage(
+    private val gameplayLogic: GameplayLogic
+) : BaseUIStage() {
     private val scoreWidget = ScoreWidget(i18N, skin)
     private val shotWindow = ShotWindow(i18N, skin)
     private val roundWindow = RoundWindow(i18N, skin)
     private val hitWindow = HitWindow(i18N, skin)
     private val countdownLabel = CountdownLabel(i18N, skin)
-    private val pauseWindow = PauseWindow(i18N, skin, ::onAction)
-    private val gameOverWindow = GameOverWindow(i18N, skin)
+    private val pauseWindow = PauseWindow(i18N, skin, ::onAction, gameplayLogic)
+    private val gameOverWindow = GameOverWindow(i18N, skin, gameplayLogic)
     private var settingsStage: SettingsStage? = null
     private val pauseButton = TextButton("||", skin).apply {
         addListener(ButtonListener { _, _ ->
-
+            gameplayLogic.onAction(GameplayLogic.ToActions.PauseGame)
         })
     }
 
     private val leftGroup = Table().apply {
-        add(pauseButton).size(CELL_SIZE).padLeft(PAD)
-        add(shotWindow).size(CELL_SIZE).padLeft(PAD)
+        add(pauseButton).size(CELL_SIZE).padLeft(PAD * 2)
+        add(shotWindow).size(CELL_SIZE).padLeft(PAD * 2)
     }
 
     private val rightGroup = Table().apply {
-        add(hitWindow).size(CELL_SIZE).padRight(PAD)
-        add(roundWindow).size(CELL_SIZE).padRight(PAD)
+        add(hitWindow).size(CELL_SIZE).padRight(PAD * 2)
+        add(roundWindow).size(CELL_SIZE).padRight(PAD * 2)
     }
 
     private val bottomContainer = Table().apply {
-        val bottomPad = (ShotgunActor.FRAME_HEIGHT.uiToGameSize() - CELL_SIZE) / 2f
-
         setFillParent(true)
         bottom()
-        add(leftGroup).expandX().left().padBottom(bottomPad)
-        add(rightGroup).expandX().right().padBottom(bottomPad)
+        add(leftGroup).expandX().left().padBottom(PAD)
+        add(rightGroup).expandX().right().padBottom(PAD)
     }
 
     init {
+        gameplayLogic.addActionsListener(
+            scoreWidget,
+            shotWindow,
+            roundWindow,
+            hitWindow,
+            countdownLabel,
+            pauseWindow,
+            gameOverWindow
+        )
+
         addActor(scoreWidget)
         addActor(bottomContainer)
         addActor(countdownLabel)
@@ -98,11 +108,24 @@ class GameplayUIStage : BaseUIStage() {
         settingsStage?.onResize(scrWidth, scrHeight)
     }
 
+    override fun dispose() {
+        gameplayLogic.removeActionsListener(
+            scoreWidget,
+            shotWindow,
+            roundWindow,
+            hitWindow,
+            countdownLabel,
+            pauseWindow,
+            gameOverWindow
+        )
+        super.dispose()
+    }
+
     companion object {
         @Suppress("unused")
         private const val TAG = "GameplayUIStage"
 
-        private const val CELL_SIZE = 190f
-        private const val PAD = 20f
+        const val CELL_SIZE = 190f
+        const val PAD = 10f
     }
 }

@@ -66,6 +66,11 @@ abstract class BottomUIWindow(
         )
     )
 
+    fun removeFlashingAnim() {
+        actions.forEach { if (it is SequenceAction) { it.actor.isVisible = true } }
+        actions.removeAll { true }
+    }
+
     init {
         isMovable = false
         isResizable = false

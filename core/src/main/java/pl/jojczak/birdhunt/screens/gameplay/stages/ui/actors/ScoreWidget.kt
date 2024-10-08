@@ -6,18 +6,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.I18NBundle
 import pl.jojczak.birdhunt.assetsloader.Asset.Companion.FONT_75_BORDERED
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
+import pl.jojczak.birdhunt.screens.gameplay.GameplayState
 
 class ScoreWidget(
     private val i18N: I18NBundle,
     skin: Skin
-): Table() {
-    var score = 0
-        set(value) {
-            field = value
-            updateScore()
-        }
-
-    private val scoreLabel = Label(i18N.format("game_label_score", score), skin, FONT_75_BORDERED, Color.WHITE)
+): Table(), GameplayLogic.FromActions {
+    private val scoreLabel = Label(i18N.format("game_label_score", GameplayLogic.DEF_POINTS), skin, FONT_75_BORDERED, Color.WHITE)
     private val infoLabel = Label("", skin, FONT_75_BORDERED, Color.WHITE)
 
     init {
@@ -27,11 +23,15 @@ class ScoreWidget(
         add(infoLabel)
     }
 
-    override fun act(delta: Float) {
-        super.act(delta)
+    override fun pointsUpdated(points: Int) {
+        scoreLabel.setText(i18N.format("game_label_score", points))
     }
 
-    private fun updateScore() {
-        scoreLabel.setText(i18N.format("game_label_score", scoreLabel))
+    override fun displayWarning(state: GameplayState.GameOver?) {
+        when (state) {
+            is GameplayState.GameOver.OutOfAmmo -> infoLabel.setText(i18N.get("game_over_reason_ammo"))
+            is GameplayState.GameOver.OutOfTime -> infoLabel.setText(i18N.get("game_label_bird_time"))
+            null -> infoLabel.setText("")
+        }
     }
 }

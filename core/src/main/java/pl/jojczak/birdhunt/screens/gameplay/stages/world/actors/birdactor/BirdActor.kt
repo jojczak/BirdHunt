@@ -11,8 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
+import pl.jojczak.birdhunt.screens.gameplay.GameplayState
+import pl.jojczak.birdhunt.screens.gameplay.stages.world.GameplayStage
+import kotlin.random.Random
 
-class BirdActor : BaseActor() {
+class BirdActor(
+    private val gameplayLogic: GameplayLogic
+) : BaseActor() {
     private val texture = AssetsLoader.get<Texture>(Asset.TX_BIRD)
     private val textureFrames = TextureRegion.split(texture, FRAME_SIZE, FRAME_SIZE)
     private val deadTexture = textureFrames[0][textureFrames[0].size - 1]
@@ -20,18 +26,21 @@ class BirdActor : BaseActor() {
     var isDead = false
         private set
 
+    var aboveBorder = false
+        private set
+
     private fun getDeadAnimation(onAnimEnd: () -> Unit) = SequenceAction(
         MoveToAction().apply {
             this.x = this@BirdActor.x
             this.y = this@BirdActor.y + 20f
-            this.duration = DEAD_ANIM_DUR / 2
-            this.interpolation = Interpolation.fastSlow
+            this.duration = DEAD_ANIM_DUR / 3
+            this.interpolation = Interpolation.pow2Out
         },
         MoveToAction().apply {
             this.x = this@BirdActor.x
-            this.y = -this@BirdActor.height
+            this.y = -200f
             this.duration = DEAD_ANIM_DUR
-            this.interpolation = Interpolation.slowFast
+            this.interpolation = Interpolation.pow2In
         },
         RunnableAction().apply {
             setRunnable {
@@ -43,8 +52,8 @@ class BirdActor : BaseActor() {
     private fun getGameOverAnimation(onAnimEnd: () -> Unit) = SequenceAction(
         MoveToAction().apply {
             this.x = this@BirdActor.x
-            this.y = this@BirdActor.stage.height
-            this.duration = DEAD_ANIM_DUR
+            this.y = this@BirdActor.stage.height * 2
+            this.duration = DEAD_ANIM_DUR * 2
             this.interpolation = Interpolation.linear
         },
         RunnableAction().apply {
@@ -59,7 +68,8 @@ class BirdActor : BaseActor() {
     )
 
     private val movementHelper = BirdMovementHelper(
-        onMovementChanged = ::onMovementChanged
+        onMovementChanged = ::onMovementChanged,
+        gameplayLogic = gameplayLogic
     )
 
     init {
@@ -69,15 +79,20 @@ class BirdActor : BaseActor() {
     override fun onStage() {
         super.onStage()
         setPosition(
-            stage.width / 2 - width / 2,
-            stage.height / 2 - height / 2
+            Random.nextFloat() * (stage.width - width),
+            -height
         )
     }
 
     override fun act(delta: Float) {
         super.act(delta)
+        if (isDead) return
+
+        if (!aboveBorder && y > GameplayStage.getBottomUIBorderSize()) aboveBorder = true
 
         animationHelper.update(delta)
+
+        if (gameplayLogic.onAction(GameplayLogic.ToActions.GetState) is GameplayState.GameOver) return
         movementHelper.update(this, delta)
     }
 
@@ -88,6 +103,22 @@ class BirdActor : BaseActor() {
         } else {
             batch.draw(animationHelper.getFrame(), x, y, width / 2, height / 2, width, height, scaleX, scaleY, rotation)
         }
+    }
+
+    fun onHit() = if (!isDead) {
+        Gdx.app.log(TAG, "Bird hit")
+        isDead = true
+        addAction(getDeadAnimation { remove() })
+        true
+    } else {
+        Gdx.app.log(TAG, "Bird is dead, can't be hit")
+        false
+    }
+
+    fun onGameOver() {
+        Gdx.app.log(TAG, "Bird game over")
+        movementHelper.movementType = BirdMovementType.RightTop()
+        addAction(getGameOverAnimation { remove() })
     }
 
     private fun onMovementChanged(movement: BirdMovementType) {
@@ -104,8 +135,9 @@ class BirdActor : BaseActor() {
 
         private const val FRAME_SIZE = 32
         const val FRAME_DURATION = 0.075f
-        const val BASE_SPEED = 100f
+        const val BASE_SPEED = 90f
+        const val SPEED_PER_ROUND = 10f
         const val MV_ANIM_DUR = 0.25f
-        const val DEAD_ANIM_DUR = 0.7f
+        const val DEAD_ANIM_DUR = 0.75f
     }
 }

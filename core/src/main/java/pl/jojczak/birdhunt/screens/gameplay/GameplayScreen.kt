@@ -15,19 +15,24 @@ class GameplayScreen(
     mainActionReceiver = mainActionReceiver,
     backgroundStage = backgroundStage
 ) {
-    private val gameplayStage = GameplayStage()
-    private val gameplayUIStage = GameplayUIStage()
+    private val gameplayLogic = GameplayLogicImpl(::onAction)
+    private val gameplayStage = GameplayStage(gameplayLogic)
+    private val gameplayUIStage = GameplayUIStage(gameplayLogic)
 
     override fun show() {
         Gdx.app.log(TAG, "show gameplay screen")
         super.show()
         Gdx.input.inputProcessor = gameplayUIStage
+        sPenHelperInstance.addEventListener(gameplayLogic)
+        gameplayLogic.addActionsListener(gameplayStage)
         gameplayStage.fadeIn()
         gameplayUIStage.fadeIn()
     }
 
     override fun render(delta: Float) {
         super.render(delta)
+
+        gameplayLogic.act(delta)
 
         gameplayStage.act(delta)
         gameplayStage.draw()
@@ -47,7 +52,7 @@ class GameplayScreen(
         Gdx.app.log(TAG, "onAction: $action")
 
         when (action) {
-            is GameplayScreenAction.Exit -> {
+            is GameplayScreenAction.NavigateToMainMenu -> {
                 gameplayStage.fadeOut()
                 gameplayUIStage.fadeOut {
                     mainActionReceiver(MainAction.NavigateToMainMenu)
@@ -58,6 +63,8 @@ class GameplayScreen(
 
     override fun dispose() {
         Gdx.app.log(TAG, "dispose GameplayScreen")
+        gameplayLogic.removeActionsListener(gameplayStage)
+        sPenHelperInstance.removeEventListener(gameplayLogic)
         gameplayStage.dispose()
         gameplayUIStage.dispose()
         super.dispose()

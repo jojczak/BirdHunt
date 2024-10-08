@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.I18NBundle
 import pl.jojczak.birdhunt.assetsloader.Asset.Companion.FONT_75
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 
 class HitWindow(
     i18N: I18NBundle,
@@ -13,16 +14,19 @@ class HitWindow(
     i18N.get("game_label_hit"),
     skin,
     "dark"
-) {
-    private var hit = 0
-        set(value) {
-            field = value
-            hitLabel.setText("$hit")
-        }
-
-    private val hitLabel = Label("0", skin, FONT_75, Color.WHITE)
+), GameplayLogic.FromActions {
+    private val hitLabel = Label(
+        "${GameplayLogic.DEF_HIT}/${GameplayLogic.HITS_PER_ROUND}",
+        skin,
+        FONT_75,
+        Color.WHITE
+    )
 
     init {
         add(hitLabel)
+    }
+
+    override fun hitUpdated(hit: Int) {
+        hitLabel.setText("$hit/${GameplayLogic.HITS_PER_ROUND}")
     }
 }

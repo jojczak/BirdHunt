@@ -6,17 +6,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.ui.Window
 import com.badlogic.gdx.utils.I18NBundle
 import pl.jojczak.birdhunt.base.BaseTable
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
+import pl.jojczak.birdhunt.screens.gameplay.GameplayState
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.GameplayUIAction
 import pl.jojczak.birdhunt.utils.ButtonListener
 
 class PauseWindow(
     i18N: I18NBundle,
     skin: Skin,
-    private val gameplayUIActionReceiver: (action: GameplayUIAction) -> Unit
-) : BaseTable() {
+    private val gameplayUIActionReceiver: (action: GameplayUIAction) -> Unit,
+    private val gameplayLogic: GameplayLogic
+) : BaseTable(), GameplayLogic.FromActions {
     private val resumeButton = TextButton(i18N.get("pause_resume"), skin).also { rB ->
         rB.addListener(ButtonListener { _, _ ->
-            fadeOut {  }
+            fadeOut {
+                gameplayLogic.onAction(GameplayLogic.ToActions.ResumeGame)
+            }
         })
     }
     private val settingsButton = TextButton(i18N.get("bt_settings"), skin).also { sB ->
@@ -26,8 +31,8 @@ class PauseWindow(
     }
     private val exitButton = TextButton(i18N.get("exit_bt"), skin).also { eB ->
         eB.addListener(ButtonListener { _, _ ->
+            gameplayLogic.onAction(GameplayLogic.ToActions.ExitGame)
             eB.isDisabled = true
-
         })
     }
 
@@ -45,6 +50,24 @@ class PauseWindow(
         setFillParent(true)
         center()
         add(window)
+    }
+
+    override fun pauseStateUpdated(paused: Boolean) {
+        if (paused) {
+            fadeIn()
+        } else {
+            hide()
+        }
+    }
+
+    override fun restartGame() {
+        hide()
+    }
+
+    override fun gameplayStateUpdate(state: GameplayState) {
+        if (state is GameplayState.GameOver) {
+            hide()
+        }
     }
 
     companion object {

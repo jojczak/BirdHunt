@@ -51,6 +51,16 @@ abstract class BaseTable : Table() {
         )
     }
 
+    fun hide() {
+        isVisible = false
+        color.a = 0f
+    }
+
+    fun show() {
+        isVisible = true
+        color.a = 1f
+    }
+
     companion object {
         private const val FADE_DURATION = 0.20f
     }
