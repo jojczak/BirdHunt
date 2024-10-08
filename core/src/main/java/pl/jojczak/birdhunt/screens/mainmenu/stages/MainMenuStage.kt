@@ -1,11 +1,15 @@
 package pl.jojczak.birdhunt.screens.mainmenu.stages
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.base.BaseUIStage
 import pl.jojczak.birdhunt.screens.mainmenu.MainMenuScreenAction
 import pl.jojczak.birdhunt.utils.ButtonListener
+import pl.jojczak.birdhunt.utils.appVersion
 
 class MainMenuStage(
     private val screenActionReceiver: (action: MainMenuScreenAction) -> Unit
@@ -31,6 +35,15 @@ class MainMenuStage(
         })
     }
 
+    private val infoLabel = Label(
+        i18N.format("main_menu_info", appVersion),
+        skin,
+        Asset.FONT_46_BORDERED,
+        Color.WHITE
+    ).also { iL ->
+        iL.setPosition(ROW_PAD, ROW_PAD)
+    }
+
     private val containerTable = Table().also { cT ->
         cT.setFillParent(true)
         cT.center()
@@ -43,6 +56,7 @@ class MainMenuStage(
     init {
         Gdx.app.log(TAG, "init MainMenuStage")
         addActor(containerTable)
+        addActor(infoLabel)
     }
 
     companion object {

@@ -19,6 +19,7 @@ enum class Asset {
 
     companion object {
         const val FONT_46 = "PixelifySans-46"
+        const val FONT_46_BORDERED = "PixelifySans-46-bordered"
         const val FONT_75 = "PixelifySans-75"
         const val FONT_75_BORDERED = "PixelifySans-75-bordered"
         const val FONT_180_BORDERED = "PixelifySans-180-bordered"
