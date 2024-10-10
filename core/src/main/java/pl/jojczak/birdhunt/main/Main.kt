@@ -10,9 +10,11 @@ import pl.jojczak.birdhunt.screens.mainmenu.MainMenuScreen
 import pl.jojczak.birdhunt.screens.settings.SettingsScreen
 import pl.jojczak.birdhunt.stages.background.BackgroundStage
 import pl.jojczak.birdhunt.utils.SPenHelper
+import pl.jojczak.birdhunt.utils.SoundManager
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 class Main : Game() {
+    private lateinit var soundManager: SoundManager
     private var backgroundStage: BackgroundStage? = null
 
     override fun create() {
@@ -27,11 +29,15 @@ class Main : Game() {
         Gdx.app.log(TAG, "Action received: $action")
 
         when (action) {
-            MainAction.SetupBackgroundStage -> {
-                backgroundStage = BackgroundStage().apply {
+            is MainAction.LoadingFinished -> {
+                backgroundStage = action.bgStage
+                soundManager = action.soundManager
+
+                backgroundStage?.apply {
                     fadeIn()
                     onResize(Gdx.graphics.width, Gdx.graphics.height)
                 }
+                onAction(MainAction.NavigateToMainMenu)
             }
 
             MainAction.NavigateToMainMenu -> {
@@ -41,7 +47,7 @@ class Main : Game() {
 
             MainAction.NavigateToGameplay -> {
                 getScreen().dispose()
-                setScreen(GameplayScreen(::onAction, backgroundStage))
+                setScreen(GameplayScreen(::onAction, backgroundStage, soundManager))
             }
 
             MainAction.NavigateToSettings -> {

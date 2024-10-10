@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.HITS_PER_ROUND
 import pl.jojczak.birdhunt.utils.SPenHelper
+import pl.jojczak.birdhunt.utils.SoundManager
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 interface GameplayLogic {
@@ -56,6 +57,7 @@ interface GameplayLogic {
 }
 
 class GameplayLogicImpl(
+    private val soundManager: SoundManager,
     private val gameplayScreenActionReceiver: (action: GameplayScreenAction) -> Unit
 ) : GameplayLogic, SPenHelper.EventListener, Actor() {
     private val actionsListeners = mutableListOf<GameplayLogic.FromActions>()
@@ -83,6 +85,7 @@ class GameplayLogicImpl(
     private var gameplayState: GameplayState = GameplayState.Init()
         set(value) {
             field = value
+            if (value is GameplayState.GameOver) soundManager.play(SoundManager.Sound.GAME_OVER)
             notifyActionsListeners { gameplayStateUpdate(value) }
         }
 
@@ -90,12 +93,14 @@ class GameplayLogicImpl(
 
     init {
         sPenHelperInstance.registerSPenEvents()
+        onAction(GameplayLogic.ToActions.RestartGame)
     }
 
     override fun act(delta: Float) {
+        if (gameplayState.paused) return
+
         super.act(delta)
 
-        if (gameplayState.paused) return
         when (gameplayState) {
             is GameplayState.Init -> actInit(gameplayState as GameplayState.Init, delta)
             is GameplayState.Playing -> actPlaying(gameplayState as GameplayState.Playing, delta)
@@ -127,12 +132,14 @@ class GameplayLogicImpl(
         when (action) {
             is GameplayLogic.ToActions.Shot -> {
                 if (anyBirdsInAir && !gameplayState.paused && gameplayState is GameplayState.Playing) {
+                    soundManager.play(SoundManager.Sound.GUN_SHOT)
                     shots--
                     notifyActionsListeners { shot() }
                 }
             }
 
             is GameplayLogic.ToActions.BirdHit -> {
+                soundManager.play(SoundManager.Sound.BIRD_FALLING)
                 points += GameplayLogic.POINTS_PER_HIT * round
                 hit++
             }
@@ -153,6 +160,7 @@ class GameplayLogicImpl(
             is GameplayLogic.ToActions.AllBirdsRemoved -> {
                 if (gameplayState is GameplayState.Playing) {
                     if (hit >= HITS_PER_ROUND) {
+                        soundManager.play(SoundManager.Sound.LVL_UP)
                         round++
                         delayAction(2f) {
                             hit = GameplayLogic.DEF_HIT
@@ -181,6 +189,7 @@ class GameplayLogicImpl(
 
             is GameplayLogic.ToActions.ResumeGame -> {
                 notifyActionsListeners { pauseStateUpdated(false) }
+                soundManager.reloadPrefs()
                 gameplayState.paused = false
             }
 
@@ -192,6 +201,8 @@ class GameplayLogicImpl(
                 round = GameplayLogic.DEF_ROUND
                 notifyActionsListeners { restartGame() }
                 notifyActionsListeners { displayWarning(null) }
+                soundManager.reloadPrefs()
+                soundManager.play(SoundManager.Sound.START_COUNTDOWN)
             }
 
             is GameplayLogic.ToActions.ExitGame -> {
@@ -204,6 +215,7 @@ class GameplayLogicImpl(
     }
 
     private fun spawnBirdsAndResetShots() {
+        soundManager.play(SoundManager.Sound.GUN_RELOAD)
         shots = GameplayLogic.DEF_SHOTS
         when (round) {
             in 0..5 -> {
@@ -217,6 +229,9 @@ class GameplayLogicImpl(
             else -> {
                 notifyActionsListeners { spawnBird(3) }
             }
+        }
+        delayAction(0.5f) {
+            soundManager.play(SoundManager.Sound.BIRD_FLYING)
         }
         anyBirdsInAir = true
     }

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseScreen
 import pl.jojczak.birdhunt.main.MainAction
+import pl.jojczak.birdhunt.stages.background.BackgroundStage
+import pl.jojczak.birdhunt.utils.SoundManager
 
 class LoadingScreen(
     mainActionReceiver: (action: MainAction) -> Unit
@@ -24,8 +26,13 @@ class LoadingScreen(
         Gdx.app.log(TAG, "render, loading progress: ${AssetsLoader.progress()}")
 
         if (AssetsLoader.finished()) {
-            mainActionReceiver(MainAction.SetupBackgroundStage)
-            mainActionReceiver(MainAction.NavigateToMainMenu)
+            val bgStage = BackgroundStage()
+            val soundManager = SoundManager()
+
+            mainActionReceiver(MainAction.LoadingFinished(
+                bgStage = bgStage,
+                soundManager = soundManager
+            ))
         }
     }
 

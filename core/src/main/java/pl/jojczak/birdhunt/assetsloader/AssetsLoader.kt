@@ -3,6 +3,7 @@ package pl.jojczak.birdhunt.assetsloader
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.I18NBundleLoader.I18NBundleParameter
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.I18NBundle
@@ -60,21 +61,28 @@ object AssetsLoader {
     }
 
     private val assets = mapOf(
-        Asset.I18N              to      Pair("i18n/texts",                  I18NBundle::class.java),
-        Asset.UI_SKIN           to      Pair("jjPixelUI/jj_pixel_ui.json",  Skin::class.java),
-        Asset.UI_BULLET         to      Pair("bullet_ui.png",               Texture::class.java),
-        Asset.UI_S_PEN          to      Pair("spen_conn_icon.png",          Texture::class.java),
-        Asset.TX_LOGO           to      Pair("logo.png",                    Texture::class.java),
-        Asset.TX_BIRD           to      Pair("bird.png",                    Texture::class.java),
-        Asset.TX_SCOPE          to      Pair("scope.png",                   Texture::class.java),
-        Asset.TX_SHOTGUN        to      Pair("shotgun.png",                 Texture::class.java),
-        Asset.TX_BULLET         to      Pair("bullet.png",                  Texture::class.java),
-        Asset.TX_BG_FAR_LANDS   to      Pair("farlands.png",                Texture::class.java),
-        Asset.TX_BG_FAR_LANDS_2 to      Pair("farlands2.png",               Texture::class.java),
-        Asset.TX_BG_MOUNTAIN    to      Pair("mountain.png",                Texture::class.java),
-        Asset.TX_BG_FOG         to      Pair("fog.png",                     Texture::class.java),
-        Asset.TX_BG_CLOUDS      to      Pair("clouds.png",                  Texture::class.java),
-        Asset.TX_BG_GRASS       to      Pair("grass.png",                   Texture::class.java),
+        Asset.I18N                  to      Pair("i18n/texts",                  I18NBundle::class.java),
+        Asset.UI_SKIN               to      Pair("jjPixelUI/JJPixelUI.json",    Skin::class.java),
+        Asset.UI_BULLET             to      Pair("bullet_ui.png",               Texture::class.java),
+        Asset.UI_S_PEN              to      Pair("spen_conn_icon.png",          Texture::class.java),
+        Asset.TX_LOGO               to      Pair("logo.png",                    Texture::class.java),
+        Asset.TX_BIRD               to      Pair("bird.png",                    Texture::class.java),
+        Asset.TX_SCOPE              to      Pair("scope.png",                   Texture::class.java),
+        Asset.TX_SHOTGUN            to      Pair("shotgun.png",                 Texture::class.java),
+        Asset.TX_BULLET             to      Pair("bullet.png",                  Texture::class.java),
+        Asset.TX_BG_FAR_LANDS       to      Pair("farlands.png",                Texture::class.java),
+        Asset.TX_BG_FAR_LANDS_2     to      Pair("farlands2.png",               Texture::class.java),
+        Asset.TX_BG_MOUNTAIN        to      Pair("mountain.png",                Texture::class.java),
+        Asset.TX_BG_FOG             to      Pair("fog.png",                     Texture::class.java),
+        Asset.TX_BG_CLOUDS          to      Pair("clouds.png",                  Texture::class.java),
+        Asset.TX_BG_GRASS           to      Pair("grass.png",                   Texture::class.java),
+        Asset.SN_START_COUNTDOWN    to      Pair("sounds/start_countdown.mp3",  Sound::class.java),
+        Asset.SN_GUN_SHOT           to      Pair("sounds/gun_shot.mp3",         Sound::class.java),
+        Asset.SN_GUN_RELOAD         to      Pair("sounds/gun_reload.mp3",       Sound::class.java),
+        Asset.SN_BIRD_FALLING       to      Pair("sounds/bird_falling.mp3",     Sound::class.java),
+        Asset.SN_BIRD_FLYING        to      Pair("sounds/bird_flying.mp3",      Sound::class.java),
+        Asset.SN_LVL_UP             to      Pair("sounds/lvl_up.mp3",           Sound::class.java),
+        Asset.SN_GAME_OVER          to      Pair("sounds/game_over.mp3",        Sound::class.java),
     )
 
     private class UnfinishedAssetLoadingException : RuntimeException()

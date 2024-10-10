@@ -11,7 +11,6 @@ import pl.jojczak.birdhunt.screens.gameplay.GameplayState
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.GameplayStage
 import pl.jojczak.birdhunt.utils.PREF_NAME
 import pl.jojczak.birdhunt.utils.PREF_SENSITIVITY
-import pl.jojczak.birdhunt.utils.PREF_SENSITIVITY_DEFAULT
 import pl.jojczak.birdhunt.utils.SPenHelper
 
 class ScopeActor(
@@ -68,7 +67,7 @@ class ScopeActor(
     }
 
     fun reloadPreferences() {
-        sensitivity = preferences.getFloat(PREF_SENSITIVITY, PREF_SENSITIVITY_DEFAULT)
+        sensitivity = PREF_SENSITIVITY.getFloat(preferences)
     }
 
     companion object {

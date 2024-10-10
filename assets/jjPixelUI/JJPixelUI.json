@@ -59,6 +59,16 @@
 		"disabled": "button_disabled"
 	}
 },
+"com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle": {
+	"default": {
+		"checkboxOn": "checkbox_on",
+		"checkboxOff": "checkbox_off",
+		"checkboxOnOver": "checkbox_on_over",
+		"checkboxOver": "checkbox_off_over",
+		"font": "PixelifySans-46",
+		"fontColor": "black"
+	}
+},
 "com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
 	"default": {
 		"parent": "default"

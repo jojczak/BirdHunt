@@ -3,6 +3,7 @@ package pl.jojczak.birdhunt.screens.settings.stages
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Slider
 import com.badlogic.gdx.scenes.scene2d.ui.Table
@@ -15,7 +16,7 @@ import pl.jojczak.birdhunt.screens.settings.SettingsScreenAction
 import pl.jojczak.birdhunt.utils.ButtonListener
 import pl.jojczak.birdhunt.utils.PREF_NAME
 import pl.jojczak.birdhunt.utils.PREF_SENSITIVITY
-import pl.jojczak.birdhunt.utils.PREF_SENSITIVITY_DEFAULT
+import pl.jojczak.birdhunt.utils.PREF_SOUND
 import java.util.Locale
 
 class SettingsStage(
@@ -29,12 +30,20 @@ class SettingsStage(
         sS.addListener(SliderChangeListener())
     }
 
+    private val soundCheckBox = CheckBox(i18N.get("settings_sound_checkbox"), skin).also { sCB ->
+        sCB.addListener(ButtonListener { _, _ ->
+            PREF_SOUND.putBoolean(preferences, sCB.isChecked)
+        })
+    }
+
     private val settingsWindow = Window(i18N.get("pause_title"), skin).also { sW ->
         sW.isMovable = false
         sW.isResizable = false
         sW.top()
-        sW.add(sensitivityLabel).left().padTop(SETTINGS_ITEM_PAD).padLeft(SETTINGS_ITEM_PAD / 2).row()
-        sW.add(sensitivitySlider).expandX().padTop(SETTINGS_ITEM_PAD).fillX()
+
+        sW.add(sensitivityLabel).padTop(SETTINGS_ITEM_PAD).padLeft(SETTINGS_ITEM_PAD / 2).left().row()
+        sW.add(sensitivitySlider).expandX().padTop(SETTINGS_ITEM_PAD).fillX().row()
+        sW.add(soundCheckBox).padTop(SETTINGS_ITEM_PAD).padLeft(SETTINGS_ITEM_PAD / 2).left()
     }
 
     private val backButton = TextButton(i18N.get("back_bt"), skin).also { bB ->
@@ -57,7 +66,8 @@ class SettingsStage(
 
     init {
         addActor(container)
-        sensitivitySlider.setValue(preferences.getFloat(PREF_SENSITIVITY, PREF_SENSITIVITY_DEFAULT))
+        sensitivitySlider.setValue(PREF_SENSITIVITY.getFloat(preferences))
+        soundCheckBox.isChecked = PREF_SOUND.getBoolean(preferences)
         updateSensitivityLabel()
     }
 
@@ -73,7 +83,7 @@ class SettingsStage(
     private inner class SliderChangeListener: ChangeListener(){
         override fun changed(event: ChangeEvent?, actor: Actor?) {
             Gdx.app.log(TAG, "Sensitivity changed to ${sensitivitySlider.value}")
-            preferences.putFloat(PREF_SENSITIVITY, sensitivitySlider.value)
+            PREF_SENSITIVITY.putFloat(preferences, sensitivitySlider.value)
             updateSensitivityLabel()
         }
     }

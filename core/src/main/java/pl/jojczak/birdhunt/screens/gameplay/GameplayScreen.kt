@@ -6,16 +6,18 @@ import pl.jojczak.birdhunt.main.MainAction
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.GameplayUIStage
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.GameplayStage
 import pl.jojczak.birdhunt.stages.background.BackgroundStage
+import pl.jojczak.birdhunt.utils.SoundManager
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 class GameplayScreen(
     mainActionReceiver: (action: MainAction) -> Unit,
-    backgroundStage: BackgroundStage?
+    backgroundStage: BackgroundStage?,
+    soundManager: SoundManager
 ) : BaseScreen<GameplayScreenAction>(
     mainActionReceiver = mainActionReceiver,
     backgroundStage = backgroundStage
 ) {
-    private val gameplayLogic = GameplayLogicImpl(::onAction)
+    private val gameplayLogic = GameplayLogicImpl(soundManager, ::onAction)
     private val gameplayStage = GameplayStage(gameplayLogic)
     private val gameplayUIStage = GameplayUIStage(gameplayLogic)
 

@@ -15,7 +15,14 @@ enum class Asset {
     TX_BG_MOUNTAIN,
     TX_BG_FOG,
     TX_BG_CLOUDS,
-    TX_BG_GRASS;
+    TX_BG_GRASS,
+    SN_START_COUNTDOWN,
+    SN_GUN_SHOT,
+    SN_GUN_RELOAD,
+    SN_BIRD_FALLING,
+    SN_BIRD_FLYING,
+    SN_LVL_UP,
+    SN_GAME_OVER;
 
     companion object {
         const val FONT_46 = "PixelifySans-46"
