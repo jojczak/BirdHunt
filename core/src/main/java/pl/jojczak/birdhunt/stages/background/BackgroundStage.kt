@@ -5,15 +5,18 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.ScreenUtils
+import com.badlogic.gdx.utils.viewport.ExtendViewport
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseStage
-import pl.jojczak.birdhunt.stages.background.actors.MovableBackgroundActor
 import pl.jojczak.birdhunt.stages.background.actors.BackgroundActor
+import pl.jojczak.birdhunt.stages.background.actors.MovableBackgroundActor
 import pl.jojczak.birdhunt.utils.InsetsHelper
 import pl.jojczak.birdhunt.utils.insetsHelperInstance
 
-class BackgroundStage : BaseStage() {
+class BackgroundStage : BaseStage(
+    viewport = ExtendViewport(200F, 250f)
+) {
     private val fog1 = Image(AssetsLoader.get<Texture>(Asset.TX_BG_FOG))
     private val fog2 = Image(AssetsLoader.get<Texture>(Asset.TX_BG_FOG))
 
@@ -26,13 +29,13 @@ class BackgroundStage : BaseStage() {
     private val farLands2 = MovableBackgroundActor(
         textureAsset = Asset.TX_BG_FAR_LANDS_2,
         screenBottom = 100f,
-        downScaleMultiplier = 40f
+        downScaleMultiplier = 30f
     )
 
     private val farLands = MovableBackgroundActor(
         textureAsset = Asset.TX_BG_FAR_LANDS,
         screenBottom = -30f,
-        downScaleMultiplier = 30f
+        downScaleMultiplier = 20f
     )
 
     private val clouds = BackgroundActor(
@@ -80,14 +83,14 @@ class BackgroundStage : BaseStage() {
             if (it == 0f) clouds.isVisible = false
             else {
                 clouds.isVisible = true
-                clouds.y = viewport.worldHeight - it - CLOUDS_PADDING
+                clouds.y = viewport.worldHeight - it - CLOUDS_PADDING + (clouds.height * clouds.scaleY - clouds.height)
             }
         }
         insets.bottom.realToGameSize().let {
             if (it == 0f) grass.isVisible = false
             else {
                 grass.isVisible = true
-                grass.y = -grass.height + it + GRASS_PADDING
+                grass.y = -grass.height + it + GRASS_PADDING - (grass.height * grass.scaleY - grass.height)
             }
         }
 

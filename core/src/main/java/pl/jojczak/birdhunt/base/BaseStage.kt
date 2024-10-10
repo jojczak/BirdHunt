@@ -110,7 +110,7 @@ abstract class BaseStage(
         val WORLD_HEIGHT = if (Gdx.app.type == Application.ApplicationType.Android) {
             200f
         } else {
-            320f
+            200F//320f
         }
 
         private const val FADE_DURATION = 0.20f

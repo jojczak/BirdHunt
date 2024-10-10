@@ -30,10 +30,6 @@ abstract class BaseUIStage : BaseStage(
         }
     }
 
-    protected fun Number.uiToGameSize(): Float {
-        return this.toFloat() * WORLD_WIDTH / BaseStage.WORLD_WIDTH
-    }
-
     override fun dispose() {
         insetsHelperInstance.removeOnInsetsChangedListener(onInsetsChanged)
         super.dispose()
@@ -44,7 +40,7 @@ abstract class BaseUIStage : BaseStage(
         val WORLD_HEIGHT = if (Gdx.app.type == Application.ApplicationType.Android) {
             1080f
         } else {
-            1728f //1920f
+            1080f //1728f //1920f
         }
     }
 }
