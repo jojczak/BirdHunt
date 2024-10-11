@@ -2,6 +2,7 @@ package pl.jojczak.birdhunt.main
 
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input.Keys
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.screens.about.AboutScreen
 import pl.jojczak.birdhunt.screens.gameplay.GameplayScreen
@@ -20,6 +21,8 @@ class Main(
     private var backgroundStage: BackgroundStage? = null
 
     override fun create() {
+        Gdx.input.setCatchKey(Keys.BACK, true)
+
         if (sPenHelperInstance.implType == SPenHelper.ImplType.DESKTOP) {
             sPenHelperInstance.connect({}, {})
         }

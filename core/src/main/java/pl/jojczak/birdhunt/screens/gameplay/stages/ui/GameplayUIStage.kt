@@ -1,6 +1,7 @@
 package pl.jojczak.birdhunt.screens.gameplay.stages.ui
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import pl.jojczak.birdhunt.base.BaseUIStage
@@ -125,6 +126,13 @@ class GameplayUIStage(
         )
         super.dispose()
     }
+
+    override fun keyDown(keyCode: Int) = if (keyCode == Keys.BACK) {
+        val state = gameplayLogic.onAction(GameplayLogic.ToActions.GetState)
+        if (state.paused) gameplayLogic.onAction(GameplayLogic.ToActions.ResumeGame)
+        else gameplayLogic.onAction(GameplayLogic.ToActions.PauseGame)
+        true
+    } else super.keyDown(keyCode)
 
     companion object {
         @Suppress("unused")

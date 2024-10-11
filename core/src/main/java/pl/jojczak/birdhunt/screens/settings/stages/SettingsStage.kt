@@ -1,6 +1,7 @@
 package pl.jojczak.birdhunt.screens.settings.stages
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
@@ -87,6 +88,11 @@ class SettingsStage(
             updateSensitivityLabel()
         }
     }
+
+    override fun keyDown(keyCode: Int) = if (keyCode == Keys.BACK) {
+        settingsScreenActionReceiver(SettingsScreenAction.NavigateToMainMenu)
+        true
+    } else super.keyDown(keyCode)
 
     companion object {
         private const val TAG = "SettingsStage"

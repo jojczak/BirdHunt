@@ -1,6 +1,7 @@
 package pl.jojczak.birdhunt.screens.about.stages
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.InputEvent
@@ -79,6 +80,11 @@ class AboutStage(
             l.wrap = true
         }
     }
+
+    override fun keyDown(keyCode: Int) = if (keyCode == Keys.BACK) {
+        aboutScreenActionReceiver(AboutScreenAction.NavigateToMainMenu)
+        true
+    } else super.keyDown(keyCode)
 
     companion object {
         @Suppress("unused")

@@ -3,6 +3,8 @@ package pl.jojczak.birdhunt.stages.background
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.scenes.scene2d.actions.ColorAction
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.ScreenUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
@@ -18,6 +20,11 @@ import pl.jojczak.birdhunt.utils.realToStage
 class BackgroundStage : BaseStage(
     viewport = ExtendViewport(200F, 250f)
 ) {
+    private val colorMorning = Color.valueOf("#767cbf")
+    private val colorDay = Color.valueOf("#5dbce2")
+    private val colorEvening = Color.valueOf("#a14a87")
+    private val colorNight = Color.valueOf("#001322")
+
     private val fog1 = Image(AssetsLoader.get<Texture>(Asset.TX_BG_FOG))
     private val fog2 = Image(AssetsLoader.get<Texture>(Asset.TX_BG_FOG))
 
@@ -47,6 +54,31 @@ class BackgroundStage : BaseStage(
         onResize(Gdx.graphics.width, Gdx.graphics.height)
     }
 
+    private var backgroundColor = colorDay.cpy()
+
+    private val dayCycleAction = SequenceAction(
+        ColorAction().apply {
+            color = backgroundColor
+            endColor = colorDay
+            duration = DAY_CYCLE_DURATION
+        },
+        ColorAction().apply {
+            color = backgroundColor
+            endColor = colorEvening
+            duration = DAY_CYCLE_DURATION
+        },
+        ColorAction().apply {
+            color = backgroundColor
+            endColor = colorNight
+            duration = DAY_CYCLE_DURATION
+        },
+        ColorAction().apply {
+            color = backgroundColor
+            endColor = colorMorning
+            duration = DAY_CYCLE_DURATION
+        },
+    )
+
     init {
         insetsHelperInstance.addOnInsetsChangedListener(onInsetsChanged)
         addActor(mountains)
@@ -55,15 +87,21 @@ class BackgroundStage : BaseStage(
         addActor(fog2)
         addActor(farLands)
         addActor(clouds)
+        addAction(dayCycleAction)
     }
 
     override fun draw() {
-        ScreenUtils.clear(Color.SKY)
+        ScreenUtils.clear(backgroundColor)
         super.draw()
     }
 
     override fun act(delta: Float) {
         super.act(delta)
+
+        if (!root.actions.contains(dayCycleAction)) {
+            dayCycleAction.restart()
+            addAction(dayCycleAction)
+        }
 
         fog1.x -= FOG_SPEED * delta
         fog2.x += FOG_SPEED * delta
@@ -112,5 +150,6 @@ class BackgroundStage : BaseStage(
 
         private const val FOG_SPEED = 20f
         private const val CLOUDS_PADDING = 3f
+        private const val DAY_CYCLE_DURATION = 20f
     }
 }
