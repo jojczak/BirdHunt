@@ -3,7 +3,6 @@ package pl.jojczak.birdhunt.screens.mainmenu.stages
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
@@ -15,12 +14,15 @@ import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseUIStage
 import pl.jojczak.birdhunt.screens.mainmenu.MainMenuScreenAction
 import pl.jojczak.birdhunt.utils.ButtonListener
+import pl.jojczak.birdhunt.utils.PREF_HIGH_SCORE
+import pl.jojczak.birdhunt.utils.PREF_NAME
 import pl.jojczak.birdhunt.utils.appVersion
 
 class MainMenuStage(
     private val screenActionReceiver: (action: MainMenuScreenAction) -> Unit
 ) : BaseUIStage() {
     private var orientationVertical: Boolean? = null
+    private val preferences = Gdx.app.getPreferences(PREF_NAME)
 
     private val startGameButton = TextButton(i18N.get("bt_start_game"), skin).also { sgB ->
         sgB.addListener(ButtonListener { _, _ ->
@@ -42,6 +44,13 @@ class MainMenuStage(
             screenActionReceiver(MainMenuScreenAction.NavigateToAbout)
         })
     }
+
+    private val highScoreLabel = Label(
+        i18N.format("main_menu_high_score", PREF_HIGH_SCORE.getInt(preferences)),
+        skin,
+        Asset.FONT_75_BORDERED,
+        Color.WHITE
+    )
 
     private val infoLabel = Label(
         i18N.format("main_menu_info", appVersion),
@@ -104,7 +113,8 @@ class MainMenuStage(
         cT.add(Table().also { bT ->
             bT.add(startGameButton).padBottom(ROW_PAD).row()
             bT.add(settingsButton).padBottom(ROW_PAD).row()
-            bT.add(aboutButton).row()
+            bT.add(aboutButton).padBottom(ROW_PAD).row()
+            bT.add(highScoreLabel).row()
         }).expand().center().padRight(50f)
     }
 
@@ -121,7 +131,8 @@ class MainMenuStage(
             bT.pad(ROW_PAD * 8, 0f, ROW_PAD * 8, 0f)
             bT.add(startGameButton).padBottom(ROW_PAD).row()
             bT.add(settingsButton).padBottom(ROW_PAD).row()
-            bT.add(aboutButton).row()
+            bT.add(aboutButton).padBottom(ROW_PAD).row()
+            bT.add(highScoreLabel).row()
         }).expandY().align(Align.top).row()
 
         cT.add().minHeight(50f).expandY()

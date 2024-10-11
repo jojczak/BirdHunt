@@ -1,10 +1,13 @@
 package pl.jojczak.birdhunt.screens.gameplay
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.HITS_PER_ROUND
+import pl.jojczak.birdhunt.utils.PREF_HIGH_SCORE
+import pl.jojczak.birdhunt.utils.PREF_NAME
 import pl.jojczak.birdhunt.utils.SPenHelper
 import pl.jojczak.birdhunt.utils.SoundManager
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
@@ -61,6 +64,7 @@ class GameplayLogicImpl(
     private val gameplayScreenActionReceiver: (action: GameplayScreenAction) -> Unit
 ) : GameplayLogic, SPenHelper.EventListener, Actor() {
     private val actionsListeners = mutableListOf<GameplayLogic.FromActions>()
+    private val preferences = Gdx.app.getPreferences(PREF_NAME)
 
     private var points = GameplayLogic.DEF_POINTS
         set(value) {
@@ -85,7 +89,10 @@ class GameplayLogicImpl(
     private var gameplayState: GameplayState = GameplayState.Init()
         set(value) {
             field = value
-            if (value is GameplayState.GameOver) soundManager.play(SoundManager.Sound.GAME_OVER)
+            if (value is GameplayState.GameOver) {
+                checkHighScoreAndSave()
+                soundManager.play(SoundManager.Sound.GAME_OVER)
+            }
             notifyActionsListeners { gameplayStateUpdate(value) }
         }
 
@@ -206,6 +213,7 @@ class GameplayLogicImpl(
             }
 
             is GameplayLogic.ToActions.ExitGame -> {
+                checkHighScoreAndSave()
                 gameplayScreenActionReceiver(GameplayScreenAction.NavigateToMainMenu)
             }
         }
@@ -234,6 +242,13 @@ class GameplayLogicImpl(
             soundManager.play(SoundManager.Sound.BIRD_FLYING)
         }
         anyBirdsInAir = true
+    }
+
+    private fun checkHighScoreAndSave() {
+        if (points > PREF_HIGH_SCORE.getInt(preferences)) {
+            PREF_HIGH_SCORE.putInt(preferences, points)
+            preferences.flush()
+        }
     }
 
     private fun delayAction(delay: Float, action: () -> Unit) {
