@@ -63,6 +63,10 @@ class MainMenuScreen(
                     mainActionReceiver(MainAction.NavigateToAbout)
                 }
             }
+
+            MainMenuScreenAction.FirstFrameDrawn -> {
+                mainActionReceiver(MainAction.FirstFrameDrawn)
+            }
         }
     }
 

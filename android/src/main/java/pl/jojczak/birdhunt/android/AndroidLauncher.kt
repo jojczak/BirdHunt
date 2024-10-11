@@ -1,6 +1,7 @@
 package pl.jojczak.birdhunt.android
 
 import android.os.Bundle
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 import pl.jojczak.birdhunt.main.Main
@@ -10,19 +11,23 @@ import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 /** Launches the Android application.  */
 class AndroidLauncher : AndroidApplication() {
+
+    private lateinit var splashScreenHelper: SplashScreenHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        splashScreenHelper = SplashScreenHelper(this, installSplashScreen())
         sPenHelperInstance = SPenHelperAndroidImpl(this)
         insetsHelperInstance = InsetsHelperAndroidImpl(window)
-        appVersion = packageManager.getPackageInfo(packageName, 0).versionName
+        appVersion = packageManager.getPackageInfo(packageName, 0).versionName ?: "0.0"
 
         setView()
     }
 
     private fun setView() = setContentView(
         initializeForView(
-            Main(),
+            Main(splashScreenHelper::startExitAnimation),
             AndroidApplicationConfiguration().apply {
                 useImmersiveMode = false
             }

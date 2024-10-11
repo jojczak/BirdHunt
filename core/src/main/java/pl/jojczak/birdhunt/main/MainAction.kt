@@ -9,6 +9,7 @@ sealed class MainAction {
         val soundManager: SoundManager
     ) : MainAction()
 
+    data object FirstFrameDrawn : MainAction()
     data object NavigateToMainMenu : MainAction()
     data object NavigateToGameplay : MainAction()
     data object NavigateToSettings : MainAction()

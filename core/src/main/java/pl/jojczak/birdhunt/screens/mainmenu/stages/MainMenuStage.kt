@@ -58,11 +58,15 @@ class MainMenuStage(
     }
 
     private var currentTable: Table? = null
-    private var imageCell: Cell<Image>? = null
 
     init {
         Gdx.app.log(TAG, "init MainMenuStage")
         addActor(infoLabel)
+    }
+
+    override fun onFirstFrame() {
+        super.onFirstFrame()
+        screenActionReceiver(MainMenuScreenAction.FirstFrameDrawn)
     }
 
     override fun onResize(scrWidth: Int, scrHeight: Int) {

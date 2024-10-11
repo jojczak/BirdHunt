@@ -13,7 +13,9 @@ import pl.jojczak.birdhunt.utils.SPenHelper
 import pl.jojczak.birdhunt.utils.SoundManager
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
-class Main : Game() {
+class Main(
+    private val onLoadingFinished: () -> Unit
+) : Game() {
     private lateinit var soundManager: SoundManager
     private var backgroundStage: BackgroundStage? = null
 
@@ -34,10 +36,14 @@ class Main : Game() {
                 soundManager = action.soundManager
 
                 backgroundStage?.apply {
-                    fadeIn()
+                    root.color.a = 1f
                     onResize(Gdx.graphics.width, Gdx.graphics.height)
                 }
                 onAction(MainAction.NavigateToMainMenu)
+            }
+
+            MainAction.FirstFrameDrawn -> {
+                onLoadingFinished()
             }
 
             MainAction.NavigateToMainMenu -> {

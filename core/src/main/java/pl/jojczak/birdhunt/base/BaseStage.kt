@@ -27,6 +27,8 @@ abstract class BaseStage(
     protected val skin = AssetsLoader.get<Skin>(Asset.UI_SKIN)
     protected val i18N = AssetsLoader.get<I18NBundle>(Asset.I18N)
 
+    private var firstDraw = true
+
     private fun fadeInAction(callback: () -> Unit) = SequenceAction(
         ColorAction().apply {
             this.color = root.color
@@ -60,6 +62,11 @@ abstract class BaseStage(
     override fun draw() {
         viewport.apply()
         super.draw()
+
+        if (firstDraw) {
+            firstDraw = false
+            onFirstFrame()
+        }
     }
 
     fun fadeIn(callback: () -> Unit = {}) {
@@ -73,6 +80,8 @@ abstract class BaseStage(
     protected fun Number.realToGameSize(): Float {
         return this@BaseStage.viewport.unproject(Vector2(this.toFloat(), 0f)).x
     }
+
+    open fun onFirstFrame() = Unit
 
     open fun onResize(scrWidth: Int, scrHeight: Int) {
         viewport.update(scrWidth, scrHeight, true)

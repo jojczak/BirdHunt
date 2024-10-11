@@ -1,12 +1,19 @@
 <resources>
     <style name="GdxTheme" parent="android:Theme">
+        <!-- libGDX defaults -->
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
+
+        <!-- Window insets -->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLayoutInDisplayCutoutMode">always</item>
+
+        <!-- Splashscreen -->
+        <item name="android:windowSplashScreenBrandingImage">@drawable/splash_branding</item>
+        <item name="android:windowSplashScreenBackground">#000000</item>
     </style>
 </resources>
