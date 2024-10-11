@@ -1,19 +1,20 @@
 package pl.jojczak.birdhunt.screens.gameplay.stages.world
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import pl.jojczak.birdhunt.base.BaseStage
-import pl.jojczak.birdhunt.base.BaseUIStage
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.GameplayState
-import pl.jojczak.birdhunt.screens.gameplay.stages.ui.GameplayUIStage
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.BulletActor
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.ScopeActor
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.birdactor.BirdActor
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.shotgunactor.ShotgunActor
+import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.utils.realToStage
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 class GameplayStage(
@@ -22,6 +23,12 @@ class GameplayStage(
     private val uiBackground = Image(createUIBackground())
     private val scopeActor = ScopeActor(gameplayLogic)
     private val shotgunActor = ShotgunActor()
+
+    var bottomUISize = 0f
+        set(value) {
+            field = value.realToStage(this) + insetsHelperInstance.lastInsets.bottom.realToStage(this)
+            onResize(Gdx.graphics.width, Gdx.graphics.height)
+        }
 
     init {
         sPenHelperInstance.addEventListener(scopeActor)
@@ -48,6 +55,7 @@ class GameplayStage(
 
     override fun spawnBird(howMany: Int) = repeat(howMany) {
         BirdActor(gameplayLogic).also { bird ->
+            bird.bottomUISize = bottomUISize
             addActor(bird)
             bird.toBack()
         }
@@ -110,14 +118,14 @@ class GameplayStage(
 
     override fun onResize(scrWidth: Int, scrHeight: Int) {
         super.onResize(scrWidth, scrHeight)
-        uiBackground.setSize(width, getBottomUIBorderSize())
+
+        uiBackground.setSize(width, bottomUISize)
+        scopeActor.bottomUISize = bottomUISize
+        actors.filterIsInstance<BirdActor>().forEach { it.bottomUISize = bottomUISize }
     }
 
     companion object {
         @Suppress("unused")
         private const val TAG = "GameplayStage"
-
-        fun getBottomUIBorderSize() = (GameplayUIStage.PAD * 2 + GameplayUIStage.CELL_SIZE) *
-            (WORLD_WIDTH / BaseUIStage.WORLD_WIDTH)
     }
 }

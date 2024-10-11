@@ -13,6 +13,7 @@ import pl.jojczak.birdhunt.stages.background.actors.BackgroundActor
 import pl.jojczak.birdhunt.stages.background.actors.MovableBackgroundActor
 import pl.jojczak.birdhunt.utils.InsetsHelper
 import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.utils.realToStage
 
 class BackgroundStage : BaseStage(
     viewport = ExtendViewport(200F, 250f)
@@ -42,10 +43,6 @@ class BackgroundStage : BaseStage(
         textureAsset = Asset.TX_BG_CLOUDS
     )
 
-    private val grass = BackgroundActor(
-        textureAsset = Asset.TX_BG_GRASS
-    )
-
     private val onInsetsChanged = InsetsHelper.OnInsetsChangedListener { _ ->
         onResize(Gdx.graphics.width, Gdx.graphics.height)
     }
@@ -58,7 +55,6 @@ class BackgroundStage : BaseStage(
         addActor(fog2)
         addActor(farLands)
         addActor(clouds)
-        addActor(grass)
     }
 
     override fun draw() {
@@ -79,18 +75,11 @@ class BackgroundStage : BaseStage(
         super.onResize(scrWidth, scrHeight)
 
         val insets = insetsHelperInstance.lastInsets
-        insets.top.realToGameSize().let {
+        insets.top.realToStage(this).let {
             if (it == 0f) clouds.isVisible = false
             else {
                 clouds.isVisible = true
-                clouds.y = viewport.worldHeight - it - CLOUDS_PADDING + (clouds.height * clouds.scaleY - clouds.height)
-            }
-        }
-        insets.bottom.realToGameSize().let {
-            if (it == 0f) grass.isVisible = false
-            else {
-                grass.isVisible = true
-                grass.y = -grass.height + it + GRASS_PADDING - (grass.height * grass.scaleY - grass.height)
+                clouds.y = viewport.worldHeight - it - CLOUDS_PADDING + (clouds.height * clouds.scaleY - clouds.height) / 2
             }
         }
 
@@ -123,6 +112,5 @@ class BackgroundStage : BaseStage(
 
         private const val FOG_SPEED = 20f
         private const val CLOUDS_PADDING = 3f
-        private const val GRASS_PADDING = 2f
     }
 }

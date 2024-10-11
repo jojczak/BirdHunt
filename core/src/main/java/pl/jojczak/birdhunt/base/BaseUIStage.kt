@@ -1,6 +1,5 @@
 package pl.jojczak.birdhunt.base
 
-import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import pl.jojczak.birdhunt.utils.InsetsHelper
@@ -37,10 +36,6 @@ abstract class BaseUIStage : BaseStage(
 
     companion object {
         const val WORLD_WIDTH = 1080f
-        val WORLD_HEIGHT = if (Gdx.app.type == Application.ApplicationType.Android) {
-            1080f
-        } else {
-            1080f //1728f //1920f
-        }
+        const val WORLD_HEIGHT = 1080f
     }
 }

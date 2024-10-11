@@ -10,6 +10,7 @@ import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
 import pl.jojczak.birdhunt.utils.InsetsHelper
 import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.utils.realToStage
 import kotlin.math.atan2
 
 class ShotgunActor : BaseActor(), InsetsHelper.OnInsetsChangedListener {
@@ -64,13 +65,9 @@ class ShotgunActor : BaseActor(), InsetsHelper.OnInsetsChangedListener {
     }
 
     private fun centerOnScreen() {
-        val bottomPadding = insetsHelperInstance.lastInsets.bottom.toGameSize()
-
-        if (isStage) {
-            setPosition(
-                stage.width / 2,
-                bottomPadding
-            )
+        if (hasParent()) {
+            val bottomPadding = insetsHelperInstance.lastInsets.bottom.realToStage(stage)
+            setPosition(stage.width / 2, bottomPadding)
         }
     }
 

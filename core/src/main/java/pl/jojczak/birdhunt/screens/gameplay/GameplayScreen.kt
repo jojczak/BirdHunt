@@ -19,7 +19,7 @@ class GameplayScreen(
 ) {
     private val gameplayLogic = GameplayLogicImpl(soundManager, ::onAction)
     private val gameplayStage = GameplayStage(gameplayLogic)
-    private val gameplayUIStage = GameplayUIStage(gameplayLogic)
+    private val gameplayUIStage = GameplayUIStage(gameplayLogic) { gameplayStage.bottomUISize = it }
 
     override fun show() {
         Gdx.app.log(TAG, "show gameplay screen")

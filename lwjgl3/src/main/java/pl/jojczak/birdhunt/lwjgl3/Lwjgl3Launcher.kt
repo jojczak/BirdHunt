@@ -11,7 +11,10 @@ fun main(args: Array<String>) {
     if (StartupHelper.startNewJvmIfRequired()) return  // This handles macOS support and helps on Windows.
     sPenHelperInstance = SPenHelperDesktopImpl()
     insetsHelperInstance = InsetsHelperDesktopImpl()
-    Lwjgl3Application(Main(), defaultConfiguration)
+    Lwjgl3Application(
+        Main( onLoadingFinished = {} ),
+        defaultConfiguration
+    )
 }
 
 private val defaultConfiguration: Lwjgl3ApplicationConfiguration

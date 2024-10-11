@@ -13,7 +13,6 @@ import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.GameplayState
-import pl.jojczak.birdhunt.screens.gameplay.stages.world.GameplayStage
 import kotlin.random.Random
 
 class BirdActor(
@@ -72,6 +71,12 @@ class BirdActor(
         gameplayLogic = gameplayLogic
     )
 
+    var bottomUISize = 0f
+        set(value) {
+            field = value
+            movementHelper.bottomUISize = value
+        }
+
     init {
         setSize(FRAME_SIZE.toFloat(), FRAME_SIZE.toFloat())
     }
@@ -88,7 +93,7 @@ class BirdActor(
         super.act(delta)
         if (isDead) return
 
-        if (!aboveBorder && y > GameplayStage.getBottomUIBorderSize()) aboveBorder = true
+        if (!aboveBorder && y > bottomUISize) aboveBorder = true
 
         animationHelper.update(delta)
 

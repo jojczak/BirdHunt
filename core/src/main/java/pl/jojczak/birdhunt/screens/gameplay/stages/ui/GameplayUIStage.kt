@@ -15,9 +15,11 @@ import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.ShotWindow
 import pl.jojczak.birdhunt.screens.settings.SettingsScreenAction
 import pl.jojczak.birdhunt.screens.settings.stages.SettingsStage
 import pl.jojczak.birdhunt.utils.ButtonListener
+import pl.jojczak.birdhunt.utils.stageToReal
 
 class GameplayUIStage(
-    private val gameplayLogic: GameplayLogic
+    private val gameplayLogic: GameplayLogic,
+    private val onBottomUiResize: (Float) -> Unit
 ) : BaseUIStage() {
     private val scoreWidget = ScoreWidget(i18N, skin)
     private val shotWindow = ShotWindow(i18N, skin)
@@ -106,6 +108,9 @@ class GameplayUIStage(
     override fun onResize(scrWidth: Int, scrHeight: Int) {
         super.onResize(scrWidth, scrHeight)
         settingsStage?.onResize(scrWidth, scrHeight)
+
+        @Suppress("UNNECESSARY_SAFE_CALL")
+        onBottomUiResize?.invoke((CELL_SIZE + PAD * 2).stageToReal(this))
     }
 
     override fun dispose() {

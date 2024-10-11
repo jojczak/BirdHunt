@@ -8,10 +8,11 @@ import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.GameplayState
-import pl.jojczak.birdhunt.screens.gameplay.stages.world.GameplayStage
 import pl.jojczak.birdhunt.utils.PREF_NAME
 import pl.jojczak.birdhunt.utils.PREF_SENSITIVITY
 import pl.jojczak.birdhunt.utils.SPenHelper
+import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.utils.realToStage
 
 class ScopeActor(
     private val gameplayLogic: GameplayLogic
@@ -20,6 +21,8 @@ class ScopeActor(
 
     private val preferences = Gdx.app.getPreferences(PREF_NAME)
     private var sensitivity = 0f
+
+    var bottomUISize = 0f
 
     init {
         reloadPreferences()
@@ -44,10 +47,12 @@ class ScopeActor(
     override fun act(delta: Float) {
         super.act(delta)
         if (hasParent()) {
+            val topInset = insetsHelperInstance.lastInsets.top.realToStage(stage)
+
             if (x < 0f) x = 0f
             if (x > stage.width) x = stage.width
-            if (y < GameplayStage.getBottomUIBorderSize()) y = GameplayStage.getBottomUIBorderSize()
-            if (y > stage.height) y = stage.height
+            if (y < bottomUISize) y = bottomUISize
+            if (y > stage.height - topInset) y = stage.height - topInset
         }
     }
 
