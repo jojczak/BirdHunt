@@ -1,38 +1,66 @@
 package pl.jojczak.birdhunt.utils
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
 
-const val PREF_NAME = "BirdHuntPrefs"
+object Preferences {
+    private const val PREF_NAME = "BirdHuntPrefs"
+    val gdxPreferences: Preferences = Gdx.app.getPreferences(PREF_NAME)
 
-data class Preference<T>(
-    val key: String,
-    val defaultValue: T
-) {
-    fun getInt(preferences: Preferences): Int {
-        return preferences.getInteger(key, defaultValue as Int)
+    val PREF_SENSITIVITY = Preference("sensitivity", 20f)
+    val PREF_SOUND = Preference("sound", true)
+    val PREF_HIGH_SCORE = Preference("highScore", 0)
+    val PREF_GAME_SCALE = Preference("gameScale", 1f)
+
+    private val listeners = mutableMapOf<Preference<*>, MutableList<PreferenceListener<*>>>()
+
+    inline fun <reified T: Any> get(preference: Preference<T>): T {
+        return when (T::class) {
+            Int::class -> gdxPreferences.getInteger(preference.key, preference.defaultValue as Int) as T
+            Float::class -> gdxPreferences.getFloat(preference.key, preference.defaultValue as Float) as T
+            Boolean::class -> gdxPreferences.getBoolean(preference.key, preference.defaultValue as Boolean) as T
+            else -> throw IllegalArgumentException("Unsupported preference type")
+        }
     }
 
-    fun getFloat(preferences: Preferences): Float {
-        return preferences.getFloat(key, defaultValue as Float)
+    inline fun <reified T : Any> put(preference: Preference<T>, value: T) {
+        Gdx.app.log(TAG, "Putting \"${preference.key}\" with value: $value")
+        when (T::class) {
+            Int::class -> gdxPreferences.putInteger(preference.key, value as Int)
+            Float::class -> gdxPreferences.putFloat(preference.key, value as Float)
+            Boolean::class -> gdxPreferences.putBoolean(preference.key, value as Boolean)
+        }
+        notifyListeners(preference, value)
     }
 
-    fun getBoolean(preferences: Preferences): Boolean {
-        return preferences.getBoolean(key, defaultValue as Boolean)
+    fun flush() {
+        gdxPreferences.flush()
     }
 
-    fun putInt(preferences: Preferences, value: Int) {
-        preferences.putInteger(key, value)
+    fun <T : Any> addListener(pref: Preference<T>, listener: PreferenceListener<T>) {
+        if (listeners[pref] == null) { listeners[pref] = mutableListOf() }
+        listeners[pref]?.add(listener)
     }
 
-    fun putFloat(preferences: Preferences, value: Float) {
-        preferences.putFloat(key, value)
+    fun <T : Any> removeListener(pref: Preference<T>, listener: PreferenceListener<T>) {
+        listeners[pref]?.remove(listener)
     }
 
-    fun putBoolean(preferences: Preferences, value: Boolean) {
-        preferences.putBoolean(key, value)
+    fun <T : Any> notifyListeners(preference: Preference<T>, value: T) {
+        listeners[preference]?.forEach { listener ->
+            @Suppress("UNCHECKED_CAST")
+            (listener as? PreferenceListener<T>)?.onPreferenceChanged(value)
+        }
     }
+
+    fun interface PreferenceListener<T : Any> {
+        fun onPreferenceChanged(value: T)
+    }
+
+    data class Preference<T>(
+        val key: String,
+        val defaultValue: T
+    )
+
+    const val TAG = "Preferences"
 }
-
-val PREF_SENSITIVITY = Preference("sensitivity", 20f)
-val PREF_SOUND = Preference("sound", true)
-val PREF_HIGH_SCORE = Preference("highScore", 0)

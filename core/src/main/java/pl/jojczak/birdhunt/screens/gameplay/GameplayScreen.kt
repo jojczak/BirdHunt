@@ -25,7 +25,6 @@ class GameplayScreen(
         Gdx.app.log(TAG, "show gameplay screen")
         super.show()
         Gdx.input.inputProcessor = gameplayUIStage
-        sPenHelperInstance.addEventListener(gameplayLogic)
         gameplayLogic.addActionsListener(gameplayStage)
         gameplayStage.fadeIn()
         gameplayUIStage.fadeIn()
@@ -69,6 +68,7 @@ class GameplayScreen(
         sPenHelperInstance.removeEventListener(gameplayLogic)
         gameplayStage.dispose()
         gameplayUIStage.dispose()
+        gameplayLogic.onDispose()
         super.dispose()
     }
 

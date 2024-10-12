@@ -1,13 +1,12 @@
 package pl.jojczak.birdhunt.screens.gameplay
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import pl.jojczak.birdhunt.base.DisposableActor
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.HITS_PER_ROUND
-import pl.jojczak.birdhunt.utils.PREF_HIGH_SCORE
-import pl.jojczak.birdhunt.utils.PREF_NAME
+import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.SPenHelper
 import pl.jojczak.birdhunt.utils.SoundManager
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
@@ -62,9 +61,8 @@ interface GameplayLogic {
 class GameplayLogicImpl(
     private val soundManager: SoundManager,
     private val gameplayScreenActionReceiver: (action: GameplayScreenAction) -> Unit
-) : GameplayLogic, SPenHelper.EventListener, Actor() {
+) : GameplayLogic, SPenHelper.EventListener, Actor(), DisposableActor {
     private val actionsListeners = mutableListOf<GameplayLogic.FromActions>()
-    private val preferences = Gdx.app.getPreferences(PREF_NAME)
 
     private var points = GameplayLogic.DEF_POINTS
         set(value) {
@@ -99,6 +97,7 @@ class GameplayLogicImpl(
     private var anyBirdsInAir = false
 
     init {
+        sPenHelperInstance.addEventListener(this)
         sPenHelperInstance.registerSPenEvents()
         onAction(GameplayLogic.ToActions.RestartGame)
     }
@@ -196,7 +195,6 @@ class GameplayLogicImpl(
 
             is GameplayLogic.ToActions.ResumeGame -> {
                 notifyActionsListeners { pauseStateUpdated(false) }
-                soundManager.reloadPrefs()
                 gameplayState.paused = false
             }
 
@@ -208,7 +206,6 @@ class GameplayLogicImpl(
                 round = GameplayLogic.DEF_ROUND
                 notifyActionsListeners { restartGame() }
                 notifyActionsListeners { displayWarning(null) }
-                soundManager.reloadPrefs()
                 soundManager.play(SoundManager.Sound.START_COUNTDOWN)
             }
 
@@ -245,9 +242,9 @@ class GameplayLogicImpl(
     }
 
     private fun checkHighScoreAndSave() {
-        if (points > PREF_HIGH_SCORE.getInt(preferences)) {
-            PREF_HIGH_SCORE.putInt(preferences, points)
-            preferences.flush()
+        if (points > Preferences.get(Preferences.PREF_HIGH_SCORE)) {
+            Preferences.put(Preferences.PREF_HIGH_SCORE, points)
+            Preferences.flush()
         }
     }
 
@@ -277,6 +274,10 @@ class GameplayLogicImpl(
 
     override fun removeActionsListener(vararg listener: GameplayLogic.FromActions) {
         actionsListeners.removeAll(listener.toSet())
+    }
+
+    override fun onDispose() {
+        sPenHelperInstance.removeEventListener(this)
     }
 
     companion object {

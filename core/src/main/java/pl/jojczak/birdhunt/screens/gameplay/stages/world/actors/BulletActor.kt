@@ -31,10 +31,6 @@ class BulletActor(
         )
     }
 
-    override fun act(delta: Float) {
-        super.act(delta)
-    }
-
     override fun onStage() {
         super.onStage()
 

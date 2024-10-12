@@ -1,31 +1,32 @@
 package pl.jojczak.birdhunt.screens.gameplay.stages.world.actors
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
+import pl.jojczak.birdhunt.base.DisposableActor
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.GameplayState
-import pl.jojczak.birdhunt.utils.PREF_NAME
-import pl.jojczak.birdhunt.utils.PREF_SENSITIVITY
+import pl.jojczak.birdhunt.utils.Preferences
+import pl.jojczak.birdhunt.utils.Preferences.PREF_SENSITIVITY
 import pl.jojczak.birdhunt.utils.SPenHelper
 import pl.jojczak.birdhunt.utils.insetsHelperInstance
 import pl.jojczak.birdhunt.utils.realToStage
+import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 class ScopeActor(
     private val gameplayLogic: GameplayLogic
-): BaseActor(), SPenHelper.EventListener {
+): BaseActor(), DisposableActor, SPenHelper.EventListener, Preferences.PreferenceListener<Float> {
     private val texture = AssetsLoader.get<Texture>(Asset.TX_SCOPE)
 
-    private val preferences = Gdx.app.getPreferences(PREF_NAME)
-    private var sensitivity = 0f
-
+    private var sensitivity = Preferences.get(PREF_SENSITIVITY)
     var bottomUISize = 0f
 
     init {
-        reloadPreferences()
+        Preferences.addListener(PREF_SENSITIVITY, this)
+        sPenHelperInstance.addEventListener(this)
+
         setSize(
             texture.width.toFloat(),
             texture.height.toFloat()
@@ -71,8 +72,13 @@ class ScopeActor(
         this.y += y * sensitivity * MOTION_MULTIPLIER
     }
 
-    fun reloadPreferences() {
-        sensitivity = PREF_SENSITIVITY.getFloat(preferences)
+    override fun onPreferenceChanged(value: Float) {
+        sensitivity = value
+    }
+
+    override fun onDispose() {
+        Preferences.removeListener(PREF_SENSITIVITY, this)
+        sPenHelperInstance.addEventListener(this)
     }
 
     companion object {

@@ -1,11 +1,17 @@
 package pl.jojczak.birdhunt.utils
 
-import com.badlogic.gdx.Gdx
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
+import pl.jojczak.birdhunt.utils.Preferences.PREF_SOUND
 
 class SoundManager {
-    private var soundEnabled = true
+    private var soundEnabled = Preferences.get(PREF_SOUND)
+
+    init {
+        Preferences.addListener(PREF_SOUND) {
+            soundEnabled = it
+        }
+    }
 
     enum class Sound {
         START_COUNTDOWN,
@@ -29,10 +35,5 @@ class SoundManager {
 
     fun play(sound: Sound) {
         if (soundEnabled) soundsMap[sound]?.play()
-    }
-
-    fun reloadPrefs() {
-        val preferences = Gdx.app.getPreferences(PREF_NAME)
-        soundEnabled = PREF_SOUND.getBoolean(preferences)
     }
 }

@@ -15,7 +15,6 @@ import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.birdactor.BirdAc
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.shotgunactor.ShotgunActor
 import pl.jojczak.birdhunt.utils.insetsHelperInstance
 import pl.jojczak.birdhunt.utils.realToStage
-import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 class GameplayStage(
     private val gameplayLogic: GameplayLogic
@@ -31,7 +30,6 @@ class GameplayStage(
         }
 
     init {
-        sPenHelperInstance.addEventListener(scopeActor)
         addActor(scopeActor)
         addActor(uiBackground)
         addActor(shotgunActor)
@@ -70,6 +68,8 @@ class GameplayStage(
             )
         )
 
+        shotgunActor.startShotAnimation()
+
         actors.filterIsInstance<BirdActor>().forEach { bird ->
             if (bird.isDead) return@forEach
 
@@ -94,10 +94,6 @@ class GameplayStage(
             }
             scopeActor.isVisible = false
         }
-    }
-
-    override fun pauseStateUpdated(paused: Boolean) {
-        scopeActor.reloadPreferences()
     }
 
     override fun restartGame() {

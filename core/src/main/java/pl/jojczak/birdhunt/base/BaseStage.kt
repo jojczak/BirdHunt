@@ -1,5 +1,6 @@
 package pl.jojczak.birdhunt.base
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction
@@ -10,10 +11,8 @@ import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
-import pl.jojczak.birdhunt.utils.InsetsHelper
-import pl.jojczak.birdhunt.utils.SPenHelper
-import pl.jojczak.birdhunt.utils.insetsHelperInstance
-import pl.jojczak.birdhunt.utils.sPenHelperInstance
+import pl.jojczak.birdhunt.utils.Preferences
+import pl.jojczak.birdhunt.utils.Preferences.PREF_GAME_SCALE
 
 abstract class BaseStage(
     protected val viewportMinWidth: Float = WORLD_WIDTH,
@@ -25,6 +24,12 @@ abstract class BaseStage(
     protected val i18N = AssetsLoader.get<I18NBundle>(Asset.I18N)
 
     private var firstDraw = true
+    protected var gameScale = Preferences.get(PREF_GAME_SCALE)
+
+    private val gameScaleListener = Preferences.PreferenceListener<Float> {
+        gameScale = it
+        onResize(Gdx.graphics.width, Gdx.graphics.height)
+    }
 
     private fun fadeInAction(callback: () -> Unit) = SequenceAction(
         ColorAction().apply {
@@ -54,6 +59,7 @@ abstract class BaseStage(
 
     init {
         root.color.a = 0f
+        Preferences.addListener(PREF_GAME_SCALE, gameScaleListener)
     }
 
     override fun draw() {
@@ -77,11 +83,11 @@ abstract class BaseStage(
     open fun onFirstFrame() = Unit
 
     open fun onResize(scrWidth: Int, scrHeight: Int) {
-        val scale = getViewportScaleByRatio(scrWidth, scrHeight)
+        val ratioScale = getViewportScaleByRatio(scrWidth, scrHeight)
 
         viewport = ExtendViewport(
-            viewportMinWidth * scale,
-            viewportMinHeight * scale
+            viewportMinWidth * ratioScale * gameScale,
+            viewportMinHeight * ratioScale * gameScale
         )
         viewport.update(scrWidth, scrHeight, true)
 
@@ -102,24 +108,15 @@ abstract class BaseStage(
     )
 
     override fun dispose() {
+        Preferences.removeListener(PREF_GAME_SCALE, gameScaleListener)
         for (actor in actors) {
-            if (actor is SPenHelper.EventListener) {
-                sPenHelperInstance.removeEventListener(actor)
-            }
-            if (actor is InsetsHelper.OnInsetsChangedListener) {
-                insetsHelperInstance.removeOnInsetsChangedListener(actor)
-            }
+            if (actor is DisposableActor) actor.onDispose()
         }
         super.dispose()
     }
 
     override fun actorRemoved(actor: Actor) {
-        if (actor is SPenHelper.EventListener) {
-            sPenHelperInstance.removeEventListener(actor)
-        }
-        if (actor is InsetsHelper.OnInsetsChangedListener) {
-            insetsHelperInstance.removeOnInsetsChangedListener(actor)
-        }
+        if (actor is DisposableActor) actor.onDispose()
         super.actorRemoved(actor)
     }
 

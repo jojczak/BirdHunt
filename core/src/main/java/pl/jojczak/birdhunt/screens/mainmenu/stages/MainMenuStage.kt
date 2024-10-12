@@ -14,15 +14,14 @@ import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseUIStage
 import pl.jojczak.birdhunt.screens.mainmenu.MainMenuScreenAction
 import pl.jojczak.birdhunt.utils.ButtonListener
-import pl.jojczak.birdhunt.utils.PREF_HIGH_SCORE
-import pl.jojczak.birdhunt.utils.PREF_NAME
+import pl.jojczak.birdhunt.utils.Preferences
+import pl.jojczak.birdhunt.utils.Preferences.PREF_HIGH_SCORE
 import pl.jojczak.birdhunt.utils.appVersion
 
 class MainMenuStage(
     private val screenActionReceiver: (action: MainMenuScreenAction) -> Unit
 ) : BaseUIStage() {
     private var orientationVertical: Boolean? = null
-    private val preferences = Gdx.app.getPreferences(PREF_NAME)
 
     private val startGameButton = TextButton(i18N.get("bt_start_game"), skin).also { sgB ->
         sgB.addListener(ButtonListener { _, _ ->
@@ -46,7 +45,7 @@ class MainMenuStage(
     }
 
     private val highScoreLabel = Label(
-        i18N.format("main_menu_high_score", PREF_HIGH_SCORE.getInt(preferences)),
+        i18N.format("main_menu_high_score", Preferences.get(PREF_HIGH_SCORE)),
         skin,
         Asset.FONT_75_BORDERED,
         Color.WHITE

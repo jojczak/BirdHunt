@@ -23,9 +23,12 @@ abstract class BaseUIStage : BaseStage(
         val horizontalMaxWidth = scrWidth - intents.left - intents.right
         val verticalMaxHeight = scrHeight - intents.top - intents.bottom
 
-        val scale = getViewportScaleByRatio(scrWidth, scrHeight)
+        val ratioScale = getViewportScaleByRatio(scrWidth, scrHeight)
 
-        viewport = ExtendViewport(viewportMinWidth * scale, viewportMinHeight * scale).apply {
+        viewport = ExtendViewport(
+            viewportMinWidth * ratioScale * gameScale,
+            viewportMinHeight * ratioScale * gameScale
+        ).apply {
             update(horizontalMaxWidth, verticalMaxHeight, true)
             screenY = intents.bottom
             screenX = intents.left

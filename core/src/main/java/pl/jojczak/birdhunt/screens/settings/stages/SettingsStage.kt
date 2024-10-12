@@ -1,39 +1,47 @@
 package pl.jojczak.birdhunt.screens.settings.stages
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
-import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.ui.Slider
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.ui.Window
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
-import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.base.BaseUIStage
 import pl.jojczak.birdhunt.screens.settings.SettingsScreenAction
+import pl.jojczak.birdhunt.screens.settings.stages.actors.SliderWithLabel
 import pl.jojczak.birdhunt.utils.ButtonListener
-import pl.jojczak.birdhunt.utils.PREF_NAME
-import pl.jojczak.birdhunt.utils.PREF_SENSITIVITY
-import pl.jojczak.birdhunt.utils.PREF_SOUND
-import java.util.Locale
+import pl.jojczak.birdhunt.utils.Preferences
+import pl.jojczak.birdhunt.utils.Preferences.PREF_GAME_SCALE
+import pl.jojczak.birdhunt.utils.Preferences.PREF_SENSITIVITY
+import pl.jojczak.birdhunt.utils.Preferences.PREF_SOUND
 
 class SettingsStage(
     private val isFromMainMenu: Boolean,
     private val settingsScreenActionReceiver: (action: SettingsScreenAction) -> Unit
 ) : BaseUIStage() {
-    private val preferences = Gdx.app.getPreferences(PREF_NAME)
 
-    private val sensitivityLabel = Label("", skin, Asset.FONT_46, Color.BLACK)
-    private val sensitivitySlider = Slider(1f, 40f, 0.1f, false, skin).also { sS ->
-        sS.addListener(SliderChangeListener())
-    }
+    private val sensitivitySlider = SliderWithLabel(
+        skin = skin,
+        i18n = i18N,
+        i18nKey = "settings_sensitivity_label",
+        preference = PREF_SENSITIVITY,
+        min = 1f,
+        max = 40f,
+        step = 0.1f
+    )
+
+    private val gameScaleSlider = SliderWithLabel(
+        skin = skin,
+        i18n = i18N,
+        i18nKey = "settings_game_scale_label",
+        preference = PREF_GAME_SCALE,
+        min = 1f,
+        max = 2f,
+        step = 0.5f
+    )
 
     private val soundCheckBox = CheckBox(i18N.get("settings_sound_checkbox"), skin).also { sCB ->
         sCB.addListener(ButtonListener { _, _ ->
-            PREF_SOUND.putBoolean(preferences, sCB.isChecked)
+            Preferences.put(PREF_SOUND, sCB.isChecked)
         })
     }
 
@@ -42,14 +50,14 @@ class SettingsStage(
         sW.isResizable = false
         sW.top()
 
-        sW.add(sensitivityLabel).padTop(SETTINGS_ITEM_PAD).padLeft(SETTINGS_ITEM_PAD / 2).left().row()
-        sW.add(sensitivitySlider).expandX().padTop(SETTINGS_ITEM_PAD).fillX().row()
-        sW.add(soundCheckBox).padTop(SETTINGS_ITEM_PAD).padLeft(SETTINGS_ITEM_PAD / 2).left()
+        sW.add(sensitivitySlider).padTop(SETTINGS_ITEM_PAD).expandX().fillX().row()
+        sW.add(gameScaleSlider).padTop(SETTINGS_ITEM_PAD).expandX().fillX().row()
+        sW.add(soundCheckBox).padTop(SETTINGS_ITEM_PAD * 1.5f).padLeft(SETTINGS_ITEM_PAD / 2).left().row()
     }
 
     private val backButton = TextButton(i18N.get("back_bt"), skin).also { bB ->
         bB.addListener(ButtonListener { _, _ ->
-            preferences.flush()
+            Preferences.flush()
             if (isFromMainMenu) fadeOut {
                 settingsScreenActionReceiver(SettingsScreenAction.NavigateToMainMenu)
             } else {
@@ -67,26 +75,7 @@ class SettingsStage(
 
     init {
         addActor(container)
-        sensitivitySlider.setValue(PREF_SENSITIVITY.getFloat(preferences))
-        soundCheckBox.isChecked = PREF_SOUND.getBoolean(preferences)
-        updateSensitivityLabel()
-    }
-
-    private fun updateSensitivityLabel() {
-        sensitivityLabel.setText(
-            i18N.format(
-                "settings_sensitivity_label",
-                String.format(Locale.getDefault(), "%.1f", sensitivitySlider.value)
-            )
-        )
-    }
-
-    private inner class SliderChangeListener: ChangeListener(){
-        override fun changed(event: ChangeEvent?, actor: Actor?) {
-            Gdx.app.log(TAG, "Sensitivity changed to ${sensitivitySlider.value}")
-            PREF_SENSITIVITY.putFloat(preferences, sensitivitySlider.value)
-            updateSensitivityLabel()
-        }
+        soundCheckBox.isChecked = Preferences.get(PREF_SOUND)
     }
 
     override fun keyDown(keyCode: Int) = if (keyCode == Keys.BACK) {
@@ -95,6 +84,7 @@ class SettingsStage(
     } else super.keyDown(keyCode)
 
     companion object {
+        @Suppress("unused")
         private const val TAG = "SettingsStage"
 
         private const val SETTINGS_ITEM_PAD = 20f

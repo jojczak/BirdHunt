@@ -4,16 +4,20 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
+import pl.jojczak.birdhunt.base.DisposableActor
 import pl.jojczak.birdhunt.utils.InsetsHelper
 import pl.jojczak.birdhunt.utils.insetsHelperInstance
 import pl.jojczak.birdhunt.utils.realToStage
 import kotlin.math.atan2
 
-class ShotgunActor : BaseActor(), InsetsHelper.OnInsetsChangedListener {
+class ShotgunActor : BaseActor(), DisposableActor, InsetsHelper.OnInsetsChangedListener {
     private val texture = AssetsLoader.get<Texture>(Asset.TX_SHOTGUN)
     private val textureFrames = TextureRegion.split(texture, FRAME_WIDTH, FRAME_HEIGHT)[0]
 
@@ -24,6 +28,22 @@ class ShotgunActor : BaseActor(), InsetsHelper.OnInsetsChangedListener {
         }
     var angleToScope: ShotgunAngle = ShotgunAngle.Center(0f)
         private set
+
+    private fun getShotAnimationAction() = SequenceAction(
+        MoveToAction().apply {
+            x = stage.width / 2
+            y = this@ShotgunActor.y - SHOT_ANIM_OFFSET
+            duration = 0.05f
+        },
+        MoveToAction().apply {
+            x = stage.width / 2
+            y = insetsHelperInstance.lastInsets.bottom.realToStage(stage)
+            duration = 0.3f
+            interpolation = Interpolation.fastSlow
+        }
+    )
+
+    private var currentShotAnimation: SequenceAction? = null
 
     init {
         setSize(
@@ -79,8 +99,18 @@ class ShotgunActor : BaseActor(), InsetsHelper.OnInsetsChangedListener {
         is ShotgunAngle.Right -> Vector2(x + 24f, FRAME_HEIGHT.toFloat() - 2f)
     }
 
+    fun startShotAnimation() {
+        currentShotAnimation?.let { removeAction(it) }
+        currentShotAnimation = getShotAnimationAction()
+        addAction(currentShotAnimation)
+    }
+
     override fun onInsetsChanged(insets: InsetsHelper.WindowInsets) {
         onResize(Gdx.graphics.width, Gdx.graphics.height)
+    }
+
+    override fun onDispose() {
+        insetsHelperInstance.removeOnInsetsChangedListener(this)
     }
 
     companion object {
@@ -91,5 +121,7 @@ class ShotgunActor : BaseActor(), InsetsHelper.OnInsetsChangedListener {
         const val FRAME_HEIGHT = 52
 
         private const val X_OFFSET = 5f
+
+        private const val SHOT_ANIM_OFFSET = 30f
     }
 }
