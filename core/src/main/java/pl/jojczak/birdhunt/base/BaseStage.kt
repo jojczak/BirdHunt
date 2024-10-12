@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.I18NBundle
 import com.badlogic.gdx.utils.viewport.ExtendViewport
-import com.badlogic.gdx.utils.viewport.Viewport
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.utils.InsetsHelper
@@ -17,9 +16,10 @@ import pl.jojczak.birdhunt.utils.insetsHelperInstance
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 abstract class BaseStage(
-    viewport: Viewport? = null
+    protected val viewportMinWidth: Float = WORLD_WIDTH,
+    protected val viewportMinHeight: Float = WORLD_HEIGHT
 ) : Stage(
-    viewport ?: ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT)
+    ExtendViewport(viewportMinWidth, viewportMinHeight)
 ) {
     protected val skin = AssetsLoader.get<Skin>(Asset.UI_SKIN)
     protected val i18N = AssetsLoader.get<I18NBundle>(Asset.I18N)
@@ -77,13 +77,29 @@ abstract class BaseStage(
     open fun onFirstFrame() = Unit
 
     open fun onResize(scrWidth: Int, scrHeight: Int) {
+        val scale = getViewportScaleByRatio(scrWidth, scrHeight)
+
+        viewport = ExtendViewport(
+            viewportMinWidth * scale,
+            viewportMinHeight * scale
+        )
         viewport.update(scrWidth, scrHeight, true)
+
         for (actor in actors) {
             if (actor is BaseActor) {
                 actor.onResize(scrWidth, scrHeight)
             }
         }
     }
+
+    protected fun getViewportScaleByRatio(scrWidth: Int, scrHeight: Int) = maxOf(
+        1f,
+        if (scrWidth < scrHeight) {
+            (scrWidth.toFloat() / scrHeight) * 1.6f
+        } else {
+            (scrHeight.toFloat() / scrWidth) * 1.6f
+        }
+    )
 
     override fun dispose() {
         for (actor in actors) {

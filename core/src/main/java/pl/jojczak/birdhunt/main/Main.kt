@@ -77,6 +77,7 @@ class Main(
     }
 
     override fun resize(width: Int, height: Int) {
+        Gdx.app.log(TAG, "resize width: $width, height: $height, ratio: ${width.toFloat() / height}")
         backgroundStage?.onResize(width, height)
         super.resize(width, height)
     }

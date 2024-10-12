@@ -31,7 +31,6 @@ class MainMenuScreen(
     }
 
     override fun resize(width: Int, height: Int) {
-        Gdx.app.log(TAG, "resize MainMenuScreen width: $width, height: $height")
         super.resize(width, height)
         mainMenuStage.onResize(width, height)
     }

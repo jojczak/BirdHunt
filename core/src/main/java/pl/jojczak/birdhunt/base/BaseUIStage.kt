@@ -6,7 +6,8 @@ import pl.jojczak.birdhunt.utils.InsetsHelper
 import pl.jojczak.birdhunt.utils.insetsHelperInstance
 
 abstract class BaseUIStage : BaseStage(
-    viewport = ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT)
+    viewportMinWidth = WORLD_WIDTH,
+    viewportMinHeight = WORLD_HEIGHT
 ) {
     private val onInsetsChanged = InsetsHelper.OnInsetsChangedListener { _ ->
         onResize(Gdx.graphics.width, Gdx.graphics.height)
@@ -22,7 +23,9 @@ abstract class BaseUIStage : BaseStage(
         val horizontalMaxWidth = scrWidth - intents.left - intents.right
         val verticalMaxHeight = scrHeight - intents.top - intents.bottom
 
-        viewport = ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT).apply {
+        val scale = getViewportScaleByRatio(scrWidth, scrHeight)
+
+        viewport = ExtendViewport(viewportMinWidth * scale, viewportMinHeight * scale).apply {
             update(horizontalMaxWidth, verticalMaxHeight, true)
             screenY = intents.bottom
             screenX = intents.left

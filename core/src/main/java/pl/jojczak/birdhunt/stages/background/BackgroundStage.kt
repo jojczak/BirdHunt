@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.ColorAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.ScreenUtils
-import com.badlogic.gdx.utils.viewport.ExtendViewport
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseStage
@@ -18,7 +17,8 @@ import pl.jojczak.birdhunt.utils.insetsHelperInstance
 import pl.jojczak.birdhunt.utils.realToStage
 
 class BackgroundStage : BaseStage(
-    viewport = ExtendViewport(200F, 250f)
+    viewportMinWidth = 250f,
+    viewportMinHeight = 250f
 ) {
     private val colorMorning = Color.valueOf("#767cbf")
     private val colorDay = Color.valueOf("#5dbce2")
