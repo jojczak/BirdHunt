@@ -5,8 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.ui.Window
-import pl.jojczak.birdhunt.base.BaseUIStage
-import pl.jojczak.birdhunt.screens.settings.SettingsScreenAction
+import pl.jojczak.birdhunt.base.ScreenWithUIStage
+import pl.jojczak.birdhunt.main.MainAction
 import pl.jojczak.birdhunt.screens.settings.stages.actors.SliderWithLabel
 import pl.jojczak.birdhunt.utils.ButtonListener
 import pl.jojczak.birdhunt.utils.Preferences
@@ -14,10 +14,7 @@ import pl.jojczak.birdhunt.utils.Preferences.PREF_GAME_SCALE
 import pl.jojczak.birdhunt.utils.Preferences.PREF_SENSITIVITY
 import pl.jojczak.birdhunt.utils.Preferences.PREF_SOUND
 
-class SettingsStage(
-    private val isFromMainMenu: Boolean,
-    private val settingsScreenActionReceiver: (action: SettingsScreenAction) -> Unit
-) : BaseUIStage() {
+class SettingsStage : ScreenWithUIStage.ScreenStage() {
 
     private val sensitivitySlider = SliderWithLabel(
         skin = skin,
@@ -58,11 +55,7 @@ class SettingsStage(
     private val backButton = TextButton(i18N.get("back_bt"), skin).also { bB ->
         bB.addListener(ButtonListener { _, _ ->
             Preferences.flush()
-            if (isFromMainMenu) fadeOut {
-                settingsScreenActionReceiver(SettingsScreenAction.NavigateToMainMenu)
-            } else {
-                settingsScreenActionReceiver(SettingsScreenAction.NavigateToMainMenu)
-            }
+            fadeOut { mainActionReceiver(MainAction.NavigateToMainMenu) }
         })
     }
 
@@ -79,7 +72,7 @@ class SettingsStage(
     }
 
     override fun keyDown(keyCode: Int) = if (keyCode == Keys.BACK) {
-        settingsScreenActionReceiver(SettingsScreenAction.NavigateToMainMenu)
+        mainActionReceiver(MainAction.NavigateToMainMenu)
         true
     } else super.keyDown(keyCode)
 

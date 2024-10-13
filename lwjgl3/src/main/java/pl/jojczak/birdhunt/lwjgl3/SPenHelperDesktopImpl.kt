@@ -24,6 +24,8 @@ class SPenHelperDesktopImpl : SPenHelper {
         connected = false
     }
 
+    override fun isDeviceSupported() = false
+
     override fun registerSPenEvents() {
         Gdx.app.log(TAG, "registering SPen events (desktop)")
         registered = true

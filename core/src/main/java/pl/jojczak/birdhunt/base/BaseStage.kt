@@ -110,13 +110,13 @@ abstract class BaseStage(
     override fun dispose() {
         Preferences.removeListener(PREF_GAME_SCALE, gameScaleListener)
         for (actor in actors) {
-            if (actor is DisposableActor) actor.onDispose()
+            if (actor is DisposableActor) actor.dispose()
         }
         super.dispose()
     }
 
     override fun actorRemoved(actor: Actor) {
-        if (actor is DisposableActor) actor.onDispose()
+        if (actor is DisposableActor) actor.dispose()
         super.actorRemoved(actor)
     }
 

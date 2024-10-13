@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import pl.jojczak.birdhunt.base.BaseUIStage
+import pl.jojczak.birdhunt.main.MainAction
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.CountdownLabel
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.GameOverWindow
@@ -13,7 +14,6 @@ import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.PauseWindow
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.RoundWindow
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.ScoreWidget
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.ShotWindow
-import pl.jojczak.birdhunt.screens.settings.SettingsScreenAction
 import pl.jojczak.birdhunt.screens.settings.stages.SettingsStage
 import pl.jojczak.birdhunt.utils.ButtonListener
 import pl.jojczak.birdhunt.utils.stageToReal
@@ -84,7 +84,8 @@ class GameplayUIStage(
     private fun onAction(action: GameplayUIAction) {
         when (action) {
             GameplayUIAction.NavigateToSettings -> {
-                settingsStage = SettingsStage(false, ::onSettingsStageAction).also { sS ->
+                settingsStage = SettingsStage().also { sS ->
+                    sS.mainActionReceiver = ::onSettingsStageAction
                     sS.fadeIn()
                 }
                 Gdx.app.input.inputProcessor = settingsStage
@@ -93,9 +94,9 @@ class GameplayUIStage(
         }
     }
 
-    private fun onSettingsStageAction(action: SettingsScreenAction) {
+    private fun onSettingsStageAction(action: MainAction) {
         when (action) {
-            SettingsScreenAction.NavigateToMainMenu -> {
+            MainAction.NavigateToMainMenu -> {
                 Gdx.app.input.inputProcessor = this
                 pauseWindow.fadeIn()
                 settingsStage?.fadeOut {
@@ -103,6 +104,7 @@ class GameplayUIStage(
                     settingsStage = null
                 }
             }
+            else -> {}
         }
     }
 

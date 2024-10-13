@@ -11,36 +11,35 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Scaling
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
-import pl.jojczak.birdhunt.base.BaseUIStage
-import pl.jojczak.birdhunt.screens.mainmenu.MainMenuScreenAction
+import pl.jojczak.birdhunt.base.ScreenWithUIStage
+import pl.jojczak.birdhunt.main.MainAction
 import pl.jojczak.birdhunt.utils.ButtonListener
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_HIGH_SCORE
 import pl.jojczak.birdhunt.utils.appVersion
 
-class MainMenuStage(
-    private val screenActionReceiver: (action: MainMenuScreenAction) -> Unit
-) : BaseUIStage() {
+class MainMenuStage : ScreenWithUIStage.ScreenStage() {
     private var orientationVertical: Boolean? = null
 
     private val startGameButton = TextButton(i18N.get("bt_start_game"), skin).also { sgB ->
         sgB.addListener(ButtonListener { _, _ ->
             Gdx.app.log(TAG, "Start button clicked")
-            screenActionReceiver(MainMenuScreenAction.NavigateToGameplay)
+            fadeOut { mainActionReceiver(MainAction.NavigateToGameplay) }
+
         })
     }
 
     private val settingsButton = TextButton(i18N.get("bt_settings"), skin).also { sB ->
         sB.addListener(ButtonListener { _, _ ->
             Gdx.app.log(TAG, "Settings button clicked")
-            screenActionReceiver(MainMenuScreenAction.NavigateToSettings)
+            fadeOut { mainActionReceiver(MainAction.NavigateToSettings) }
         })
     }
 
     private val aboutButton = TextButton(i18N.get("bt_about"), skin).also { aB ->
         aB.addListener(ButtonListener { _, _ ->
             Gdx.app.log(TAG, "About button clicked")
-            screenActionReceiver(MainMenuScreenAction.NavigateToAbout)
+            fadeOut { mainActionReceiver(MainAction.NavigateToAbout) }
         })
     }
 
@@ -74,7 +73,7 @@ class MainMenuStage(
 
     override fun onFirstFrame() {
         super.onFirstFrame()
-        screenActionReceiver(MainMenuScreenAction.FirstFrameDrawn)
+        mainActionReceiver(MainAction.FirstFrameDrawn)
     }
 
     override fun onResize(scrWidth: Int, scrHeight: Int) {

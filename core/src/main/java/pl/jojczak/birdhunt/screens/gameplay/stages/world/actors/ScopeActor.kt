@@ -76,7 +76,7 @@ class ScopeActor(
         sensitivity = value
     }
 
-    override fun onDispose() {
+    override fun dispose() {
         Preferences.removeListener(PREF_SENSITIVITY, this)
         sPenHelperInstance.addEventListener(this)
     }

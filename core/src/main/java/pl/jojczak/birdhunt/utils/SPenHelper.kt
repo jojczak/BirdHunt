@@ -5,6 +5,7 @@ interface SPenHelper {
     val eventListeners: MutableList<EventListener>
 
     fun connect(onSuccess: () -> Unit, onError: (ConnectionError) -> Unit)
+    fun isDeviceSupported(): Boolean
     fun disconnect()
     fun registerSPenEvents()
     fun unregisterSPenEvents()

@@ -109,7 +109,7 @@ class ShotgunActor : BaseActor(), DisposableActor, InsetsHelper.OnInsetsChangedL
         onResize(Gdx.graphics.width, Gdx.graphics.height)
     }
 
-    override fun onDispose() {
+    override fun dispose() {
         insetsHelperInstance.removeOnInsetsChangedListener(this)
     }
 

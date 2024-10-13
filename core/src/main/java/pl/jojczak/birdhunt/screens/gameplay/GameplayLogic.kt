@@ -276,7 +276,7 @@ class GameplayLogicImpl(
         actionsListeners.removeAll(listener.toSet())
     }
 
-    override fun onDispose() {
+    override fun dispose() {
         sPenHelperInstance.removeEventListener(this)
     }
 

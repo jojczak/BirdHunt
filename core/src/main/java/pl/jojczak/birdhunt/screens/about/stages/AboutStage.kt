@@ -14,14 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
-import pl.jojczak.birdhunt.base.BaseUIStage
-import pl.jojczak.birdhunt.screens.about.AboutScreenAction
+import pl.jojczak.birdhunt.base.ScreenWithUIStage
+import pl.jojczak.birdhunt.main.MainAction
 import pl.jojczak.birdhunt.utils.ButtonListener
 
-class AboutStage(
-    private val aboutScreenActionReceiver: (action: AboutScreenAction) -> Unit
-): BaseUIStage() {
-
+class AboutStage: ScreenWithUIStage.ScreenStage() {
     private val aboutTable = Table().also { aT ->
         aT.add(getParagraph("about_p1")).fillX().expandX().padTop(PR_PAD).row()
         aT.add(getParagraph("about_p2")).fillX().expandX().padTop(PR_PAD).row()
@@ -50,7 +47,7 @@ class AboutStage(
     private val backButton = TextButton(i18N.get("back_bt"), skin).also { bB ->
         bB.addListener(ButtonListener { _, _ ->
             fadeOut {
-                aboutScreenActionReceiver(AboutScreenAction.NavigateToMainMenu)
+                mainActionReceiver(MainAction.NavigateToMainMenu)
             }
         })
     }
@@ -82,7 +79,7 @@ class AboutStage(
     }
 
     override fun keyDown(keyCode: Int) = if (keyCode == Keys.BACK) {
-        aboutScreenActionReceiver(AboutScreenAction.NavigateToMainMenu)
+        mainActionReceiver(MainAction.NavigateToMainMenu)
         true
     } else super.keyDown(keyCode)
 

@@ -68,7 +68,7 @@ class GameplayScreen(
         sPenHelperInstance.removeEventListener(gameplayLogic)
         gameplayStage.dispose()
         gameplayUIStage.dispose()
-        gameplayLogic.onDispose()
+        gameplayLogic.dispose()
         super.dispose()
     }
 

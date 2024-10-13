@@ -19,11 +19,24 @@ class SPenHelperAndroidImpl(
     override var implType = SPenHelper.ImplType.ANDROID
     override val eventListeners = mutableListOf<SPenHelper.EventListener>()
 
+    override fun isDeviceSupported(): Boolean {
+        val sPenInstance = SpenRemote.getInstance()
+
+        return try {
+            sPenInstance.isFeatureEnabled(SpenRemote.FEATURE_TYPE_BUTTON) &&
+                sPenInstance.isFeatureEnabled(SpenRemote.FEATURE_TYPE_AIR_MOTION)
+        } catch (e: Throwable) {
+            false
+        }
+    }
+
     override fun connect(
         onSuccess: () -> Unit,
         onError: (SPenHelper.ConnectionError) -> Unit
     ) {
         Gdx.app.log(TAG, "connecting to SPen...")
+        if (!isDeviceSupported()) return
+
         val sPenRemote = SpenRemote.getInstance()
 
         if (!sPenRemote.isConnected) {
@@ -52,6 +65,8 @@ class SPenHelperAndroidImpl(
 
     override fun disconnect() {
         Gdx.app.log(TAG, "disconnecting from SPen...")
+
+        if (!isDeviceSupported()) return
         val sPenRemote = SpenRemote.getInstance()
         sPenRemote.disconnect(context)
     }
