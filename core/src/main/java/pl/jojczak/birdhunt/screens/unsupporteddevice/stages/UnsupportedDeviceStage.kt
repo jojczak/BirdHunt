@@ -9,6 +9,7 @@ import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.base.ScreenWithUIStage
 import pl.jojczak.birdhunt.main.MainAction
 import pl.jojczak.birdhunt.utils.ButtonListener
+import pl.jojczak.birdhunt.utils.Preferences
 
 class UnsupportedDeviceStage: ScreenWithUIStage.ScreenStage() {
 
@@ -26,7 +27,15 @@ class UnsupportedDeviceStage: ScreenWithUIStage.ScreenStage() {
 
     private val button = TextButton(i18N.get("unsupported_device_button"), skin).also { b ->
         b.addListener(ButtonListener { _, _ ->
-            fadeOut { mainActionReceiver(MainAction.NavigateToMainMenu) }
+            fadeOut {
+                if (Preferences.get(Preferences.PREF_FIRST_RUN)) {
+                    Preferences.put(Preferences.PREF_FIRST_RUN, false)
+                    Preferences.flush()
+                    mainActionReceiver(MainAction.NavigateToAbout)
+                } else {
+                    mainActionReceiver(MainAction.NavigateToMainMenu)
+                }
+            }
         })
     }
 
@@ -38,11 +47,6 @@ class UnsupportedDeviceStage: ScreenWithUIStage.ScreenStage() {
 
     init {
         addActor(container)
-    }
-
-    override fun onFirstFrame() {
-        super.onFirstFrame()
-        mainActionReceiver(MainAction.FirstFrameDrawn)
     }
 
     companion object {

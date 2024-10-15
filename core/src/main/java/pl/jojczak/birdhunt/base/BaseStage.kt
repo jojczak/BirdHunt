@@ -23,7 +23,6 @@ abstract class BaseStage(
     protected val skin = AssetsLoader.get<Skin>(Asset.UI_SKIN)
     protected val i18N = AssetsLoader.get<I18NBundle>(Asset.I18N)
 
-    private var firstDraw = true
     protected var gameScale = Preferences.get(PREF_GAME_SCALE)
 
     private val gameScaleListener = Preferences.PreferenceListener<Float> {
@@ -65,11 +64,6 @@ abstract class BaseStage(
     override fun draw() {
         viewport.apply()
         super.draw()
-
-        if (firstDraw) {
-            firstDraw = false
-            onFirstFrame()
-        }
     }
 
     fun fadeIn(callback: () -> Unit = {}) {

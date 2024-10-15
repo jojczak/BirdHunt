@@ -11,13 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
+import pl.jojczak.birdhunt.base.DisposableActor
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.GameplayState
+import pl.jojczak.birdhunt.utils.insetsHelperInstance
 import kotlin.random.Random
 
 class BirdActor(
     private val gameplayLogic: GameplayLogic
-) : BaseActor() {
+) : BaseActor(), DisposableActor {
     private val texture = AssetsLoader.get<Texture>(Asset.TX_BIRD)
     private val textureFrames = TextureRegion.split(texture, FRAME_SIZE, FRAME_SIZE)
     private val deadTexture = textureFrames[0][textureFrames[0].size - 1]
@@ -79,6 +81,7 @@ class BirdActor(
 
     init {
         setSize(FRAME_SIZE.toFloat(), FRAME_SIZE.toFloat())
+        insetsHelperInstance.addOnInsetsChangedListener(movementHelper)
     }
 
     override fun onStage() {
@@ -132,7 +135,12 @@ class BirdActor(
 
     override fun remove(): Boolean {
         Gdx.app.log(TAG, "Removing bird from stage")
+        dispose()
         return super.remove()
+    }
+
+    override fun dispose() {
+        insetsHelperInstance.removeOnInsetsChangedListener(movementHelper)
     }
 
     companion object {

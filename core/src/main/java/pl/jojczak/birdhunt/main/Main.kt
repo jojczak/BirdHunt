@@ -12,6 +12,7 @@ import pl.jojczak.birdhunt.screens.mainmenu.stages.MainMenuStage
 import pl.jojczak.birdhunt.screens.settings.stages.SettingsStage
 import pl.jojczak.birdhunt.screens.unsupporteddevice.stages.UnsupportedDeviceStage
 import pl.jojczak.birdhunt.stages.background.BackgroundStage
+import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.SPenHelper
 import pl.jojczak.birdhunt.utils.SoundManager
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
@@ -21,6 +22,7 @@ class Main(
 ) : Game() {
     private lateinit var soundManager: SoundManager
     private var backgroundStage: BackgroundStage? = null
+    private var firstFrameDrawn = false
 
     override fun create() {
         Gdx.input.setCatchKey(Keys.BACK, true)
@@ -46,14 +48,20 @@ class Main(
                 }
 
                 if (sPenHelperInstance.isDeviceSupported()) {
-                    onAction(MainAction.NavigateToMainMenu)
-                }
-                else {
+                    if (Preferences.get(Preferences.PREF_FIRST_RUN)) {
+                        Preferences.put(Preferences.PREF_FIRST_RUN, false)
+                        Preferences.flush()
+                        onAction(MainAction.NavigateToAbout)
+                    } else {
+                        onAction(MainAction.NavigateToMainMenu)
+                    }
+                } else {
                     onAction(MainAction.NavigateToUnsupportedDevice)
                 }
             }
 
             MainAction.FirstFrameDrawn -> {
+                firstFrameDrawn = true
                 onLoadingFinished()
             }
 
@@ -117,6 +125,10 @@ class Main(
     override fun render() {
         sPenHelperInstance.act()
         super.render()
+
+        if (!firstFrameDrawn && getScreen() !is LoadingScreen){
+            onAction(MainAction.FirstFrameDrawn)
+        }
     }
 
     override fun resize(width: Int, height: Int) {

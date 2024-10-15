@@ -71,11 +71,6 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
         addActor(infoLabel)
     }
 
-    override fun onFirstFrame() {
-        super.onFirstFrame()
-        mainActionReceiver(MainAction.FirstFrameDrawn)
-    }
-
     override fun onResize(scrWidth: Int, scrHeight: Int) {
         super.onResize(scrWidth, scrHeight)
 

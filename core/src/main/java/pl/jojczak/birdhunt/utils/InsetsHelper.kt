@@ -10,9 +10,16 @@ interface InsetsHelper {
     }
 
     data class WindowInsets (
-        val left: Int,
-        val top: Int,
-        val right: Int,
-        val bottom: Int
+        val left: Int = 0,
+        val top: Int = 0,
+        val right: Int = 0,
+        val bottom: Int = 0
+    )
+
+    data class WindowInsetsF (
+        val left: Float = 0f,
+        val top: Float = 0f,
+        val right: Float = 0f,
+        val bottom: Float = 0f
     )
 }
