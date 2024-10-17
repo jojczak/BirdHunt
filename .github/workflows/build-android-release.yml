@@ -37,8 +37,32 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew assembleRelease
 
-      - name: Upload APK as artifact
-        uses: actions/upload-artifact@v3
+      #- name: Upload APK as artifact
+      #  uses: actions/upload-artifact@v3
+      #  with:
+      #  name: release-apk
+      #  path: android/build/outputs/apk/release/android-release.apk
+
+      - name: Get versionName from build.gradle
+        id: get_version
+        run: |
+          VERSION_NAME=$(grep 'versionName' android/build.gradle | awk -F\" '{print $2}')
+          echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: release-apk
-          path: android/build/outputs/apk/release/android-release.apk
+          tag_name: v${{ env.VERSION_NAME }}
+          release_name: Release v${{ env.VERSION_NAME }}
+          draft: false
+
+      - name: Upload APK to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: android/build/outputs/apk/release/android-release.apk
+          asset_name: BirdHunt_v${{ env.VERSION_NAME }}.apk
+          asset_content_type: application/vnd.android.package-archive
