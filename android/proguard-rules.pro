@@ -49,3 +49,6 @@
 # These two lines are used with mapping files; see https://developer.android.com/build/shrink-code#retracing
 -keepattributes LineNumberTable,SourceFile
 -renamesourcefileattribute SourceFile
+
+# S Pen SDK
+-keep class com.samsung.android.sdk.penremote.** { *; }
