@@ -31,11 +31,11 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build release APK
-        run: ./gradlew assembleRelease \
-              -Pandroid.injected.signing.store.file=keystore.jks \
-              -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
-              -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
-              -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew assembleRelease
 
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v3

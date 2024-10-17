@@ -44,6 +44,14 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  signingConfigs {
+    release {
+      storeFile file("keystore.jks")
+      storePassword System.getenv("KEYSTORE_PASSWORD")
+      keyPassword System.getenv("KEY_ALIAS")
+      keyAlias System.getenv("KEY_PASSWORD")
+    }
+  }
 
   kotlin.compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
 
