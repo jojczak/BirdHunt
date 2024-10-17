@@ -38,10 +38,21 @@ android {
     targetCompatibility "11"
     coreLibraryDesugaringEnabled true
   }
+  signingConfigs {
+    release {
+      storeFile file("keystore.jks")
+      storePassword System.getenv("KEYSTORE_PASSWORD")
+      keyPassword System.getenv("KEY_PASSWORD")
+      keyAlias System.getenv("KEY_ALIAS")
+      v1SigningEnabled true
+      v2SigningEnabled true
+    }
+  }
   buildTypes {
     release {
       minifyEnabled true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      signingConfig signingConfigs.release
     }
   }
 
