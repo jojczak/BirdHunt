@@ -1,10 +1,9 @@
 name: Build Android Release
 
 on:
-  workflow_dispatch:
   push:
     branches:
-      - feature/github-actions-build-and-release-android
+      - release/*
 
 jobs:
   build:
