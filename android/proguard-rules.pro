@@ -51,4 +51,4 @@
 -renamesourcefileattribute SourceFile
 
 # S Pen SDK
--keep class com.samsung.android.sdk.penremote.** { *; }
+-dontwarn com.samsung.android.feature.SemFloatingFeature
