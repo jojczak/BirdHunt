@@ -42,10 +42,10 @@ jobs:
       #  name: release-apk
       #  path: android/build/outputs/apk/release/android-release.apk
 
-      - name: Get versionName from build.gradle
+      - name: Get projectVersion from gradle.properties
         id: get_version
         run: |
-          VERSION_NAME=$(grep 'versionName' android/build.gradle | awk -F\" '{print $2}')
+          VERSION_NAME=$(grep 'projectVersion' gradle.properties | awk -F= '{print $2}' | tr -d ' ')
           echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV
 
       - name: Create GitHub Release
