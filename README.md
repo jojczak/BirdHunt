@@ -13,7 +13,8 @@ During each round, a bird flies across the screen, and the player's goal is to a
 
 After every 6 birds are shot, a new round begins. With each round, the bird flies faster, increasing the difficulty. Starting in round 6, two birds will appear on the screen, and from round 11, three birds will need to be shot.
 
-You can see a demonstration of the game in this video:
+You can see a demonstration of the game in this video:</br>
+[![So I made a game for the Samsung S Pen](gimp/ytthumb.jpg)](https://youtu.be/lPZNirPFRZY)
 
 ## Supported devices
 <ins>**This game works ONLY on Samsung phones that have an S Pen with Air Actions functionality.**</ins> Even if your device has a stylus but is not a Samsung device, the game will not work, as it uses Samsung's SDK specifically for S Pen.
@@ -21,6 +22,7 @@ You can see a demonstration of the game in this video:
 - Samsung Galaxy S Ultra Series: **Galaxy S21 Ultra** and newer
 - Samsung Galaxy Tab Series: **Galaxy Tab S6** and newer *(Air Actions depend on the specific S Pen model)*
 - Samsung Galaxy Z Fold Series: **Galaxy Z Fold3** and newer *(Air Actions depend on the specific S Pen model)*
+It also requires Android 12 or newer.
 
 ## Download
 You can download Bird Hunt from the [Releases](https://github.com/j-janczak/BirdHunt/releases) section here on GitHub or from Google Play:
