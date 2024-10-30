@@ -14,7 +14,7 @@ During each round, a bird flies across the screen, and the player's goal is to a
 After every 6 birds are shot, a new round begins. With each round, the bird flies faster, increasing the difficulty. Starting in round 6, two birds will appear on the screen, and from round 11, three birds will need to be shot.
 
 You can see a demonstration of the game in this video:</br>
-[![So I made a game for the Samsung S Pen](gimp/ytthumb.jpg)](https://youtu.be/lPZNirPFRZY)
+[![So I made a game for the Samsung S Pen](gimp/ytthumb.jpg)](https://youtu.be/qkLsl1_ogis)
 
 ## Supported devices
 <ins>**This game works ONLY on Samsung phones that have an S Pen with Air Actions functionality.**</ins> Even if your device has a stylus but is not a Samsung device, the game will not work, as it uses Samsung's SDK specifically for S Pen.
