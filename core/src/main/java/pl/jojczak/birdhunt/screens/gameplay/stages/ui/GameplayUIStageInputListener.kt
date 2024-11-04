@@ -41,8 +41,8 @@ class GameplayUIStageInputListener(
 
             gameplayLogic.onAction(
                 GameplayLogic.ToActions.ScopeMoved(
-                    dx / 100f,
-                    dy / 100f
+                    dx / TOUCH_TO_S_PEN_SCALE,
+                    dy / TOUCH_TO_S_PEN_SCALE
                 )
             )
 
@@ -53,5 +53,7 @@ class GameplayUIStageInputListener(
 
     companion object {
         private const val TAG = "GameplayUIStageInputListener"
+
+        private const val TOUCH_TO_S_PEN_SCALE = 100f
     }
 }

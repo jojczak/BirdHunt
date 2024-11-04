@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import pl.jojczak.birdhunt.base.BaseUIStage
 import pl.jojczak.birdhunt.main.MainAction
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
+import pl.jojczak.birdhunt.screens.gameplay.stages.howtoplay.ControlsStage
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.CountdownLabel
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.GameOverWindow
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.actors.HitWindow
@@ -29,6 +30,7 @@ class GameplayUIStage(
     private val countdownLabel = CountdownLabel(i18N, skin)
     private val pauseWindow = PauseWindow(i18N, skin, ::onAction, gameplayLogic)
     private val gameOverWindow = GameOverWindow(i18N, skin, gameplayLogic)
+    private var controlsStage: ControlsStage? = null
     private var settingsStage: SettingsStage? = null
     private val pauseButton = TextButton("||", skin).apply {
         addListener(ButtonListener { _, _ ->
@@ -78,35 +80,58 @@ class GameplayUIStage(
     override fun act(delta: Float) {
         super.act(delta)
         settingsStage?.act(delta)
+        controlsStage?.act(delta)
     }
 
     override fun draw() {
         super.draw()
         settingsStage?.draw()
+        controlsStage?.draw()
     }
 
     private fun onAction(action: GameplayUIAction) {
         when (action) {
             GameplayUIAction.NavigateToSettings -> {
-                settingsStage = SettingsStage().also { sS ->
-                    sS.mainActionReceiver = ::onSettingsStageAction
-                    sS.fadeIn()
+                pauseWindow.fadeOut {
+                    settingsStage = SettingsStage().also { sS ->
+                        sS.mainActionReceiver = { action ->
+                            onStageAction(action) {
+                                settingsStage?.fadeOut {
+                                    settingsStage?.dispose()
+                                    settingsStage = null
+                                }
+                            }
+                        }
+                        sS.fadeIn()
+                    }
+                    Gdx.app.input.inputProcessor = settingsStage
                 }
-                Gdx.app.input.inputProcessor = settingsStage
-                pauseWindow.fadeOut()
+            }
+            GameplayUIAction.NavigateToControls -> {
+                pauseWindow.fadeOut {
+                    controlsStage = ControlsStage().also { cS ->
+                        cS.mainActionReceiver = { action ->
+                            onStageAction(action) {
+                                controlsStage?.fadeOut {
+                                    controlsStage?.dispose()
+                                    controlsStage = null
+                                }
+                            }
+                        }
+                        cS.fadeIn()
+                    }
+                    Gdx.app.input.inputProcessor = controlsStage
+                }
             }
         }
     }
 
-    private fun onSettingsStageAction(action: MainAction) {
+    private fun onStageAction(action: MainAction, disposeStage: () -> Unit) {
         when (action) {
             MainAction.NavigateToMainMenu -> {
                 Gdx.app.input.inputProcessor = this
                 pauseWindow.fadeIn()
-                settingsStage?.fadeOut {
-                    settingsStage?.dispose()
-                    settingsStage = null
-                }
+                disposeStage()
             }
             else -> {}
         }
@@ -115,6 +140,7 @@ class GameplayUIStage(
     override fun onResize(scrWidth: Int, scrHeight: Int) {
         super.onResize(scrWidth, scrHeight)
         settingsStage?.onResize(scrWidth, scrHeight)
+        controlsStage?.onResize(scrWidth, scrHeight)
 
         @Suppress("UNNECESSARY_SAFE_CALL")
         onBottomUiResize?.invoke((CELL_SIZE + PAD * 2).stageToReal(this))
@@ -135,8 +161,13 @@ class GameplayUIStage(
 
     override fun keyDown(keyCode: Int) = if (keyCode == Keys.BACK) {
         val state = gameplayLogic.onAction(GameplayLogic.ToActions.GetState)
-        if (state.paused) gameplayLogic.onAction(GameplayLogic.ToActions.ResumeGame)
-        else gameplayLogic.onAction(GameplayLogic.ToActions.PauseGame)
+
+        if (state.paused) pauseWindow.fadeOut {
+            gameplayLogic.onAction(GameplayLogic.ToActions.ResumeGame)
+        } else {
+            gameplayLogic.onAction(GameplayLogic.ToActions.PauseGame)
+        }
+
         true
     } else super.keyDown(keyCode)
 

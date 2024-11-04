@@ -75,6 +75,8 @@ object AssetsLoader {
         Asset.TX_BG_MOUNTAIN        to      Pair("mountain.png",                Texture::class.java),
         Asset.TX_BG_FOG             to      Pair("fog.png",                     Texture::class.java),
         Asset.TX_BG_CLOUDS          to      Pair("clouds.png",                  Texture::class.java),
+        Asset.TX_CONTROL_S_PEN      to      Pair("controls_spen.png",           Texture::class.java),
+        Asset.TX_CONTROL_TOUCH      to      Pair("controls_touch.png",          Texture::class.java),
         Asset.SN_START_COUNTDOWN    to      Pair("sounds/start_countdown.mp3",  Sound::class.java),
         Asset.SN_GUN_SHOT           to      Pair("sounds/gun_shot.mp3",         Sound::class.java),
         Asset.SN_GUN_RELOAD         to      Pair("sounds/gun_reload.mp3",       Sound::class.java),

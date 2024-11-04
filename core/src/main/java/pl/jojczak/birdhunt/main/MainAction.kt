@@ -14,5 +14,6 @@ sealed class MainAction {
     data object NavigateToUnsupportedDevice : MainAction()
     data object NavigateToGameplay : MainAction()
     data object NavigateToSettings : MainAction()
+    data class NavigateToControls(val firstGame: Boolean = false) : MainAction()
     data object NavigateToAbout : MainAction()
 }

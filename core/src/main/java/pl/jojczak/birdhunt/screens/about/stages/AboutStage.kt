@@ -32,6 +32,8 @@ class AboutStage: ScreenWithUIStage.ScreenStage() {
         aT.add(getParagraph("about_p8")).fillX().expandX().padTop(PR_PAD).row()
         aT.add(getParagraph("about_p8b", true)).fillX().expandX().padTop(PR_PAD / 2).row()
         aT.add(getParagraph("about_p9")).fillX().expandX().padTop(PR_PAD).row()
+        aT.add(getParagraph("about_p9b", true)).fillX().expandX().padTop(PR_PAD / 2).row()
+        aT.add(getParagraph("about_p10")).fillX().expandX().padTop(PR_PAD).row()
     }
 
     private val scrollPane = ScrollPane(aboutTable, skin, "blank").also { sP ->
@@ -79,7 +81,9 @@ class AboutStage: ScreenWithUIStage.ScreenStage() {
     }
 
     override fun keyDown(keyCode: Int) = if (keyCode == Keys.BACK) {
-        mainActionReceiver(MainAction.NavigateToMainMenu)
+        fadeOut {
+            mainActionReceiver(MainAction.NavigateToMainMenu)
+        }
         true
     } else super.keyDown(keyCode)
 

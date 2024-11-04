@@ -72,7 +72,9 @@ class SettingsStage : ScreenWithUIStage.ScreenStage() {
     }
 
     override fun keyDown(keyCode: Int) = if (keyCode == Keys.BACK) {
-        mainActionReceiver(MainAction.NavigateToMainMenu)
+        fadeOut {
+            mainActionReceiver(MainAction.NavigateToMainMenu)
+        }
         true
     } else super.keyDown(keyCode)
 
