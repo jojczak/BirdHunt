@@ -54,6 +54,8 @@ class GameplayUIStage(
     }
 
     init {
+        root.name = NAME
+
         gameplayLogic.addActionsListener(
             scoreWidget,
             shotWindow,
@@ -69,6 +71,8 @@ class GameplayUIStage(
         addActor(countdownLabel)
         addActor(pauseWindow)
         addActor(gameOverWindow)
+
+        addListener(GameplayUIStageInputListener(gameplayLogic))
     }
 
     override fun act(delta: Float) {
@@ -139,6 +143,7 @@ class GameplayUIStage(
     companion object {
         @Suppress("unused")
         private const val TAG = "GameplayUIStage"
+        const val NAME = "gameplay_ui_stage"
 
         const val CELL_SIZE = 190f
         const val PAD = 10f

@@ -26,12 +26,14 @@ interface GameplayLogic {
         fun displayWarning(state: GameplayState.GameOver?) = Unit
         fun spawnBird(howMany: Int) = Unit
         fun shot() = Unit
+        fun moveScope(x: Float, y: Float) = Unit
         fun pauseStateUpdated(paused: Boolean) = Unit
         fun restartGame() = Unit
     }
 
     sealed class ToActions<R> {
         data object Shot : ToActions<Unit>()
+        data class ScopeMoved(val x: Float, val y: Float) : ToActions<Unit>()
         data object BirdHit : ToActions<Unit>()
         data object BirdsStillFlying : ToActions<Unit>()
         data object AllBirdsDead: ToActions<Unit>()
@@ -142,6 +144,10 @@ class GameplayLogicImpl(
                     shots--
                     notifyActionsListeners { shot() }
                 }
+            }
+
+            is GameplayLogic.ToActions.ScopeMoved -> {
+                notifyActionsListeners { moveScope(action.x, action.y) }
             }
 
             is GameplayLogic.ToActions.BirdHit -> {
@@ -262,7 +268,9 @@ class GameplayLogicImpl(
         SPenHelper.ButtonEvent.UP, SPenHelper.ButtonEvent.UNKNOWN -> Unit
     }
 
-    override fun onSPenMotionEvent(x: Float, y: Float) = Unit
+    override fun onSPenMotionEvent(x: Float, y: Float) {
+        onAction(GameplayLogic.ToActions.ScopeMoved(x, y))
+    }
 
     private fun notifyActionsListeners(action: GameplayLogic.FromActions.() -> Unit) {
         actionsListeners.forEach { it.action() }
