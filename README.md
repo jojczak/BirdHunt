@@ -22,6 +22,7 @@ You can see a demonstration of the game in this video:</br>
 - Samsung Galaxy S Ultra Series: **Galaxy S21 Ultra** and newer
 - Samsung Galaxy Tab Series: **Galaxy Tab S6** and newer *(Air Actions depend on the specific S Pen model)*
 - Samsung Galaxy Z Fold Series: **Galaxy Z Fold3** and newer *(Air Actions depend on the specific S Pen model)*
+
 It also requires Android 12 or newer.
 
 ## Download
