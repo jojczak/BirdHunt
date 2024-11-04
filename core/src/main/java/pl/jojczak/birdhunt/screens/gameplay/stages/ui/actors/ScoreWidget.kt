@@ -17,6 +17,10 @@ class ScoreWidget(
     private val infoLabel = Label("", skin, FONT_75_BORDERED, Color.WHITE)
 
     init {
+        name = NAME
+        scoreLabel.name = NAME
+        infoLabel.name = NAME
+
         setFillParent(true)
         top()
         add(scoreLabel).row()
@@ -33,5 +37,9 @@ class ScoreWidget(
             is GameplayState.GameOver.OutOfTime -> infoLabel.setText(i18N.get("game_label_bird_time"))
             null -> infoLabel.setText("")
         }
+    }
+
+    companion object {
+        const val NAME = "score_widget"
     }
 }

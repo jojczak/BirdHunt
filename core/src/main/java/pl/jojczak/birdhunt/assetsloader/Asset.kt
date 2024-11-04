@@ -15,6 +15,8 @@ enum class Asset {
     TX_BG_MOUNTAIN,
     TX_BG_FOG,
     TX_BG_CLOUDS,
+    TX_CONTROL_S_PEN,
+    TX_CONTROL_TOUCH,
     SN_START_COUNTDOWN,
     SN_GUN_SHOT,
     SN_GUN_RELOAD,

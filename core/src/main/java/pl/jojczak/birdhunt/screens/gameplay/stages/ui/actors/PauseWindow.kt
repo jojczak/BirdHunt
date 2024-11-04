@@ -29,6 +29,11 @@ class PauseWindow(
             gameplayUIActionReceiver(GameplayUIAction.NavigateToSettings)
         })
     }
+    private val controlsButton = TextButton(i18N.get("controls"), skin).also { cB ->
+        cB.addListener(ButtonListener { _, _ ->
+            gameplayUIActionReceiver(GameplayUIAction.NavigateToControls)
+        })
+    }
     private val exitButton = TextButton(i18N.get("exit_bt"), skin).also { eB ->
         eB.addListener(ButtonListener { _, _ ->
             gameplayLogic.onAction(GameplayLogic.ToActions.ExitGame)
@@ -42,6 +47,7 @@ class PauseWindow(
 
         w.add(resumeButton).padTop(PAD).row()
         w.add(settingsButton).padTop(PAD).row()
+        w.add(controlsButton).padTop(PAD).row()
         w.add(exitButton).padTop(PAD)
     }
 

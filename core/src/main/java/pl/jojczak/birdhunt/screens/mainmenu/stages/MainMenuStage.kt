@@ -1,6 +1,7 @@
 package pl.jojczak.birdhunt.screens.mainmenu.stages
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Image
@@ -24,8 +25,13 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
     private val startGameButton = TextButton(i18N.get("bt_start_game"), skin).also { sgB ->
         sgB.addListener(ButtonListener { _, _ ->
             Gdx.app.log(TAG, "Start button clicked")
-            fadeOut { mainActionReceiver(MainAction.NavigateToGameplay) }
-
+            if (Preferences.get(Preferences.PREF_FIRST_GAME)) {
+                fadeOut { mainActionReceiver(MainAction.NavigateToControls(firstGame = true)) }
+                Preferences.put(Preferences.PREF_FIRST_GAME, false)
+                Preferences.flush()
+            } else {
+                fadeOut { mainActionReceiver(MainAction.NavigateToGameplay) }
+            }
         })
     }
 
@@ -130,6 +136,11 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
 
         cT.add().minHeight(50f).expandY()
     }
+
+    override fun keyDown(keyCode: Int) = if (keyCode == Input.Keys.BACK) {
+        Gdx.app.exit()
+        true
+    } else super.keyDown(keyCode)
 
     companion object {
         private const val TAG = "MainMenuStage"

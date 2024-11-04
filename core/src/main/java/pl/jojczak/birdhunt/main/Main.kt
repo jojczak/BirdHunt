@@ -7,6 +7,7 @@ import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.ScreenWithUIStage
 import pl.jojczak.birdhunt.screens.about.stages.AboutStage
 import pl.jojczak.birdhunt.screens.gameplay.GameplayScreen
+import pl.jojczak.birdhunt.screens.gameplay.stages.howtoplay.ControlsStage
 import pl.jojczak.birdhunt.screens.loading.LoadingScreen
 import pl.jojczak.birdhunt.screens.mainmenu.stages.MainMenuStage
 import pl.jojczak.birdhunt.screens.settings.stages.SettingsStage
@@ -105,6 +106,17 @@ class Main(
                         mainActionReceiver = ::onAction,
                         backgroundStage = backgroundStage,
                         stage = SettingsStage()
+                    )
+                )
+            }
+
+            is MainAction.NavigateToControls -> {
+                getScreen().dispose()
+                setScreen(
+                    ScreenWithUIStage(
+                        mainActionReceiver = ::onAction,
+                        backgroundStage = backgroundStage,
+                        stage = ControlsStage(action.firstGame)
                     )
                 )
             }

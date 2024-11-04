@@ -10,14 +10,12 @@ import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.GameplayState
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_SENSITIVITY
-import pl.jojczak.birdhunt.utils.SPenHelper
 import pl.jojczak.birdhunt.utils.insetsHelperInstance
 import pl.jojczak.birdhunt.utils.realToStage
-import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 class ScopeActor(
     private val gameplayLogic: GameplayLogic
-): BaseActor(), DisposableActor, SPenHelper.EventListener, Preferences.PreferenceListener<Float> {
+): BaseActor(), DisposableActor, GameplayLogic.FromActions, Preferences.PreferenceListener<Float> {
     private val texture = AssetsLoader.get<Texture>(Asset.TX_SCOPE)
 
     private var sensitivity = Preferences.get(PREF_SENSITIVITY)
@@ -25,7 +23,7 @@ class ScopeActor(
 
     init {
         Preferences.addListener(PREF_SENSITIVITY, this)
-        sPenHelperInstance.addEventListener(this)
+        gameplayLogic.addActionsListener(this)
 
         setSize(
             texture.width.toFloat(),
@@ -62,9 +60,7 @@ class ScopeActor(
         batch.draw(texture, x - width / 2, y - height / 2)
     }
 
-    override fun onSPenButtonEvent(event: SPenHelper.ButtonEvent) = Unit
-
-    override fun onSPenMotionEvent(x: Float, y: Float) {
+    override fun moveScope(x: Float, y: Float) {
         val gameplayState = gameplayLogic.onAction(GameplayLogic.ToActions.GetState)
         if (gameplayState.paused || gameplayState is GameplayState.GameOver) return
 
@@ -78,7 +74,7 @@ class ScopeActor(
 
     override fun dispose() {
         Preferences.removeListener(PREF_SENSITIVITY, this)
-        sPenHelperInstance.addEventListener(this)
+        gameplayLogic.removeActionsListener(this)
     }
 
     companion object {

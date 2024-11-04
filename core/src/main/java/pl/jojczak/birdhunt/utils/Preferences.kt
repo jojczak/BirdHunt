@@ -12,6 +12,7 @@ object Preferences {
     val PREF_HIGH_SCORE = Preference("highScore", 0)
     val PREF_GAME_SCALE = Preference("gameScale", 1f)
     val PREF_FIRST_RUN = Preference("firstRun", true)
+    val PREF_FIRST_GAME = Preference("firstGame", true)
 
     private val listeners = mutableMapOf<Preference<*>, MutableList<PreferenceListener<*>>>()
 
