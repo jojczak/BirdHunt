@@ -28,7 +28,7 @@ It also requires Android 12 or newer.
 ## Download
 You can download Bird Hunt from the [Releases](https://github.com/j-janczak/BirdHunt/releases) section here on GitHub or from Google Play:
 
-[<img src="gimp/google_play/google_play_badge.png" height="50">](https://play.google.com/store/games?hl=pl)
+[<img src="gimp/google_play/google_play_badge.png" height="50">](https://play.google.com/store/apps/details?id=pl.jojczak.birdhunt)
 
 ## Building the Project
 1. Clone the repository:
