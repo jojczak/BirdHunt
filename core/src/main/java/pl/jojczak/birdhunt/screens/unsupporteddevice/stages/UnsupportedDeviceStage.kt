@@ -13,7 +13,7 @@ import pl.jojczak.birdhunt.utils.Preferences
 
 class UnsupportedDeviceStage: ScreenWithUIStage.ScreenStage() {
 
-    private val text = Label(i18N.get("unsupported_device_content"), skin, Asset.FONT_46, Color.BLACK).also { t ->
+    private val text = Label(i18N.get("unsupported_device_content"), skin, Asset.FONT_SMALL, Color.BLACK).also { t ->
         t.wrap = true
     }
 

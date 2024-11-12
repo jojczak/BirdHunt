@@ -4,86 +4,86 @@ size: 2048, 2048
 format: RGBA8888
 filter: Linear, Linear
 repeat: none
+GenericMobileSystemNuevo-200-bordered
+  rotate: false
+  xy: 1, 93
+  size: 490, 412
+  orig: 490, 412
+  offset: 0, 0
+  index: -1
+GenericMobileSystemNuevo-55
+  rotate: false
+  xy: 515, 1222
+  size: 506, 311
+  orig: 506, 311
+  offset: 0, 0
+  index: -1
+GenericMobileSystemNuevo-55-bordered
+  rotate: false
+  xy: 1029, 1598
+  size: 506, 449
+  orig: 506, 449
+  offset: 0, 0
+  index: -1
+GenericMobileSystemNuevo-85-bordered_0
+  rotate: false
+  xy: 515, 1535
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+GenericMobileSystemNuevo-85-bordered_1
+  rotate: false
+  xy: 1, 507
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+GenericMobileSystemNuevo-85_0
+  rotate: false
+  xy: 1, 1535
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+GenericMobileSystemNuevo-85_1
+  rotate: false
+  xy: 1, 1021
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
 checkbox_off
   rotate: false
-  xy: 515, 1003
+  xy: 515, 984
   size: 102, 78
   orig: 102, 78
   offset: 0, 0
   index: -1
 checkbox_off_over
   rotate: false
-  xy: 1, 1
+  xy: 1, 13
   size: 102, 78
   orig: 102, 78
   offset: 0, 0
   index: -1
 checkbox_on
   rotate: false
-  xy: 1537, 1803
+  xy: 1537, 1811
   size: 102, 78
   orig: 102, 78
   offset: 0, 0
   index: -1
 checkbox_on_over
   rotate: false
-  xy: 673, 1161
+  xy: 673, 1142
   size: 102, 78
   orig: 102, 78
   offset: 0, 0
   index: -1
-PixelifySans-180-bordered
-  rotate: false
-  xy: 1, 81
-  size: 486, 416
-  orig: 486, 416
-  offset: 0, 0
-  index: -1
-PixelifySans-46
-  rotate: false
-  xy: 515, 1241
-  size: 506, 284
-  orig: 506, 284
-  offset: 0, 0
-  index: -1
-PixelifySans-46-bordered
-  rotate: false
-  xy: 1029, 1569
-  size: 506, 470
-  orig: 506, 470
-  offset: 0, 0
-  index: -1
-PixelifySans-75-bordered_0
-  rotate: false
-  xy: 515, 1527
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-PixelifySans-75-bordered_1
-  rotate: false
-  xy: 1, 499
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-PixelifySans-75_0
-  rotate: false
-  xy: 1, 1527
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-PixelifySans-75_1
-  rotate: false
-  xy: 1, 1013
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
 button_disabled
   rotate: false
-  xy: 1695, 1949
+  xy: 105, 1
   size: 90, 90
   split: 43, 43, 43, 43
   pad: 31, 43, 31, 43
@@ -92,7 +92,7 @@ button_disabled
   index: -1
 button_down
   rotate: false
-  xy: 515, 911
+  xy: 197, 1
   size: 90, 90
   split: 43, 31, 43, 31
   orig: 90, 90
@@ -100,7 +100,7 @@ button_down
   index: -1
 button_over
   rotate: false
-  xy: 1537, 1711
+  xy: 289, 1
   size: 90, 90
   split: 43, 43, 43, 43
   pad: 31, 43, 31, 43
@@ -109,7 +109,7 @@ button_over
   index: -1
 button_up
   rotate: false
-  xy: 1787, 1949
+  xy: 381, 1
   size: 90, 90
   split: 43, 43, 43, 43
   pad: 31, 43, 31, 43
@@ -118,7 +118,7 @@ button_up
   index: -1
 list_bg
   rotate: false
-  xy: 515, 831
+  xy: 777, 1142
   size: 78, 78
   split: 31, 31, 31, 31
   orig: 78, 78
@@ -126,7 +126,7 @@ list_bg
   index: -1
 list_bg_down
   rotate: false
-  xy: 1537, 1631
+  xy: 1537, 1731
   size: 78, 78
   split: 31, 31, 31, 31
   orig: 78, 78
@@ -134,7 +134,7 @@ list_bg_down
   index: -1
 list_bg_over
   rotate: false
-  xy: 1879, 1961
+  xy: 1787, 1969
   size: 78, 78
   split: 31, 31, 31, 31
   orig: 78, 78
@@ -142,7 +142,7 @@ list_bg_over
   index: -1
 list_bg_selected
   rotate: false
-  xy: 197, 1
+  xy: 515, 824
   size: 78, 78
   split: 31, 31, 31, 31
   orig: 78, 78
@@ -150,7 +150,7 @@ list_bg_selected
   index: -1
 scrollpane_knob_horizontal
   rotate: false
-  xy: 515, 739
+  xy: 473, 1
   size: 78, 90
   split: 31, 31, 43, 31
   orig: 78, 90
@@ -158,7 +158,7 @@ scrollpane_knob_horizontal
   index: -1
 scrollpane_knob_vertical
   rotate: false
-  xy: 105, 1
+  xy: 1695, 1969
   size: 90, 78
   split: 43, 31, 31, 31
   orig: 90, 78
@@ -166,7 +166,7 @@ scrollpane_knob_vertical
   index: -1
 scrollpane_scroll_horizontal
   rotate: false
-  xy: 515, 647
+  xy: 1537, 1639
   size: 78, 90
   split: 31, 31, 43, 31
   orig: 78, 90
@@ -174,7 +174,7 @@ scrollpane_scroll_horizontal
   index: -1
 scrollpane_scroll_vertical
   rotate: false
-  xy: 777, 1161
+  xy: 515, 904
   size: 90, 78
   split: 43, 31, 31, 31
   orig: 90, 78
@@ -182,7 +182,7 @@ scrollpane_scroll_vertical
   index: -1
 slider_bg
   rotate: false
-  xy: 869, 1161
+  xy: 857, 1142
   size: 78, 78
   split: 31, 31, 31, 31
   pad: 6, 6, 31, 31
@@ -191,7 +191,7 @@ slider_bg
   index: -1
 window
   rotate: false
-  xy: 515, 1083
+  xy: 515, 1064
   size: 156, 156
   split: 31, 31, 109, 31
   pad: 31, 31, 102, 31
@@ -200,7 +200,7 @@ window
   index: -1
 window-dark
   rotate: false
-  xy: 1537, 1883
+  xy: 1537, 1891
   size: 156, 156
   split: 31, 31, 67, 31
   pad: 31, 31, 66, 31

@@ -67,7 +67,7 @@ class AboutStage: ScreenWithUIStage.ScreenStage() {
 
     private fun getParagraph(i18NKey: String, urlLink: Boolean = false): Label {
         return if (urlLink) {
-            Label(i18N.get(i18NKey), skin, Asset.FONT_46, Color.BLUE).also { l ->
+            Label(i18N.get(i18NKey), skin, Asset.FONT_SMALL, Color.BLUE).also { l ->
                 l.wrap = true
                 l.addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent, x: Float, y: Float) {
@@ -75,7 +75,7 @@ class AboutStage: ScreenWithUIStage.ScreenStage() {
                     }
                 })
             }
-        } else Label(i18N.get(i18NKey), skin, Asset.FONT_46, Color.BLACK).also { l ->
+        } else Label(i18N.get(i18NKey), skin, Asset.FONT_SMALL, Color.BLACK).also { l ->
             l.wrap = true
         }
     }
