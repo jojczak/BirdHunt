@@ -26,10 +26,10 @@ enum class Asset {
     SN_GAME_OVER;
 
     companion object {
-        const val FONT_46 = "PixelifySans-46"
-        const val FONT_46_BORDERED = "PixelifySans-46-bordered"
-        const val FONT_75 = "PixelifySans-75"
-        const val FONT_75_BORDERED = "PixelifySans-75-bordered"
-        const val FONT_180_BORDERED = "PixelifySans-180-bordered"
+        const val FONT_SMALL = "GenericMobileSystemNuevo-55"
+        const val FONT_SMALL_BORDERED = "GenericMobileSystemNuevo-55-bordered"
+        const val FONT_MEDIUM = "GenericMobileSystemNuevo-85"
+        const val FONT_MEDIUM_BORDERED = "GenericMobileSystemNuevo-85-bordered"
+        const val FONT_LARGE_BORDERED = "GenericMobileSystemNuevo-200-bordered"
     }
 }

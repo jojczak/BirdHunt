@@ -24,7 +24,7 @@ class SliderWithLabel(
         value = Preferences.get(preference)
         addListener(SliderInputListener())
     }
-    private val label = Label(i18n.format(i18nKey, "${slider.value}"), skin, Asset.FONT_46, Color.BLACK)
+    private val label = Label(i18n.format(i18nKey, "${slider.value}"), skin, Asset.FONT_SMALL, Color.BLACK)
 
    init {
        add(label).expandX().fillX().padLeft(PAD_LEFT).padBottom(PAD).row()

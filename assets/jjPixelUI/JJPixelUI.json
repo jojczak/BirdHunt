@@ -1,31 +1,31 @@
 {
 "com.badlogic.gdx.graphics.g2d.BitmapFont": {
-	"PixelifySans-180-bordered": {
-		"file": "PixelifySans-180-bordered.fnt",
+	"GenericMobileSystemNuevo-200-bordered": {
+		"file": "GenericMobileSystemNuevo-200-bordered.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"PixelifySans-46": {
-		"file": "PixelifySans-46.fnt",
+	"GenericMobileSystemNuevo-55": {
+		"file": "GenericMobileSystemNuevo-55.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"PixelifySans-46-bordered": {
-		"file": "PixelifySans-46-bordered.fnt",
+	"GenericMobileSystemNuevo-55-bordered": {
+		"file": "GenericMobileSystemNuevo-55-bordered.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"PixelifySans-75": {
-		"file": "PixelifySans-75.fnt",
+	"GenericMobileSystemNuevo-85": {
+		"file": "GenericMobileSystemNuevo-85.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
 	},
-	"PixelifySans-75-bordered": {
-		"file": "PixelifySans-75-bordered.fnt",
+	"GenericMobileSystemNuevo-85-bordered": {
+		"file": "GenericMobileSystemNuevo-85-bordered.fnt",
 		"scaledSize": -1,
 		"markupEnabled": false,
 		"flip": false
@@ -65,7 +65,7 @@
 		"checkboxOff": "checkbox_off",
 		"checkboxOnOver": "checkbox_on_over",
 		"checkboxOver": "checkbox_off_over",
-		"font": "PixelifySans-46",
+		"font": "GenericMobileSystemNuevo-55",
 		"fontColor": "black"
 	}
 },
@@ -76,15 +76,15 @@
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 	"default": {
-		"font": "PixelifySans-46"
+		"font": "GenericMobileSystemNuevo-55"
 	},
 	"big": {
-		"font": "PixelifySans-75"
+		"font": "GenericMobileSystemNuevo-55"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle": {
 	"default": {
-		"font": "PixelifySans-75",
+		"font": "GenericMobileSystemNuevo-55",
 		"fontColorSelected": "black",
 		"fontColorUnselected": "black",
 		"selection": "list_bg_selected",
@@ -93,7 +93,7 @@
 		"background": "list_bg"
 	},
 	"select_box": {
-		"font": "PixelifySans-75",
+		"font": "GenericMobileSystemNuevo-55",
 		"fontColorSelected": "black",
 		"fontColorUnselected": "black",
 		"selection": "list_bg_selected",
@@ -118,7 +118,7 @@
 },
 "com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle": {
 	"default": {
-		"font": "PixelifySans-75",
+		"font": "GenericMobileSystemNuevo-55",
 		"fontColor": "black",
 		"background": "list_bg",
 		"scrollStyle": "default",
@@ -136,7 +136,7 @@
 "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
 	"default": {
 		"parent": "default",
-		"font": "PixelifySans-75",
+		"font": "GenericMobileSystemNuevo-85",
 		"fontColor": "black"
 	}
 },
@@ -148,12 +148,12 @@
 "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
 	"default": {
 		"background": "window",
-		"titleFont": "PixelifySans-75",
+		"titleFont": "GenericMobileSystemNuevo-85",
 		"titleFontColor": "black"
 	},
 	"dark": {
 		"background": "window-dark",
-		"titleFont": "PixelifySans-46"
+		"titleFont": "GenericMobileSystemNuevo-55"
 	}
 }
 }

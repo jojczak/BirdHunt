@@ -52,14 +52,14 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
     private val highScoreLabel = Label(
         i18N.format("main_menu_high_score", Preferences.get(PREF_HIGH_SCORE)),
         skin,
-        Asset.FONT_75_BORDERED,
+        Asset.FONT_MEDIUM_BORDERED,
         Color.WHITE
     )
 
     private val infoLabel = Label(
         i18N.format("main_menu_info", appVersion),
         skin,
-        Asset.FONT_46_BORDERED,
+        Asset.FONT_SMALL_BORDERED,
         Color.WHITE
     ).also { iL ->
         iL.setPosition(ROW_PAD, ROW_PAD)

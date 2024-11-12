@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.I18NBundle
-import pl.jojczak.birdhunt.assetsloader.Asset.Companion.FONT_75
+import pl.jojczak.birdhunt.assetsloader.Asset.Companion.FONT_MEDIUM
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 
 class RoundWindow(
@@ -15,7 +15,7 @@ class RoundWindow(
     skin,
     "dark"
 ), GameplayLogic.FromActions {
-    private val roundLabel = Label("${GameplayLogic.DEF_ROUND}", skin, FONT_75, Color.WHITE)
+    private val roundLabel = Label("${GameplayLogic.DEF_ROUND}", skin, FONT_MEDIUM, Color.WHITE)
 
     init {
         add(roundLabel)
