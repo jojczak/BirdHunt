@@ -13,6 +13,10 @@ object Preferences {
     val PREF_GAME_SCALE = Preference("gameScale", 1f)
     val PREF_FIRST_RUN = Preference("firstRun", true)
     val PREF_FIRST_GAME = Preference("firstGame", true)
+    val PREF_PGS_AUTH = Preference("pgsAuth", false)
+    val PREF_ACH_TWO_BIRDS_UNLOCKED = Preference("achTwoBirdsUnlocked", false)
+    val PREF_ACH_1K_POINTS_UNLOCKED = Preference("ach1KPointsUnlocked", false)
+    val PREF_ACH_THREE_BIRDS_UNLOCKED = Preference("achThreeBirdsUnlocked", false)
 
     private val listeners = mutableMapOf<Preference<*>, MutableList<PreferenceListener<*>>>()
 

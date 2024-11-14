@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
@@ -15,12 +16,17 @@ import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.ScreenWithUIStage
 import pl.jojczak.birdhunt.main.MainAction
 import pl.jojczak.birdhunt.utils.ButtonListener
+import pl.jojczak.birdhunt.utils.DisabledButtonListener
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_HIGH_SCORE
+import pl.jojczak.birdhunt.utils.Preferences.PREF_PGS_AUTH
 import pl.jojczak.birdhunt.utils.appVersion
+import pl.jojczak.birdhunt.utils.playServicesHelperInstance
 
 class MainMenuStage : ScreenWithUIStage.ScreenStage() {
     private var orientationVertical: Boolean? = null
+
+    private val pgsPreferenceListener = Preferences.PreferenceListener(::onPgsAuthChanged)
 
     private val startGameButton = TextButton(i18N.get("bt_start_game"), skin).also { sgB ->
         sgB.addListener(ButtonListener { _, _ ->
@@ -49,6 +55,20 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
         })
     }
 
+    private val leaderboardButton = ImageButton(skin, "gp_leaderboard").also { lB ->
+        lB.addListener(DisabledButtonListener { _ ->
+            Gdx.app.log(TAG, "Leaderboard button clicked")
+            playServicesHelperInstance.showLeaderboard()
+        })
+    }
+
+    private val achievementsButton = ImageButton(skin, "gp_achievements").also { lB ->
+        lB.addListener(DisabledButtonListener { _ ->
+            Gdx.app.log(TAG, "Achievements button clicked")
+            playServicesHelperInstance.showAchievements()
+        })
+    }
+
     private val highScoreLabel = Label(
         i18N.format("main_menu_high_score", Preferences.get(PREF_HIGH_SCORE)),
         skin,
@@ -74,6 +94,8 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
 
     init {
         Gdx.app.log(TAG, "init MainMenuStage")
+        Preferences.addListener(PREF_PGS_AUTH, pgsPreferenceListener)
+        onPgsAuthChanged(Preferences.get(PREF_PGS_AUTH))
         addActor(infoLabel)
     }
 
@@ -113,6 +135,10 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
             bT.add(startGameButton).padBottom(ROW_PAD).row()
             bT.add(settingsButton).padBottom(ROW_PAD).row()
             bT.add(aboutButton).padBottom(ROW_PAD).row()
+            bT.add(Table().also { gpT ->
+                gpT.add(leaderboardButton).padRight(ROW_PAD / 2)
+                gpT.add(achievementsButton).padLeft(ROW_PAD / 2)
+            }).padBottom(ROW_PAD).row()
             bT.add(highScoreLabel).row()
         }).expand().center().padRight(50f)
     }
@@ -131,16 +157,31 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
             bT.add(startGameButton).padBottom(ROW_PAD).row()
             bT.add(settingsButton).padBottom(ROW_PAD).row()
             bT.add(aboutButton).padBottom(ROW_PAD).row()
+            bT.add(Table().also { gpT ->
+                gpT.add(leaderboardButton).padRight(ROW_PAD / 2)
+                gpT.add(achievementsButton).padLeft(ROW_PAD / 2)
+            }).padBottom(ROW_PAD).row()
             bT.add(highScoreLabel).row()
         }).expandY().align(Align.top).row()
 
         cT.add().minHeight(50f).expandY()
     }
 
+    private fun onPgsAuthChanged(isAuthenticated: Boolean) {
+        Gdx.app.log(TAG, "PGS auth changed: $isAuthenticated")
+        leaderboardButton.isDisabled = !isAuthenticated
+        achievementsButton.isDisabled = !isAuthenticated
+    }
+
     override fun keyDown(keyCode: Int) = if (keyCode == Input.Keys.BACK) {
         Gdx.app.exit()
         true
     } else super.keyDown(keyCode)
+
+    override fun dispose() {
+        Preferences.removeListener(PREF_PGS_AUTH, pgsPreferenceListener)
+        super.dispose()
+    }
 
     companion object {
         private const val TAG = "MainMenuStage"

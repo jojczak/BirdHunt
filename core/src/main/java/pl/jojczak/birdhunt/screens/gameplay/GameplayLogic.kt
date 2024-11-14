@@ -6,9 +6,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import pl.jojczak.birdhunt.base.DisposableActor
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.HITS_PER_ROUND
+import pl.jojczak.birdhunt.utils.PlayServicesHelper
 import pl.jojczak.birdhunt.utils.Preferences
+import pl.jojczak.birdhunt.utils.Preferences.PREF_ACH_1K_POINTS_UNLOCKED
+import pl.jojczak.birdhunt.utils.Preferences.PREF_ACH_THREE_BIRDS_UNLOCKED
+import pl.jojczak.birdhunt.utils.Preferences.PREF_ACH_TWO_BIRDS_UNLOCKED
 import pl.jojczak.birdhunt.utils.SPenHelper
 import pl.jojczak.birdhunt.utils.SoundManager
+import pl.jojczak.birdhunt.utils.playServicesHelperInstance
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 interface GameplayLogic {
@@ -36,6 +41,7 @@ interface GameplayLogic {
         data class ScopeMoved(val x: Float, val y: Float) : ToActions<Unit>()
         data object BirdHit : ToActions<Unit>()
         data object BirdsStillFlying : ToActions<Unit>()
+        data class CheckBirdsKilledAchievements(val killedBirds: Int) : ToActions<Unit>()
         data object AllBirdsDead: ToActions<Unit>()
         data object AllBirdsRemoved : ToActions<Unit>()
         data object GetState: ToActions<GameplayState>()
@@ -154,12 +160,30 @@ class GameplayLogicImpl(
                 soundManager.play(SoundManager.Sound.BIRD_FALLING)
                 points += GameplayLogic.POINTS_PER_HIT * round
                 hit++
+
+                if (points > 1000 && !Preferences.get(PREF_ACH_1K_POINTS_UNLOCKED)) {
+                    playServicesHelperInstance.unlockAchievement(PlayServicesHelper.ACHIEVEMENT_1000_POINTS)
+                    Preferences.put(PREF_ACH_1K_POINTS_UNLOCKED, true)
+                    Preferences.flush()
+                }
             }
 
             is GameplayLogic.ToActions.BirdsStillFlying -> {
                 if (shots == 0) {
                     notifyActionsListeners { displayWarning(GameplayState.GameOver.OutOfAmmo()) }
                     gameplayState = GameplayState.GameOver.OutOfAmmo()
+                }
+            }
+
+            is GameplayLogic.ToActions.CheckBirdsKilledAchievements -> {
+                if (action.killedBirds == 2 && !Preferences.get(PREF_ACH_TWO_BIRDS_UNLOCKED)) {
+                    playServicesHelperInstance.unlockAchievement(PlayServicesHelper.ACHIEVEMENT_KILL_TWO_BIRDS)
+                    Preferences.put(PREF_ACH_TWO_BIRDS_UNLOCKED, true)
+                    Preferences.flush()
+                } else if (action.killedBirds == 3 && !Preferences.get(PREF_ACH_THREE_BIRDS_UNLOCKED)) {
+                    playServicesHelperInstance.unlockAchievement(PlayServicesHelper.ACHIEVEMENT_KILL_THREE_BIRDS)
+                    Preferences.put(PREF_ACH_THREE_BIRDS_UNLOCKED, true)
+                    Preferences.flush()
                 }
             }
 
@@ -251,6 +275,8 @@ class GameplayLogicImpl(
         if (points > Preferences.get(Preferences.PREF_HIGH_SCORE)) {
             Preferences.put(Preferences.PREF_HIGH_SCORE, points)
             Preferences.flush()
+
+            playServicesHelperInstance.submitScore(points)
         }
     }
 

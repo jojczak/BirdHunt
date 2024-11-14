@@ -72,6 +72,14 @@
 "com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
 	"default": {
 		"parent": "default"
+	},
+	"gp_leaderboard": {
+		"parent": "default",
+		"imageUp": "img_bt_leaderboard"
+	},
+	"gp_achievements": {
+		"parent": "default",
+		"imageUp": "img_bt_achievements"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
@@ -138,6 +146,10 @@
 		"parent": "default",
 		"font": "GenericMobileSystemNuevo-85",
 		"fontColor": "black"
+	},
+	"small": {
+		"parent": "default",
+		"font": "GenericMobileSystemNuevo-55"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle": {

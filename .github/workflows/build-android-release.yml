@@ -29,18 +29,19 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build release APK
+      - name: Build release APK with PGS
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: ./gradlew assembleRelease
+        run: ./gradlew assemblePGS_OnRelease
 
-      #- name: Upload APK as artifact
-      #  uses: actions/upload-artifact@v3
-      #  with:
-      #  name: release-apk
-      #  path: android/build/outputs/apk/release/android-release.apk
+      - name: Build release APK without PGS
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew assemblePGS_OffRelease
 
       - name: Get projectVersion from gradle.properties
         id: get_version
@@ -59,12 +60,22 @@ jobs:
           draft: true
           prerelease: false
 
-      - name: Upload APK to Release
+      - name: Upload APK with PGS to Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: android/build/outputs/apk/release/android-release.apk
+          asset_path: android/build/outputs/apk/PGS_On/release/android-PGS_On-release.apk
+          asset_name: BirdHunt_v${{ env.VERSION_NAME }}_PGS.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload APK without PGS to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: android/build/outputs/apk/PGS_Off/release/android-PGS_Off-release.apk
           asset_name: BirdHunt_v${{ env.VERSION_NAME }}.apk
           asset_content_type: application/vnd.android.package-archive
