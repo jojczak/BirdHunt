@@ -4,7 +4,7 @@ import pl.jojczak.birdhunt.utils.PlayServicesHelper
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_PGS_AUTH
 
-class PlayServicesHelperAndroidImpl: PlayServicesHelper {
+class PlayServicesHelperDesktopImpl: PlayServicesHelper {
     override fun initPlayServices() {
         Preferences.put(PREF_PGS_AUTH, false)
         Preferences.flush()

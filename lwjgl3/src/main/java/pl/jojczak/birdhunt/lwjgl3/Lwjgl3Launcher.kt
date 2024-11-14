@@ -15,7 +15,7 @@ object Lwjgl3Launcher {
         if (StartupHelper.startNewJvmIfRequired()) return  // This handles macOS support and helps on Windows.
         sPenHelperInstance = SPenHelperDesktopImpl()
         insetsHelperInstance = InsetsHelperDesktopImpl()
-        playServicesHelperInstance = PlayServicesHelperAndroidImpl()
+        playServicesHelperInstance = PlayServicesHelperDesktopImpl()
         Lwjgl3Application(
             Main( onLoadingFinished = {} ),
             defaultConfiguration
