@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import pl.jojczak.birdhunt.main.Main
 import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.utils.playServicesHelperInstance
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 /** Launches the desktop (LWJGL3) application.  */
@@ -14,6 +15,7 @@ object Lwjgl3Launcher {
         if (StartupHelper.startNewJvmIfRequired()) return  // This handles macOS support and helps on Windows.
         sPenHelperInstance = SPenHelperDesktopImpl()
         insetsHelperInstance = InsetsHelperDesktopImpl()
+        playServicesHelperInstance = PlayServicesHelperAndroidImpl()
         Lwjgl3Application(
             Main( onLoadingFinished = {} ),
             defaultConfiguration

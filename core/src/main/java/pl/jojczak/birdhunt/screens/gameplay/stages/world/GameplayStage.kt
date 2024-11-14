@@ -70,15 +70,20 @@ class GameplayStage(
 
         shotgunActor.startShotAnimation()
 
+        var killedBirds = 0
         actors.filterIsInstance<BirdActor>().forEach { bird ->
             if (bird.isDead) return@forEach
 
             if (scopeActor.x > bird.x && scopeActor.x < bird.x + bird.width &&
                 scopeActor.y > bird.y && scopeActor.y < bird.y + bird.height
             ) {
-                if (bird.onHit()) gameplayLogic.onAction(GameplayLogic.ToActions.BirdHit)
+                if (bird.onHit()) {
+                    killedBirds++
+                    gameplayLogic.onAction(GameplayLogic.ToActions.BirdHit)
+                }
             }
         }
+        gameplayLogic.onAction(GameplayLogic.ToActions.CheckBirdsKilledAchievements(killedBirds))
 
         if (actors.filterIsInstance<BirdActor>().all { it.isDead }) {
             gameplayLogic.onAction(GameplayLogic.ToActions.AllBirdsDead)

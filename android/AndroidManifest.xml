@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -12,6 +15,10 @@
         android:isGame="true"
         android:label="@string/app_name"
         android:theme="@style/GdxTheme">
+
+        <meta-data android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/pgs_project_id"/>
+
         <activity
             android:name="pl.jojczak.birdhunt.android.AndroidLauncher"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"

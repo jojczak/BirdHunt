@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 import pl.jojczak.birdhunt.main.Main
 import pl.jojczak.birdhunt.utils.appVersion
 import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.utils.playServicesHelperInstance
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
 /** Launches the Android application.  */
@@ -20,9 +21,12 @@ class AndroidLauncher : AndroidApplication() {
         splashScreenHelper = SplashScreenHelper(this, installSplashScreen())
         sPenHelperInstance = SPenHelperAndroidImpl(this)
         insetsHelperInstance = InsetsHelperAndroidImpl(window)
+        playServicesHelperInstance = PlayServicesHelperAndroidImpl(this)
         appVersion = packageManager.getPackageInfo(packageName, 0).versionName ?: "0.0"
 
         setView()
+
+        playServicesHelperInstance.initPlayServices()
     }
 
     private fun setView() = setContentView(

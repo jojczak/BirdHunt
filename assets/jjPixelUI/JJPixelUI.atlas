@@ -81,42 +81,21 @@ checkbox_on_over
   orig: 102, 78
   offset: 0, 0
   index: -1
+img_bt_achievements
+  rotate: false
+  xy: 381, 7
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+img_bt_leaderboard
+  rotate: false
+  xy: 1537, 1725
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
 button_disabled
-  rotate: false
-  xy: 105, 1
-  size: 90, 90
-  split: 43, 43, 43, 43
-  pad: 31, 43, 31, 43
-  orig: 90, 90
-  offset: 0, 0
-  index: -1
-button_down
-  rotate: false
-  xy: 197, 1
-  size: 90, 90
-  split: 43, 31, 43, 31
-  orig: 90, 90
-  offset: 0, 0
-  index: -1
-button_over
-  rotate: false
-  xy: 289, 1
-  size: 90, 90
-  split: 43, 43, 43, 43
-  pad: 31, 43, 31, 43
-  orig: 90, 90
-  offset: 0, 0
-  index: -1
-button_up
-  rotate: false
-  xy: 381, 1
-  size: 90, 90
-  split: 43, 43, 43, 43
-  pad: 31, 43, 31, 43
-  orig: 90, 90
-  offset: 0, 0
-  index: -1
-list_bg
   rotate: false
   xy: 777, 1142
   size: 78, 78
@@ -126,13 +105,39 @@ list_bg
   index: -1
 list_bg_down
   rotate: false
-  xy: 1537, 1731
+  xy: 777, 1142
   size: 78, 78
   split: 31, 31, 31, 31
   orig: 78, 78
   offset: 0, 0
   index: -1
-list_bg_over
+button_down
+  rotate: false
+  xy: 105, 1
+  size: 90, 90
+  split: 43, 31, 43, 31
+  orig: 90, 90
+  offset: 0, 0
+  index: -1
+button_over
+  rotate: false
+  xy: 197, 1
+  size: 90, 90
+  split: 43, 43, 43, 43
+  pad: 31, 43, 31, 43
+  orig: 90, 90
+  offset: 0, 0
+  index: -1
+button_up
+  rotate: false
+  xy: 289, 1
+  size: 90, 90
+  split: 43, 43, 43, 43
+  pad: 31, 43, 31, 43
+  orig: 90, 90
+  offset: 0, 0
+  index: -1
+list_bg
   rotate: false
   xy: 1787, 1969
   size: 78, 78
@@ -140,7 +145,7 @@ list_bg_over
   orig: 78, 78
   offset: 0, 0
   index: -1
-list_bg_selected
+list_bg_over
   rotate: false
   xy: 515, 824
   size: 78, 78
@@ -148,9 +153,17 @@ list_bg_selected
   orig: 78, 78
   offset: 0, 0
   index: -1
+list_bg_selected
+  rotate: false
+  xy: 1537, 1645
+  size: 78, 78
+  split: 31, 31, 31, 31
+  orig: 78, 78
+  offset: 0, 0
+  index: -1
 scrollpane_knob_horizontal
   rotate: false
-  xy: 473, 1
+  xy: 467, 1
   size: 78, 90
   split: 31, 31, 43, 31
   orig: 78, 90
@@ -166,7 +179,7 @@ scrollpane_knob_vertical
   index: -1
 scrollpane_scroll_horizontal
   rotate: false
-  xy: 1537, 1639
+  xy: 515, 732
   size: 78, 90
   split: 31, 31, 43, 31
   orig: 78, 90

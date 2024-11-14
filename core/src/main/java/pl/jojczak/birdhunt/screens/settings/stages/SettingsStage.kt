@@ -11,10 +11,16 @@ import pl.jojczak.birdhunt.screens.settings.stages.actors.SliderWithLabel
 import pl.jojczak.birdhunt.utils.ButtonListener
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_GAME_SCALE
+import pl.jojczak.birdhunt.utils.Preferences.PREF_PGS_AUTH
 import pl.jojczak.birdhunt.utils.Preferences.PREF_SENSITIVITY
 import pl.jojczak.birdhunt.utils.Preferences.PREF_SOUND
+import pl.jojczak.birdhunt.utils.playServicesHelperInstance
 
 class SettingsStage : ScreenWithUIStage.ScreenStage() {
+
+    private val pgsPreferenceListener = Preferences.PreferenceListener<Boolean> { isAuthenticated ->
+        if (isAuthenticated) pgsSignInButton.remove()
+    }
 
     private val sensitivitySlider = SliderWithLabel(
         skin = skin,
@@ -42,7 +48,13 @@ class SettingsStage : ScreenWithUIStage.ScreenStage() {
         })
     }
 
-    private val settingsWindow = Window(i18N.get("pause_title"), skin).also { sW ->
+    private val pgsSignInButton = TextButton(i18N.get("settings_pgs_button"), skin, "small").also { pgsB ->
+        pgsB.addListener(ButtonListener { _, _ ->
+            playServicesHelperInstance.signIn()
+        })
+    }
+
+    private val settingsWindow = Window(i18N.get("settings_label"), skin).also { sW ->
         sW.isMovable = false
         sW.isResizable = false
         sW.top()
@@ -50,6 +62,10 @@ class SettingsStage : ScreenWithUIStage.ScreenStage() {
         sW.add(sensitivitySlider).padTop(SETTINGS_ITEM_PAD).expandX().fillX().row()
         sW.add(gameScaleSlider).padTop(SETTINGS_ITEM_PAD).expandX().fillX().row()
         sW.add(soundCheckBox).padTop(SETTINGS_ITEM_PAD * 1.5f).padLeft(SETTINGS_ITEM_PAD / 2).left().row()
+
+        if (!Preferences.get(PREF_PGS_AUTH)) {
+            sW.add(pgsSignInButton).padTop(SETTINGS_ITEM_PAD * 1.5f).row()
+        }
     }
 
     private val backButton = TextButton(i18N.get("back_bt"), skin).also { bB ->
@@ -69,6 +85,7 @@ class SettingsStage : ScreenWithUIStage.ScreenStage() {
     init {
         addActor(container)
         soundCheckBox.isChecked = Preferences.get(PREF_SOUND)
+        Preferences.addListener(PREF_PGS_AUTH, pgsPreferenceListener)
     }
 
     override fun keyDown(keyCode: Int) = if (keyCode == Keys.BACK) {
@@ -77,6 +94,10 @@ class SettingsStage : ScreenWithUIStage.ScreenStage() {
         }
         true
     } else super.keyDown(keyCode)
+
+    override fun dispose() {
+        Preferences.removeListener(PREF_PGS_AUTH, pgsPreferenceListener)
+    }
 
     companion object {
         @Suppress("unused")
