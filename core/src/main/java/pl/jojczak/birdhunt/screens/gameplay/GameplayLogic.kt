@@ -254,7 +254,7 @@ class GameplayLogicImpl(
         shots = GameplayLogic.DEF_SHOTS
         when (round) {
             in 0..5 -> {
-                notifyActionsListeners { spawnBird(2) }
+                notifyActionsListeners { spawnBird(1) }
             }
 
             in 6..10 -> {
