@@ -39,7 +39,7 @@ android {
     applicationId 'pl.jojczak.birdhunt'
     minSdkVersion 31
     targetSdkVersion 35
-    versionCode 2
+    versionCode 3
     versionName project.findProperty('projectVersion')
     multiDexEnabled true
   }
