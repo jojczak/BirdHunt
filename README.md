@@ -26,14 +26,14 @@ You can see a demonstration of the game in this video:</br>
 It also requires Android 12 or newer.
 
 ## Download
-You can download Bird Hunt from the [Releases](https://github.com/j-janczak/BirdHunt/releases) section here on GitHub or from Google Play:
+You can download Bird Hunt from the [Releases](https://github.com/jojczak/BirdHunt/releases) section here on GitHub or from Google Play:
 
 [<img src="gimp/google_play/google_play_badge.png" height="50">](https://play.google.com/store/apps/details?id=pl.jojczak.birdhunt)
 
 ## Building the Project
 1. Clone the repository:
    ```bash
-   git clone https://github.com/j-janczak/BirdHunt.git
+   git clone https://github.com/jojczak/BirdHunt.git
    ```
 2. Open Android Studio and click `File > New > Import Project` and select the BirdHunt repository folder.
 3. Select the android module from the run configurations dropdown and click the Run button
