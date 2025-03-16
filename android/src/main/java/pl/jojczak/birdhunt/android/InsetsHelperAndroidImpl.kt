@@ -5,7 +5,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import pl.jojczak.birdhunt.utils.InsetsHelper
+import pl.jojczak.birdhunt.os.helpers.InsetsHelper
 
 class InsetsHelperAndroidImpl(window: Window) : InsetsHelper {
     override var lastInsets = InsetsHelper.WindowInsets(0, 0, 0, 0)

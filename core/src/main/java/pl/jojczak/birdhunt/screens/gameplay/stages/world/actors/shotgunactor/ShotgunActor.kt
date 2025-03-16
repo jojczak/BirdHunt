@@ -12,8 +12,8 @@ import pl.jojczak.birdhunt.assetsloader.Asset
 import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseActor
 import pl.jojczak.birdhunt.base.DisposableActor
-import pl.jojczak.birdhunt.utils.InsetsHelper
-import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.os.helpers.InsetsHelper
+import pl.jojczak.birdhunt.os.helpers.insetsHelperInstance
 import pl.jojczak.birdhunt.utils.realToStage
 import kotlin.math.atan2
 

@@ -12,8 +12,8 @@ import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseStage
 import pl.jojczak.birdhunt.stages.background.actors.BackgroundActor
 import pl.jojczak.birdhunt.stages.background.actors.MovableBackgroundActor
-import pl.jojczak.birdhunt.utils.InsetsHelper
-import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.os.helpers.InsetsHelper
+import pl.jojczak.birdhunt.os.helpers.insetsHelperInstance
 import pl.jojczak.birdhunt.utils.realToStage
 
 class BackgroundStage : BaseStage(

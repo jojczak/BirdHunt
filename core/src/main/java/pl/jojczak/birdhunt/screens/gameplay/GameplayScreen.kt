@@ -3,11 +3,12 @@ package pl.jojczak.birdhunt.screens.gameplay
 import com.badlogic.gdx.Gdx
 import pl.jojczak.birdhunt.base.BaseScreen
 import pl.jojczak.birdhunt.main.MainAction
+import pl.jojczak.birdhunt.os.helpers.osCoreHelper
 import pl.jojczak.birdhunt.screens.gameplay.stages.ui.GameplayUIStage
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.GameplayStage
 import pl.jojczak.birdhunt.stages.background.BackgroundStage
 import pl.jojczak.birdhunt.utils.SoundManager
-import pl.jojczak.birdhunt.utils.sPenHelperInstance
+import pl.jojczak.birdhunt.os.helpers.sPenHelperInstance
 
 class GameplayScreen(
     mainActionReceiver: (action: MainAction) -> Unit,
@@ -24,6 +25,7 @@ class GameplayScreen(
     override fun show() {
         Gdx.app.log(TAG, "show gameplay screen")
         super.show()
+        osCoreHelper.setKeepScreenOn(true)
         Gdx.input.inputProcessor = gameplayUIStage
         gameplayLogic.addActionsListener(gameplayStage)
         gameplayStage.fadeIn()
@@ -66,6 +68,7 @@ class GameplayScreen(
         Gdx.app.log(TAG, "dispose GameplayScreen")
         gameplayLogic.removeActionsListener(gameplayStage)
         sPenHelperInstance.removeEventListener(gameplayLogic)
+        osCoreHelper.setKeepScreenOn(false)
         gameplayStage.dispose()
         gameplayUIStage.dispose()
         gameplayLogic.dispose()

@@ -1,6 +1,6 @@
 package pl.jojczak.birdhunt.lwjgl3
 
-import pl.jojczak.birdhunt.utils.InsetsHelper
+import pl.jojczak.birdhunt.os.helpers.InsetsHelper
 
 class InsetsHelperDesktopImpl: InsetsHelper {
     override var lastInsets = InsetsHelper.WindowInsets(0, 0, 0, 0)

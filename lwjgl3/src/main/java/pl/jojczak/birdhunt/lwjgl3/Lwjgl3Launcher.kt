@@ -3,10 +3,10 @@ package pl.jojczak.birdhunt.lwjgl3
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import pl.jojczak.birdhunt.main.Main
-import pl.jojczak.birdhunt.utils.insetsHelperInstance
-import pl.jojczak.birdhunt.utils.osCoreHelper
-import pl.jojczak.birdhunt.utils.playServicesHelperInstance
-import pl.jojczak.birdhunt.utils.sPenHelperInstance
+import pl.jojczak.birdhunt.os.helpers.insetsHelperInstance
+import pl.jojczak.birdhunt.os.helpers.osCoreHelper
+import pl.jojczak.birdhunt.os.helpers.playServicesHelperInstance
+import pl.jojczak.birdhunt.os.helpers.sPenHelperInstance
 
 /** Launches the desktop (LWJGL3) application.  */
 

@@ -1,4 +1,4 @@
-package pl.jojczak.birdhunt.utils
+package pl.jojczak.birdhunt.os.helpers
 
 interface PlayServicesHelper {
     fun initPlayServices()

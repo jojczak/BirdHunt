@@ -8,10 +8,10 @@ import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.PlayGamesSdk
 import com.google.android.gms.tasks.Task
 import pl.jojczak.birdhunt.R
-import pl.jojczak.birdhunt.utils.PlayServicesHelper
-import pl.jojczak.birdhunt.utils.PlayServicesHelper.Companion.LEADERBOARD_ID
-import pl.jojczak.birdhunt.utils.PlayServicesHelper.Companion.SHOW_ACHIEVEMENT_REQUEST
-import pl.jojczak.birdhunt.utils.PlayServicesHelper.Companion.SHOW_LEADERBOARD_REQUEST
+import pl.jojczak.birdhunt.os.helpers.PlayServicesHelper
+import pl.jojczak.birdhunt.os.helpers.PlayServicesHelper.Companion.LEADERBOARD_ID
+import pl.jojczak.birdhunt.os.helpers.PlayServicesHelper.Companion.SHOW_ACHIEVEMENT_REQUEST
+import pl.jojczak.birdhunt.os.helpers.PlayServicesHelper.Companion.SHOW_LEADERBOARD_REQUEST
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_PGS_AUTH
 

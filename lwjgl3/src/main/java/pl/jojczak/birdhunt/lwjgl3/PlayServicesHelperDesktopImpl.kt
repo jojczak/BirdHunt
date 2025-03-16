@@ -1,6 +1,6 @@
 package pl.jojczak.birdhunt.lwjgl3
 
-import pl.jojczak.birdhunt.utils.PlayServicesHelper
+import pl.jojczak.birdhunt.os.helpers.PlayServicesHelper
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_PGS_AUTH
 

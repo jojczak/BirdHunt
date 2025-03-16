@@ -21,9 +21,9 @@ import pl.jojczak.birdhunt.utils.DisabledButtonListener
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_HIGH_SCORE
 import pl.jojczak.birdhunt.utils.Preferences.PREF_PGS_AUTH
-import pl.jojczak.birdhunt.utils.appVersion
-import pl.jojczak.birdhunt.utils.osCoreHelper
-import pl.jojczak.birdhunt.utils.playServicesHelperInstance
+import pl.jojczak.birdhunt.os.helpers.appVersion
+import pl.jojczak.birdhunt.os.helpers.osCoreHelper
+import pl.jojczak.birdhunt.os.helpers.playServicesHelperInstance
 
 class MainMenuStage : ScreenWithUIStage.ScreenStage() {
     private var orientationVertical: Boolean? = null
