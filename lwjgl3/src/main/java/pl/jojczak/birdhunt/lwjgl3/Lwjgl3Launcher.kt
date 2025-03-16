@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import pl.jojczak.birdhunt.main.Main
 import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.utils.osCoreHelper
 import pl.jojczak.birdhunt.utils.playServicesHelperInstance
 import pl.jojczak.birdhunt.utils.sPenHelperInstance
 
@@ -16,6 +17,7 @@ object Lwjgl3Launcher {
         sPenHelperInstance = SPenHelperDesktopImpl()
         insetsHelperInstance = InsetsHelperDesktopImpl()
         playServicesHelperInstance = PlayServicesHelperDesktopImpl()
+        osCoreHelper = OsCoreHelperDesktopImpl()
         Lwjgl3Application(
             Main( onLoadingFinished = {} ),
             defaultConfiguration

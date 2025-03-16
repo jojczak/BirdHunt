@@ -88,6 +88,13 @@ img_bt_achievements
   orig: 84, 84
   offset: 0, 0
   index: -1
+img_bt_coffe
+  rotate: false
+  xy: 1029, 1554
+  size: 57, 42
+  orig: 57, 42
+  offset: 0, 0
+  index: -1
 img_bt_leaderboard
   rotate: false
   xy: 1537, 1725
