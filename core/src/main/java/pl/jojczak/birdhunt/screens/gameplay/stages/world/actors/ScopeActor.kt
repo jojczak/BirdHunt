@@ -10,7 +10,7 @@ import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.GameplayState
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_SENSITIVITY
-import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.os.helpers.insetsHelperInstance
 import pl.jojczak.birdhunt.utils.realToStage
 
 class ScopeActor(

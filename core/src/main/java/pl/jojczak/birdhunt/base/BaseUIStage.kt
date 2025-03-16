@@ -2,8 +2,8 @@ package pl.jojczak.birdhunt.base
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.viewport.ExtendViewport
-import pl.jojczak.birdhunt.utils.InsetsHelper
-import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.os.helpers.InsetsHelper
+import pl.jojczak.birdhunt.os.helpers.insetsHelperInstance
 
 abstract class BaseUIStage : BaseStage(
     viewportMinWidth = WORLD_WIDTH,

@@ -9,7 +9,7 @@ import com.samsung.android.sdk.penremote.SpenEventListener
 import com.samsung.android.sdk.penremote.SpenRemote
 import com.samsung.android.sdk.penremote.SpenUnit
 import com.samsung.android.sdk.penremote.SpenUnitManager
-import pl.jojczak.birdhunt.utils.SPenHelper
+import pl.jojczak.birdhunt.os.helpers.SPenHelper
 
 class SPenHelperAndroidImpl(
     private val context: Context

@@ -13,7 +13,7 @@ import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.BulletActor
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.ScopeActor
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.birdactor.BirdActor
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.shotgunactor.ShotgunActor
-import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.os.helpers.insetsHelperInstance
 import pl.jojczak.birdhunt.utils.realToStage
 
 class GameplayStage(

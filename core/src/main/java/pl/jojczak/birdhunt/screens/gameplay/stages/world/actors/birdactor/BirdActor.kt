@@ -14,7 +14,7 @@ import pl.jojczak.birdhunt.base.BaseActor
 import pl.jojczak.birdhunt.base.DisposableActor
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.GameplayState
-import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.os.helpers.insetsHelperInstance
 import kotlin.random.Random
 
 class BirdActor(

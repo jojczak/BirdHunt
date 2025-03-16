@@ -6,15 +6,16 @@ import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import pl.jojczak.birdhunt.base.DisposableActor
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.HITS_PER_ROUND
-import pl.jojczak.birdhunt.utils.PlayServicesHelper
+import pl.jojczak.birdhunt.os.helpers.PlayServicesHelper
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_ACH_1K_POINTS_UNLOCKED
 import pl.jojczak.birdhunt.utils.Preferences.PREF_ACH_THREE_BIRDS_UNLOCKED
 import pl.jojczak.birdhunt.utils.Preferences.PREF_ACH_TWO_BIRDS_UNLOCKED
-import pl.jojczak.birdhunt.utils.SPenHelper
+import pl.jojczak.birdhunt.os.helpers.SPenHelper
+import pl.jojczak.birdhunt.os.helpers.osCoreHelper
 import pl.jojczak.birdhunt.utils.SoundManager
-import pl.jojczak.birdhunt.utils.playServicesHelperInstance
-import pl.jojczak.birdhunt.utils.sPenHelperInstance
+import pl.jojczak.birdhunt.os.helpers.playServicesHelperInstance
+import pl.jojczak.birdhunt.os.helpers.sPenHelperInstance
 
 interface GameplayLogic {
     fun addActionsListener(vararg listener: FromActions)
@@ -96,6 +97,7 @@ class GameplayLogicImpl(
         set(value) {
             field = value
             if (value is GameplayState.GameOver) {
+                osCoreHelper.setKeepScreenOn(false)
                 checkHighScoreAndSave()
                 soundManager.play(SoundManager.Sound.GAME_OVER)
             }
@@ -219,16 +221,19 @@ class GameplayLogicImpl(
             }
 
             is GameplayLogic.ToActions.PauseGame -> {
+                osCoreHelper.setKeepScreenOn(false)
                 notifyActionsListeners { pauseStateUpdated(true) }
                 gameplayState.paused = true
             }
 
             is GameplayLogic.ToActions.ResumeGame -> {
+                osCoreHelper.setKeepScreenOn(true)
                 notifyActionsListeners { pauseStateUpdated(false) }
                 gameplayState.paused = false
             }
 
             is GameplayLogic.ToActions.RestartGame -> {
+                osCoreHelper.setKeepScreenOn(true)
                 gameplayState = GameplayState.Init()
                 points = GameplayLogic.DEF_POINTS
                 shots = GameplayLogic.DEF_SHOTS
@@ -240,6 +245,7 @@ class GameplayLogicImpl(
             }
 
             is GameplayLogic.ToActions.ExitGame -> {
+                osCoreHelper.setKeepScreenOn(false)
                 checkHighScoreAndSave()
                 gameplayScreenActionReceiver(GameplayScreenAction.NavigateToMainMenu)
             }

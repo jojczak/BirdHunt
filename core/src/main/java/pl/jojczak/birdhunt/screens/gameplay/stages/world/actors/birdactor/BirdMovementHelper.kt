@@ -5,8 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.birdactor.BirdActor.Companion.BASE_SPEED
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.birdactor.BirdActor.Companion.SPEED_PER_ROUND
-import pl.jojczak.birdhunt.utils.InsetsHelper
-import pl.jojczak.birdhunt.utils.insetsHelperInstance
+import pl.jojczak.birdhunt.os.helpers.InsetsHelper
+import pl.jojczak.birdhunt.os.helpers.insetsHelperInstance
 import pl.jojczak.birdhunt.utils.realToStage
 import kotlin.math.cos
 import kotlin.math.sin

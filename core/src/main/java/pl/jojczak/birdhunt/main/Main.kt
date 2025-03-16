@@ -14,9 +14,9 @@ import pl.jojczak.birdhunt.screens.settings.stages.SettingsStage
 import pl.jojczak.birdhunt.screens.unsupporteddevice.stages.UnsupportedDeviceStage
 import pl.jojczak.birdhunt.stages.background.BackgroundStage
 import pl.jojczak.birdhunt.utils.Preferences
-import pl.jojczak.birdhunt.utils.SPenHelper
+import pl.jojczak.birdhunt.os.helpers.SPenHelper
 import pl.jojczak.birdhunt.utils.SoundManager
-import pl.jojczak.birdhunt.utils.sPenHelperInstance
+import pl.jojczak.birdhunt.os.helpers.sPenHelperInstance
 
 class Main(
     private val onLoadingFinished: () -> Unit

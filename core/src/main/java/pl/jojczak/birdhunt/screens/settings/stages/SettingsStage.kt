@@ -14,7 +14,7 @@ import pl.jojczak.birdhunt.utils.Preferences.PREF_GAME_SCALE
 import pl.jojczak.birdhunt.utils.Preferences.PREF_PGS_AUTH
 import pl.jojczak.birdhunt.utils.Preferences.PREF_SENSITIVITY
 import pl.jojczak.birdhunt.utils.Preferences.PREF_SOUND
-import pl.jojczak.birdhunt.utils.playServicesHelperInstance
+import pl.jojczak.birdhunt.os.helpers.playServicesHelperInstance
 
 class SettingsStage : ScreenWithUIStage.ScreenStage() {
 
