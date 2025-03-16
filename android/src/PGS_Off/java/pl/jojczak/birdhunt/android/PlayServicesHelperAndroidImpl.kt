@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import com.badlogic.gdx.Gdx
 import pl.jojczak.birdhunt.R
-import pl.jojczak.birdhunt.utils.PlayServicesHelper
+import pl.jojczak.birdhunt.os.helpers.PlayServicesHelper
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_PGS_AUTH
 
