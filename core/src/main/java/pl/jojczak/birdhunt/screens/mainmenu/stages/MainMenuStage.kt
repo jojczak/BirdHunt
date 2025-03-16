@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
@@ -21,6 +22,7 @@ import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_HIGH_SCORE
 import pl.jojczak.birdhunt.utils.Preferences.PREF_PGS_AUTH
 import pl.jojczak.birdhunt.utils.appVersion
+import pl.jojczak.birdhunt.utils.osCoreHelper
 import pl.jojczak.birdhunt.utils.playServicesHelperInstance
 
 class MainMenuStage : ScreenWithUIStage.ScreenStage() {
@@ -81,8 +83,23 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
         skin,
         Asset.FONT_SMALL_BORDERED,
         Color.WHITE
-    ).also { iL ->
-        iL.setPosition(ROW_PAD, ROW_PAD)
+    )
+
+    private val donateButton = ImageTextButton(i18N.get("main_menu_donate"), skin, "donate").also { sB ->
+        sB.addListener(ButtonListener { _, _ ->
+            Gdx.app.net.openURI(i18N.get("main_menu_donate_url"))
+            osCoreHelper.showToast(i18N.get("main_menu_donate_thx"))
+        })
+    }
+
+    private val authorTable = Table().also { aT ->
+        aT.setFillParent(true)
+        aT.bottom().left()
+        aT.add(infoLabel).expandX().fillX()
+        aT.add(donateButton).right()
+        aT.padLeft(ROW_PAD)
+        aT.padRight(ROW_PAD)
+        aT.padBottom(ROW_PAD_S)
     }
 
     private val logoActor = Image(AssetsLoader.get<Texture>(Asset.TX_LOGO)).also { lA ->
@@ -96,7 +113,7 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
         Gdx.app.log(TAG, "init MainMenuStage")
         Preferences.addListener(PREF_PGS_AUTH, pgsPreferenceListener)
         onPgsAuthChanged(Preferences.get(PREF_PGS_AUTH))
-        addActor(infoLabel)
+        addActor(authorTable)
     }
 
     override fun onResize(scrWidth: Int, scrHeight: Int) {
@@ -187,5 +204,6 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
         private const val TAG = "MainMenuStage"
 
         private const val ROW_PAD = 15f
+        private const val ROW_PAD_S = 10f
     }
 }

@@ -82,6 +82,18 @@
 		"imageUp": "img_bt_achievements"
 	}
 },
+"com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
+	"default": {
+		"parent": "default",
+		"font": "GenericMobileSystemNuevo-55",
+		"fontColor": "black"
+	},
+	"donate": {
+		"parent": "default",
+		"imageUp": "img_bt_coffe",
+		"font": "GenericMobileSystemNuevo-55"
+	}
+},
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
 	"default": {
 		"font": "GenericMobileSystemNuevo-55"

@@ -5,6 +5,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 import pl.jojczak.birdhunt.main.Main
+import pl.jojczak.birdhunt.utils.osCoreHelper
 import pl.jojczak.birdhunt.utils.appVersion
 import pl.jojczak.birdhunt.utils.insetsHelperInstance
 import pl.jojczak.birdhunt.utils.playServicesHelperInstance
@@ -22,6 +23,7 @@ class AndroidLauncher : AndroidApplication() {
         sPenHelperInstance = SPenHelperAndroidImpl(this)
         insetsHelperInstance = InsetsHelperAndroidImpl(window)
         playServicesHelperInstance = PlayServicesHelperAndroidImpl(this)
+        osCoreHelper = OsCoreHelperAndroidImpl(this)
         appVersion = packageManager.getPackageInfo(packageName, 0).versionName ?: "0.0"
 
         setView()
