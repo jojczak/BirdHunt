@@ -80,6 +80,14 @@
 	"gp_achievements": {
 		"parent": "default",
 		"imageUp": "img_bt_achievements"
+	},
+	"settings": {
+		"parent": "default",
+		"imageUp": "img_settings"
+	},
+	"share": {
+		"parent": "default",
+		"imageUp": "img_share_no_padding"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
@@ -92,6 +100,11 @@
 		"parent": "default",
 		"imageUp": "img_bt_coffe",
 		"font": "GenericMobileSystemNuevo-55"
+	},
+	"share": {
+		"parent": "default",
+		"imageUp": "img_share",
+		"font": "GenericMobileSystemNuevo-85"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {

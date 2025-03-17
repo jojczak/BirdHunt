@@ -55,35 +55,35 @@ GenericMobileSystemNuevo-85_1
   index: -1
 checkbox_off
   rotate: false
-  xy: 515, 984
+  xy: 673, 1142
   size: 102, 78
   orig: 102, 78
   offset: 0, 0
   index: -1
 checkbox_off_over
   rotate: false
-  xy: 1, 13
+  xy: 515, 984
   size: 102, 78
   orig: 102, 78
   offset: 0, 0
   index: -1
 checkbox_on
   rotate: false
-  xy: 1537, 1811
+  xy: 1695, 1969
   size: 102, 78
   orig: 102, 78
   offset: 0, 0
   index: -1
 checkbox_on_over
   rotate: false
-  xy: 673, 1142
+  xy: 1537, 1811
   size: 102, 78
   orig: 102, 78
   offset: 0, 0
   index: -1
 img_bt_achievements
   rotate: false
-  xy: 381, 7
+  xy: 393, 7
   size: 84, 84
   orig: 84, 84
   offset: 0, 0
@@ -102,9 +102,30 @@ img_bt_leaderboard
   orig: 84, 84
   offset: 0, 0
   index: -1
+img_settings
+  rotate: false
+  xy: 515, 818
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+img_share
+  rotate: false
+  xy: 1, 7
+  size: 114, 84
+  orig: 114, 84
+  offset: 0, 0
+  index: -1
+img_share_no_padding
+  rotate: false
+  xy: 1537, 1639
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
 button_disabled
   rotate: false
-  xy: 777, 1142
+  xy: 1799, 1969
   size: 78, 78
   split: 31, 31, 31, 31
   orig: 78, 78
@@ -112,7 +133,7 @@ button_disabled
   index: -1
 list_bg_down
   rotate: false
-  xy: 777, 1142
+  xy: 1799, 1969
   size: 78, 78
   split: 31, 31, 31, 31
   orig: 78, 78
@@ -120,7 +141,7 @@ list_bg_down
   index: -1
 button_down
   rotate: false
-  xy: 105, 1
+  xy: 117, 1
   size: 90, 90
   split: 43, 31, 43, 31
   orig: 90, 90
@@ -128,7 +149,7 @@ button_down
   index: -1
 button_over
   rotate: false
-  xy: 197, 1
+  xy: 209, 1
   size: 90, 90
   split: 43, 43, 43, 43
   pad: 31, 43, 31, 43
@@ -137,7 +158,7 @@ button_over
   index: -1
 button_up
   rotate: false
-  xy: 289, 1
+  xy: 301, 1
   size: 90, 90
   split: 43, 43, 43, 43
   pad: 31, 43, 31, 43
@@ -146,7 +167,7 @@ button_up
   index: -1
 list_bg
   rotate: false
-  xy: 1787, 1969
+  xy: 869, 1142
   size: 78, 78
   split: 31, 31, 31, 31
   orig: 78, 78
@@ -154,7 +175,7 @@ list_bg
   index: -1
 list_bg_over
   rotate: false
-  xy: 515, 824
+  xy: 515, 738
   size: 78, 78
   split: 31, 31, 31, 31
   orig: 78, 78
@@ -162,7 +183,7 @@ list_bg_over
   index: -1
 list_bg_selected
   rotate: false
-  xy: 1537, 1645
+  xy: 1879, 1969
   size: 78, 78
   split: 31, 31, 31, 31
   orig: 78, 78
@@ -170,7 +191,7 @@ list_bg_selected
   index: -1
 scrollpane_knob_horizontal
   rotate: false
-  xy: 467, 1
+  xy: 479, 1
   size: 78, 90
   split: 31, 31, 43, 31
   orig: 78, 90
@@ -178,7 +199,7 @@ scrollpane_knob_horizontal
   index: -1
 scrollpane_knob_vertical
   rotate: false
-  xy: 1695, 1969
+  xy: 515, 904
   size: 90, 78
   split: 43, 31, 31, 31
   orig: 90, 78
@@ -186,7 +207,7 @@ scrollpane_knob_vertical
   index: -1
 scrollpane_scroll_horizontal
   rotate: false
-  xy: 515, 732
+  xy: 515, 646
   size: 78, 90
   split: 31, 31, 43, 31
   orig: 78, 90
@@ -194,7 +215,7 @@ scrollpane_scroll_horizontal
   index: -1
 scrollpane_scroll_vertical
   rotate: false
-  xy: 515, 904
+  xy: 777, 1142
   size: 90, 78
   split: 43, 31, 31, 31
   orig: 90, 78
@@ -202,7 +223,7 @@ scrollpane_scroll_vertical
   index: -1
 slider_bg
   rotate: false
-  xy: 857, 1142
+  xy: 1959, 1969
   size: 78, 78
   split: 31, 31, 31, 31
   pad: 6, 6, 31, 31

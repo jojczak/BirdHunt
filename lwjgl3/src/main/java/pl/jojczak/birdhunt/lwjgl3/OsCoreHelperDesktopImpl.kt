@@ -12,6 +12,10 @@ class OsCoreHelperDesktopImpl: OsCoreHelper {
         Gdx.app.log(TAG, "setKeepScreenOn: $value")
     }
 
+    override fun shareApp() {
+        Gdx.app.log(TAG, "share")
+    }
+
     companion object {
         private const val TAG = "OsCoreHelperDesktopImpl"
     }

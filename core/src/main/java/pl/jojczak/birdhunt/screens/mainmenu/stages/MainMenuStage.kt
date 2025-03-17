@@ -43,6 +43,13 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
         })
     }
 
+    private val aboutButton = TextButton(i18N.get("bt_about"), skin).also { aB ->
+        aB.addListener(ButtonListener { _, _ ->
+            Gdx.app.log(TAG, "About button clicked")
+            fadeOut { mainActionReceiver(MainAction.NavigateToAbout) }
+        })
+    }
+
     private val settingsButton = TextButton(i18N.get("bt_settings"), skin).also { sB ->
         sB.addListener(ButtonListener { _, _ ->
             Gdx.app.log(TAG, "Settings button clicked")
@@ -50,10 +57,10 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
         })
     }
 
-    private val aboutButton = TextButton(i18N.get("bt_about"), skin).also { aB ->
+    private val shareButton = ImageButton(skin, "share").also { aB ->
         aB.addListener(ButtonListener { _, _ ->
-            Gdx.app.log(TAG, "About button clicked")
-            fadeOut { mainActionReceiver(MainAction.NavigateToAbout) }
+            Gdx.app.log(TAG, "Share button clicked")
+            osCoreHelper.shareApp()
         })
     }
 
@@ -150,11 +157,12 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
 
         cT.add(Table().also { bT ->
             bT.add(startGameButton).padBottom(ROW_PAD).row()
-            bT.add(settingsButton).padBottom(ROW_PAD).row()
             bT.add(aboutButton).padBottom(ROW_PAD).row()
+            bT.add(settingsButton).padBottom(ROW_PAD).row()
             bT.add(Table().also { gpT ->
-                gpT.add(leaderboardButton).padRight(ROW_PAD / 2)
-                gpT.add(achievementsButton).padLeft(ROW_PAD / 2)
+                gpT.add(shareButton).padRight(ROW_PAD)
+                gpT.add(leaderboardButton).padRight(ROW_PAD)
+                gpT.add(achievementsButton)
             }).padBottom(ROW_PAD).row()
             bT.add(highScoreLabel).row()
         }).expand().center().padRight(50f)
@@ -172,11 +180,12 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
         cT.add(Table().also { bT ->
             bT.pad(ROW_PAD * 8, 0f, ROW_PAD * 8, 0f)
             bT.add(startGameButton).padBottom(ROW_PAD).row()
-            bT.add(settingsButton).padBottom(ROW_PAD).row()
             bT.add(aboutButton).padBottom(ROW_PAD).row()
+            bT.add(settingsButton).padBottom(ROW_PAD).row()
             bT.add(Table().also { gpT ->
-                gpT.add(leaderboardButton).padRight(ROW_PAD / 2)
-                gpT.add(achievementsButton).padLeft(ROW_PAD / 2)
+                gpT.add(shareButton).padRight(ROW_PAD)
+                gpT.add(leaderboardButton).padRight(ROW_PAD)
+                gpT.add(achievementsButton)
             }).padBottom(ROW_PAD).row()
             bT.add(highScoreLabel).row()
         }).expandY().align(Align.top).row()

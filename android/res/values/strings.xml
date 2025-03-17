@@ -5,4 +5,7 @@
     <string name="pgs_unauthenticated_error">You\'re not signed into Game Services. Do it in settings.</string>
     <string name="pgs_unavailable_error">Game Services are unavailable in this version of the game.</string>
     <string name="pgs_project_id">66673842910</string>
+
+    <string name="share_text">Can you beat my score? Play Bird Hunt!</string>
+    <string name="play_store_url">https://play.google.com/store/apps/details?id=pl.jojczak.birdhunt</string>
 </resources>
