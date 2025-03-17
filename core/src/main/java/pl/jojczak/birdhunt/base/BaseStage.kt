@@ -30,6 +30,8 @@ abstract class BaseStage(
         onResize(Gdx.graphics.width, Gdx.graphics.height)
     }
 
+    private val subClassName = this::class.simpleName
+
     private fun fadeInAction(callback: () -> Unit) = SequenceAction(
         ColorAction().apply {
             this.color = root.color
@@ -63,7 +65,19 @@ abstract class BaseStage(
 
     override fun draw() {
         viewport.apply()
-        super.draw()
+
+        // TBH, I have no idea why a NullPointerException occurs here. The issue appears randomly
+        // in com.badlogic.gdx.scenes.scene2d.ui.Table.computeSize (Table.java:806), or I just
+        // haven't noticed a pattern yet. Either way, debugging this will take a lot of time and
+        // this workaround works - the app doesn’t crash, and there are no changes in gameplay.
+        // Since this seems to be the most common crash according to the stats, I’m leaving
+        // it like this for now.
+        try {
+            super.draw()
+        } catch (e: NullPointerException) {
+            Gdx.app.error("$TAG/$subClassName", "NullPointerException in draw()", e)
+            super.getBatch().end()
+        }
     }
 
     fun fadeIn(callback: () -> Unit = {}) {
@@ -115,6 +129,7 @@ abstract class BaseStage(
     }
 
     companion object {
+        private const val TAG = "BaseStage"
         const val WORLD_WIDTH = 200f
         const val WORLD_HEIGHT = 200f
 

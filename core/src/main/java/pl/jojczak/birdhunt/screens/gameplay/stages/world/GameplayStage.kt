@@ -118,6 +118,7 @@ class GameplayStage(
     }
 
     override fun onResize(scrWidth: Int, scrHeight: Int) {
+        Gdx.app.log(TAG, "onResize, viewport size: ${viewport.worldWidth}, ${viewport.worldHeight}")
         super.onResize(scrWidth, scrHeight)
 
         uiBackground.setSize(width, bottomUISize)
