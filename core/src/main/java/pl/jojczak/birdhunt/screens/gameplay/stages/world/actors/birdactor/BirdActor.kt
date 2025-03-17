@@ -90,6 +90,7 @@ class BirdActor(
             Random.nextFloat() * (stage.width - width),
             -height
         )
+        Gdx.app.log(TAG, "Bird appears on screen: x: $x, y: $y, movementType: ${movementHelper.movementType}")
     }
 
     override fun act(delta: Float) {

@@ -47,6 +47,7 @@ class BirdMovementHelper(
             newX = insets.left
             movementType = when (movementType) {
                 is BirdMovementType.LeftTop -> BirdMovementType.RightTop()
+                is BirdMovementType.RightTop -> BirdMovementType.RightTop() // spawn protection
                 else /* BirdMovementType.LeftBottom */ -> BirdMovementType.RightBottom()
             }
             Gdx.app.log(TAG, "New movementType: $movementType")
@@ -54,6 +55,7 @@ class BirdMovementHelper(
             newX = bird.stage.width - bird.width - insets.right
             movementType = when (movementType) {
                 is BirdMovementType.RightTop -> BirdMovementType.LeftTop()
+                is BirdMovementType.LeftTop -> BirdMovementType.LeftTop() // spawn protection
                 else /* BirdMovementType.RightBottom */ -> BirdMovementType.LeftBottom()
             }
             Gdx.app.log(TAG, "New movementType: $movementType")
