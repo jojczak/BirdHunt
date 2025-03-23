@@ -7,6 +7,7 @@ interface PlayServicesHelper {
     fun showAchievements()
     fun unlockAchievement(id: String)
     fun signIn()
+    fun getUserName(callback: (String?) -> Unit)
 
     companion object {
         const val SHOW_LEADERBOARD_REQUEST = 1001

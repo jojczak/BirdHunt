@@ -16,6 +16,15 @@ import pl.jojczak.birdhunt.os.helpers.osCoreHelper
 import pl.jojczak.birdhunt.utils.SoundManager
 import pl.jojczak.birdhunt.os.helpers.playServicesHelperInstance
 import pl.jojczak.birdhunt.os.helpers.sPenHelperInstance
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.DEF_HIT
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.DEF_POINTS
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.DEF_ROUND
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.DEF_SHOTS
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.DEF_SHOTS_HARD
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.DEF_TIME_TO_SHOT
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.DEF_TIME_TO_SHOT_HARD
+import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.HARD_MODE_ROUND
+import kotlin.reflect.KClass
 
 interface GameplayLogic {
     fun addActionsListener(vararg listener: FromActions)
@@ -29,7 +38,7 @@ interface GameplayLogic {
         fun shotsUpdated(shots: Int) = Unit
         fun hitUpdated(hit: Int) = Unit
         fun roundUpdated(round: Int) = Unit
-        fun displayWarning(state: GameplayState.GameOver?) = Unit
+        fun displayWarning(type: KClass<out GameplayState.GameOver>?) = Unit
         fun spawnBird(howMany: Int) = Unit
         fun shot() = Unit
         fun moveScope(x: Float, y: Float) = Unit
@@ -56,14 +65,19 @@ interface GameplayLogic {
     companion object {
         const val INIT_TIME = 3f
 
+        const val DEF_ROUND = 1
         const val DEF_POINTS = 0
         const val DEF_SHOTS = 3
         const val DEF_HIT = 0
-        const val DEF_ROUND = 1
+        const val DEF_TIME_TO_SHOT = 7
+
+        const val HARD_MODE_ROUND = 10
+        const val DEF_SHOTS_HARD = 4
+        const val DEF_TIME_TO_SHOT_HARD = 9
 
         const val POINTS_PER_HIT = 5
         const val HITS_PER_ROUND = 6
-        const val TIME_TO_SHOT = 7
+
     }
 }
 
@@ -73,22 +87,22 @@ class GameplayLogicImpl(
 ) : GameplayLogic, SPenHelper.EventListener, Actor(), DisposableActor {
     private val actionsListeners = mutableListOf<GameplayLogic.FromActions>()
 
-    private var points = GameplayLogic.DEF_POINTS
+    private var points = DEF_POINTS
         set(value) {
             field = value
             notifyActionsListeners { pointsUpdated(value) }
         }
-    private var shots = GameplayLogic.DEF_SHOTS
+    private var shots = DEF_SHOTS
         set(value) {
             field = value
             notifyActionsListeners { shotsUpdated(value) }
         }
-    private var hit = GameplayLogic.DEF_HIT
+    private var hit = DEF_HIT
         set(value) {
             field = value
             notifyActionsListeners { hitUpdated(value) }
         }
-    private var round = GameplayLogic.DEF_ROUND
+    private var round = DEF_ROUND
         set(value) {
             field = value
             notifyActionsListeners { roundUpdated(value) }
@@ -103,6 +117,9 @@ class GameplayLogicImpl(
             }
             notifyActionsListeners { gameplayStateUpdate(value) }
         }
+
+    private var killedBirds = 0
+    private var firedShots = 0
 
     private var anyBirdsInAir = false
 
@@ -134,11 +151,14 @@ class GameplayLogicImpl(
     }
 
     private fun actPlaying(state: GameplayState.Playing, delta: Float) {
-        if (anyBirdsInAir) state.elapsedTime += delta
-        if (state.elapsedTime >= GameplayLogic.TIME_TO_SHOT) {
-            gameplayState = GameplayState.GameOver.OutOfTime()
-        } else if (state.elapsedTime >= GameplayLogic.TIME_TO_SHOT - 1.5f) {
-            notifyActionsListeners { displayWarning(GameplayState.GameOver.OutOfTime()) }
+        if (anyBirdsInAir && shots > 0) state.elapsedTime += delta
+
+        val maxTime = if (round > HARD_MODE_ROUND) DEF_TIME_TO_SHOT_HARD else DEF_TIME_TO_SHOT
+
+        if (state.elapsedTime >= maxTime) {
+            gameplayState = createGameOverState(GameplayState.GameOver.OutOfTime::class)
+        } else if (state.elapsedTime >= maxTime - 1.5f) {
+            notifyActionsListeners { displayWarning(GameplayState.GameOver.OutOfTime::class) }
         }
     }
 
@@ -147,9 +167,10 @@ class GameplayLogicImpl(
     override fun <R>onAction(action: GameplayLogic.ToActions<R>): R {
         when (action) {
             is GameplayLogic.ToActions.Shot -> {
-                if (anyBirdsInAir && !gameplayState.paused && gameplayState is GameplayState.Playing) {
+                if (shots > 0 && anyBirdsInAir && !gameplayState.paused && gameplayState is GameplayState.Playing) {
                     soundManager.play(SoundManager.Sound.GUN_SHOT)
                     shots--
+                    firedShots++
                     notifyActionsListeners { shot() }
                 }
             }
@@ -162,6 +183,7 @@ class GameplayLogicImpl(
                 soundManager.play(SoundManager.Sound.BIRD_FALLING)
                 points += GameplayLogic.POINTS_PER_HIT * round
                 hit++
+                killedBirds++
 
                 if (points > 1000 && !Preferences.get(PREF_ACH_1K_POINTS_UNLOCKED)) {
                     playServicesHelperInstance.unlockAchievement(PlayServicesHelper.ACHIEVEMENT_1000_POINTS)
@@ -172,8 +194,10 @@ class GameplayLogicImpl(
 
             is GameplayLogic.ToActions.BirdsStillFlying -> {
                 if (shots == 0) {
-                    notifyActionsListeners { displayWarning(GameplayState.GameOver.OutOfAmmo()) }
-                    gameplayState = GameplayState.GameOver.OutOfAmmo()
+                    notifyActionsListeners { displayWarning(GameplayState.GameOver.OutOfAmmo::class) }
+                    delayAction(1f) {
+                        gameplayState = createGameOverState(GameplayState.GameOver.OutOfAmmo::class)
+                    }
                 }
             }
 
@@ -201,7 +225,7 @@ class GameplayLogicImpl(
                         soundManager.play(SoundManager.Sound.LVL_UP)
                         round++
                         delayAction(2f) {
-                            hit = GameplayLogic.DEF_HIT
+                            hit = DEF_HIT
                             spawnBirdsAndResetShots()
                         }
                     } else {
@@ -235,13 +259,18 @@ class GameplayLogicImpl(
             is GameplayLogic.ToActions.RestartGame -> {
                 osCoreHelper.setKeepScreenOn(true)
                 gameplayState = GameplayState.Init()
-                points = GameplayLogic.DEF_POINTS
-                shots = GameplayLogic.DEF_SHOTS
-                hit = GameplayLogic.DEF_HIT
-                round = GameplayLogic.DEF_ROUND
+                points = DEF_POINTS
+                shots = DEF_SHOTS
+                hit = DEF_HIT
+                round = DEF_ROUND
+                killedBirds = 0
+                firedShots = 0
                 notifyActionsListeners { restartGame() }
                 notifyActionsListeners { displayWarning(null) }
                 soundManager.play(SoundManager.Sound.START_COUNTDOWN)
+                delayAction(2f) {
+                    gameplayState = GameplayState.GameOver.OutOfAmmo(1, 1, 1)
+                }
             }
 
             is GameplayLogic.ToActions.ExitGame -> {
@@ -257,13 +286,13 @@ class GameplayLogicImpl(
 
     private fun spawnBirdsAndResetShots() {
         soundManager.play(SoundManager.Sound.GUN_RELOAD)
-        shots = GameplayLogic.DEF_SHOTS
+        shots = if (round > HARD_MODE_ROUND) DEF_SHOTS_HARD else DEF_SHOTS
         when (round) {
             in 0..5 -> {
                 notifyActionsListeners { spawnBird(1) }
             }
 
-            in 6..10 -> {
+            in 6..HARD_MODE_ROUND -> {
                 notifyActionsListeners { spawnBird(2) }
             }
 
@@ -293,6 +322,13 @@ class GameplayLogicImpl(
                 setRunnable { action() }
             }
         ))
+    }
+
+    private fun createGameOverState(type: KClass<out GameplayState.GameOver>) : GameplayState.GameOver {
+        return when (type) {
+            GameplayState.GameOver.OutOfAmmo::class -> GameplayState.GameOver.OutOfAmmo(points, killedBirds, firedShots)
+            else -> GameplayState.GameOver.OutOfTime(points, killedBirds, firedShots)
+        }
     }
 
     override fun onSPenButtonEvent(event: SPenHelper.ButtonEvent) = when (event) {

@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.I18NBundle
 import pl.jojczak.birdhunt.assetsloader.Asset.Companion.FONT_MEDIUM_BORDERED
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.GameplayState
+import kotlin.reflect.KClass
 
 class ScoreWidget(
     private val i18N: I18NBundle,
@@ -31,11 +32,18 @@ class ScoreWidget(
         scoreLabel.setText(i18N.format("game_label_score", points))
     }
 
-    override fun displayWarning(state: GameplayState.GameOver?) {
-        when (state) {
-            is GameplayState.GameOver.OutOfAmmo -> infoLabel.setText(i18N.get("game_over_reason_ammo"))
-            is GameplayState.GameOver.OutOfTime -> infoLabel.setText(i18N.get("game_label_bird_time"))
-            null -> infoLabel.setText("")
+    override fun displayWarning(type: KClass<out GameplayState.GameOver>?) {
+        when (type) {
+            GameplayState.GameOver.OutOfAmmo::class -> infoLabel.setText(i18N.get("game_over_reason_ammo"))
+            GameplayState.GameOver.OutOfTime::class -> infoLabel.setText(i18N.get("game_label_bird_time"))
+            else -> infoLabel.setText("")
+        }
+    }
+
+    override fun gameplayStateUpdate(state: GameplayState) {
+        isVisible = when (state) {
+            is GameplayState.GameOver -> false
+            else -> true
         }
     }
 

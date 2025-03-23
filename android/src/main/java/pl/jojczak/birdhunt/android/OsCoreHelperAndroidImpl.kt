@@ -7,9 +7,11 @@ import android.os.Looper
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import com.badlogic.gdx.Gdx
 import pl.jojczak.birdhunt.R
 import pl.jojczak.birdhunt.os.helpers.OsCoreHelper
+import java.io.File
 
 class OsCoreHelperAndroidImpl(
     private val context: Context,
@@ -38,10 +40,21 @@ class OsCoreHelperAndroidImpl(
 
         val shareIntent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, context.getString(R.string.play_store_url)) // Dodanie tekstu
-            putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name)) // Opcjonalny temat
+            putExtra(Intent.EXTRA_TEXT, context.getString(R.string.play_store_url))
+            putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.share_title))
         }
-        context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.app_name)))
+        context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.share_title)))
+    }
+
+    override fun shareAppWithScreenshot(screenshotFile: File) {
+        val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", screenshotFile)
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "image/png"
+            putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_text))
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_title)))
     }
 
     companion object {

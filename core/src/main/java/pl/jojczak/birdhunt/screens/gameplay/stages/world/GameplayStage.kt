@@ -14,6 +14,7 @@ import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.ScopeActor
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.birdactor.BirdActor
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.shotgunactor.ShotgunActor
 import pl.jojczak.birdhunt.os.helpers.insetsHelperInstance
+import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.GameOverBird
 import pl.jojczak.birdhunt.utils.realToStage
 
 class GameplayStage(
@@ -98,11 +99,14 @@ class GameplayStage(
                 bird.onGameOver()
             }
             scopeActor.isVisible = false
+            addActor(GameOverBird(1))
+            addActor(GameOverBird(-1))
         }
     }
 
     override fun restartGame() {
         actors.filterIsInstance<BirdActor>().forEach { bird -> bird.remove() }
+        actors.filterIsInstance<GameOverBird>().forEach { bird -> bird.remove() }
         scopeActor.apply {
             centerOnScreen()
             isVisible = true

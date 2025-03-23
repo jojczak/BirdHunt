@@ -76,6 +76,19 @@ class PlayServicesHelperAndroidImpl(
         gamesSignInClient.signIn().addOnCompleteListener(::onAuthenticationResult)
     }
 
+    override fun getUserName(callback: (String?) -> Unit) {
+        if (!checkIsAuthenticatedViaPreferences(false)) return callback(null)
+
+        PlayGames.getPlayersClient(activity).currentPlayer
+            .addOnSuccessListener { player ->
+                Gdx.app.log(TAG, "Succesfully got user name: ${player.displayName}")
+                callback(player.displayName)
+            }.addOnFailureListener { exception ->
+                Gdx.app.error(TAG, "Failed to get user name", exception)
+                callback(null)
+            }
+    }
+
     private fun checkIsAuthenticatedViaPreferences(showError: Boolean): Boolean {
         return if (!Preferences.get(PREF_PGS_AUTH)) {
             Gdx.app.log(TAG, "Not authenticated")

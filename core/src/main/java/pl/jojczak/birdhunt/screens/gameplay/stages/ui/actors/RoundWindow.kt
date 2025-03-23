@@ -15,6 +15,7 @@ class RoundWindow(
     skin,
     "dark"
 ), GameplayLogic.FromActions {
+    private var round: Int = -1
     private val roundLabel = Label("${GameplayLogic.DEF_ROUND}", skin, FONT_MEDIUM, Color.WHITE)
 
     init {
@@ -22,12 +23,15 @@ class RoundWindow(
     }
 
     override fun roundUpdated(round: Int) {
+        this.round = round
         addAction(getFlashingAnim(roundLabel) {
-            roundLabel.setText("$round")
+            roundLabel.setText("${this.round}")
         })
     }
 
     override fun restartGame() {
         removeFlashingAnim()
+        roundLabel.setText("${this.round}")
+        isVisible = true
     }
 }

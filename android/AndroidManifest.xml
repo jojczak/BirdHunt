@@ -16,8 +16,9 @@
         android:label="@string/app_name"
         android:theme="@style/GdxTheme">
 
-        <meta-data android:name="com.google.android.gms.games.APP_ID"
-            android:value="@string/pgs_project_id"/>
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/pgs_project_id" />
 
         <activity
             android:name="pl.jojczak.birdhunt.android.AndroidLauncher"
@@ -28,5 +29,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 </manifest>

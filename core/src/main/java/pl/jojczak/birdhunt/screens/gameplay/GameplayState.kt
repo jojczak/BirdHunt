@@ -6,8 +6,15 @@ sealed class GameplayState {
 
     class Init : GameplayState()
     class Playing : GameplayState()
-    sealed class GameOver : GameplayState() {
-        class OutOfAmmo : GameOver()
-        class OutOfTime : GameOver()
+    sealed class GameOver(
+        val points: Int,
+        val killedBirds: Int,
+        val firedShots: Int,
+    ) : GameplayState() {
+        class OutOfAmmo(points: Int, killedBirds: Int, firedShots: Int) :
+            GameOver(points, killedBirds, firedShots)
+
+        class OutOfTime(points: Int, killedBirds: Int, firedShots: Int) :
+            GameOver(points, killedBirds, firedShots)
     }
 }
