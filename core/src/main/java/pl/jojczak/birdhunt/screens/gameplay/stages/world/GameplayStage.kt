@@ -3,9 +3,12 @@ package pl.jojczak.birdhunt.screens.gameplay.stages.world
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.ParticleEffect
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Image
+import pl.jojczak.birdhunt.assetsloader.Asset
+import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.BaseStage
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic
 import pl.jojczak.birdhunt.screens.gameplay.GameplayState
@@ -24,6 +27,10 @@ class GameplayStage(
     private val scopeActor = ScopeActor(gameplayLogic)
     private val shotgunActor = ShotgunActor()
 
+    private val feathersParticle = Array(3) {
+        ParticleEffect(AssetsLoader.get(Asset.PT_FEATHERS))
+    }
+
     var bottomUISize = 0f
         set(value) {
             field = value.realToStage(this) + insetsHelperInstance.lastInsets.bottom.realToStage(this)
@@ -41,8 +48,16 @@ class GameplayStage(
             root.actions.forEach { it.act(delta) }
             return
         }
+        for (particle in feathersParticle) particle.takeIf { !it.isComplete }?.update(delta)
         shotgunActor.scopePosition = Vector2(scopeActor.x, scopeActor.y)
         super.act(delta)
+    }
+
+    override fun draw() {
+        batch.begin()
+        for (particle in feathersParticle) particle.takeIf { !it.isComplete }?.draw(batch)
+        batch.end()
+        super.draw()
     }
 
     private fun createUIBackground() = Texture(
@@ -80,6 +95,7 @@ class GameplayStage(
             ) {
                 if (bird.onHit()) {
                     killedBirds++
+                    startFeatherParticle(bird)
                     gameplayLogic.onAction(GameplayLogic.ToActions.BirdHit)
                 }
             }
@@ -128,6 +144,18 @@ class GameplayStage(
         uiBackground.setSize(width, bottomUISize)
         scopeActor.bottomUISize = bottomUISize
         actors.filterIsInstance<BirdActor>().forEach { it.bottomUISize = bottomUISize }
+    }
+
+    private fun startFeatherParticle(bird: BirdActor) {
+        feathersParticle.firstOrNull { it.isComplete }?.let {
+            it.reset()
+            it.setPosition(bird.x + bird.width / 2, bird.y + bird.height / 2)
+            it.emitters.first().apply {
+                minParticleCount = (3..6).random()
+                maxParticleCount = minParticleCount
+            }
+            it.start()
+        }
     }
 
     companion object {

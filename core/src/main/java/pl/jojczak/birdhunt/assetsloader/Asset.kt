@@ -23,7 +23,8 @@ enum class Asset {
     SN_BIRD_FALLING,
     SN_BIRD_FLYING,
     SN_LVL_UP,
-    SN_GAME_OVER;
+    SN_GAME_OVER,
+    PT_FEATHERS;
 
     companion object {
         const val FONT_SMALL = "GenericMobileSystemNuevo-55"

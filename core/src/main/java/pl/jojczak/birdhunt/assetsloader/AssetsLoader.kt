@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.I18NBundleLoader.I18NBundleParameter
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.ParticleEffect
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.I18NBundle
 import java.util.Locale
@@ -84,6 +85,7 @@ object AssetsLoader {
         Asset.SN_BIRD_FLYING        to      Pair("sounds/bird_flying.mp3",      Sound::class.java),
         Asset.SN_LVL_UP             to      Pair("sounds/lvl_up.mp3",           Sound::class.java),
         Asset.SN_GAME_OVER          to      Pair("sounds/game_over.mp3",        Sound::class.java),
+        Asset.PT_FEATHERS           to      Pair("particles/feathers.p",        ParticleEffect::class.java),
     )
 
     private class UnfinishedAssetLoadingException : RuntimeException()
