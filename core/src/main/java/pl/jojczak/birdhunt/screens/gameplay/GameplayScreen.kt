@@ -1,6 +1,8 @@
 package pl.jojczak.birdhunt.screens.gameplay
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.utils.ScreenUtils
 import pl.jojczak.birdhunt.base.BaseScreen
 import pl.jojczak.birdhunt.main.MainAction
 import pl.jojczak.birdhunt.os.helpers.osCoreHelper
@@ -9,6 +11,7 @@ import pl.jojczak.birdhunt.screens.gameplay.stages.world.GameplayStage
 import pl.jojczak.birdhunt.stages.background.BackgroundStage
 import pl.jojczak.birdhunt.utils.SoundManager
 import pl.jojczak.birdhunt.os.helpers.sPenHelperInstance
+import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.birdactor.BirdActor
 
 class GameplayScreen(
     mainActionReceiver: (action: MainAction) -> Unit,
@@ -19,8 +22,11 @@ class GameplayScreen(
     backgroundStage = backgroundStage
 ) {
     private val gameplayLogic = GameplayLogicImpl(soundManager, ::onAction)
-    private val gameplayStage = GameplayStage(gameplayLogic)
+    private val gameplayStage = GameplayStage(gameplayLogic, ::onAction)
     private val gameplayUIStage = GameplayUIStage(gameplayLogic) { gameplayStage.bottomUISize = it }
+
+    private val birdsForRetroEffect = mutableListOf<BirdActor>()
+    private var retroEffectTimestamp = -1f
 
     override fun show() {
         Gdx.app.log(TAG, "show gameplay screen")
@@ -41,6 +47,15 @@ class GameplayScreen(
         gameplayStage.draw()
         gameplayUIStage.act(delta)
         gameplayUIStage.draw()
+
+        if (retroEffectTimestamp > 0) {
+            ScreenUtils.clear(Color.BLACK)
+            retroEffectTimestamp -= delta
+            val birdIndex = (retroEffectTimestamp / RETRO_EFFECT_TIME_PER_BIRD).toInt()
+            if (birdIndex < birdsForRetroEffect.size) {
+                gameplayStage.drawRetroEffect(birdsForRetroEffect[birdIndex])
+            }
+        }
     }
 
     override fun resize(width: Int, height: Int) {
@@ -61,6 +76,11 @@ class GameplayScreen(
                     mainActionReceiver(MainAction.NavigateToMainMenu)
                 }
             }
+            is GameplayScreenAction.ShowRetroEffect -> {
+                birdsForRetroEffect.clear()
+                birdsForRetroEffect.addAll(action.birds)
+                retroEffectTimestamp = RETRO_EFFECT_TIME_PER_BIRD * (action.birds.size + 1)
+            }
         }
     }
 
@@ -77,5 +97,6 @@ class GameplayScreen(
 
     companion object {
         private const val TAG = "GameplayScreen"
+        private const val RETRO_EFFECT_TIME_PER_BIRD = 0.033f
     }
 }

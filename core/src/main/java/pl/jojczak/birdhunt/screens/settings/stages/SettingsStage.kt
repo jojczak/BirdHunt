@@ -15,6 +15,7 @@ import pl.jojczak.birdhunt.utils.Preferences.PREF_PGS_AUTH
 import pl.jojczak.birdhunt.utils.Preferences.PREF_SENSITIVITY
 import pl.jojczak.birdhunt.utils.Preferences.PREF_SOUND
 import pl.jojczak.birdhunt.os.helpers.playServicesHelperInstance
+import pl.jojczak.birdhunt.utils.Preferences.PREF_SCREEN_FLASHING
 
 class SettingsStage : ScreenWithUIStage.ScreenStage() {
 
@@ -48,6 +49,12 @@ class SettingsStage : ScreenWithUIStage.ScreenStage() {
         })
     }
 
+    private val screenFlashingCheckBox = CheckBox(i18N.get("settings_screen_flashing"), skin).also { sCB ->
+        sCB.addListener(ButtonListener { _, _ ->
+            Preferences.put(PREF_SCREEN_FLASHING, sCB.isChecked)
+        })
+    }
+
     private val pgsSignInButton = TextButton(i18N.get("settings_pgs_button"), skin, "small").also { pgsB ->
         pgsB.addListener(ButtonListener { _, _ ->
             playServicesHelperInstance.signIn()
@@ -62,6 +69,7 @@ class SettingsStage : ScreenWithUIStage.ScreenStage() {
         sW.add(sensitivitySlider).padTop(SETTINGS_ITEM_PAD).expandX().fillX().row()
         sW.add(gameScaleSlider).padTop(SETTINGS_ITEM_PAD).expandX().fillX().row()
         sW.add(soundCheckBox).padTop(SETTINGS_ITEM_PAD * 1.5f).padLeft(SETTINGS_ITEM_PAD / 2).left().row()
+        sW.add(screenFlashingCheckBox).padTop(SETTINGS_ITEM_PAD * 1.5f).padLeft(SETTINGS_ITEM_PAD / 2).left().row()
 
         if (!Preferences.get(PREF_PGS_AUTH)) {
             sW.add(pgsSignInButton).padTop(SETTINGS_ITEM_PAD * 1.5f).row()
@@ -85,11 +93,13 @@ class SettingsStage : ScreenWithUIStage.ScreenStage() {
     init {
         addActor(container)
         soundCheckBox.isChecked = Preferences.get(PREF_SOUND)
+        screenFlashingCheckBox.isChecked = Preferences.get(PREF_SCREEN_FLASHING)
         Preferences.addListener(PREF_PGS_AUTH, pgsPreferenceListener)
     }
 
     override fun keyDown(keyCode: Int) = if (keyCode == Keys.BACK) {
         fadeOut {
+            Preferences.flush()
             mainActionReceiver(MainAction.NavigateToMainMenu)
         }
         true

@@ -1,9 +1,11 @@
 package pl.jojczak.birdhunt.screens.gameplay.stages.world
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.ParticleEffect
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.Image
@@ -17,11 +19,16 @@ import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.ScopeActor
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.birdactor.BirdActor
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.shotgunactor.ShotgunActor
 import pl.jojczak.birdhunt.os.helpers.insetsHelperInstance
+import pl.jojczak.birdhunt.screens.gameplay.GameplayScreenAction
 import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.GameOverBird
+import pl.jojczak.birdhunt.utils.Preferences
+import pl.jojczak.birdhunt.utils.Preferences.PREF_SCREEN_FLASHING
 import pl.jojczak.birdhunt.utils.realToStage
+import java.awt.Shape
 
 class GameplayStage(
-    private val gameplayLogic: GameplayLogic
+    private val gameplayLogic: GameplayLogic,
+    private val gameplayScreenActionReceiver: (action: GameplayScreenAction) -> Unit
 ) : BaseStage(), GameplayLogic.FromActions {
     private val uiBackground = Image(createUIBackground())
     private val scopeActor = ScopeActor(gameplayLogic)
@@ -30,6 +37,8 @@ class GameplayStage(
     private val feathersParticle = Array(3) {
         ParticleEffect(AssetsLoader.get(Asset.PT_FEATHERS))
     }
+
+    private val shapeRenderer = ShapeRenderer()
 
     var bottomUISize = 0f
         set(value) {
@@ -60,6 +69,14 @@ class GameplayStage(
         super.draw()
     }
 
+    fun drawRetroEffect(bird: BirdActor) {
+        shapeRenderer.projectionMatrix = camera.combined
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
+        shapeRenderer.color = Color.WHITE
+        shapeRenderer.rect(bird.x, bird.y, bird.width, bird.height)
+        shapeRenderer.end()
+    }
+
     private fun createUIBackground() = Texture(
         Pixmap(1, 1, Pixmap.Format.RGBA8888).apply {
             setColor(0f, 0f, 0f, 0.6f)
@@ -86,8 +103,14 @@ class GameplayStage(
 
         shotgunActor.startShotAnimation()
 
+        val birds = actors.filterIsInstance<BirdActor>()
+
+        if (Preferences.get(PREF_SCREEN_FLASHING)) {
+            gameplayScreenActionReceiver(GameplayScreenAction.ShowRetroEffect(birds))
+        }
+
         var killedBirds = 0
-        actors.filterIsInstance<BirdActor>().forEach { bird ->
+        birds.forEach { bird ->
             if (bird.isDead) return@forEach
 
             if (scopeActor.x > bird.x && scopeActor.x < bird.x + bird.width &&
@@ -102,7 +125,7 @@ class GameplayStage(
         }
         gameplayLogic.onAction(GameplayLogic.ToActions.CheckBirdsKilledAchievements(killedBirds))
 
-        if (actors.filterIsInstance<BirdActor>().all { it.isDead }) {
+        if (birds.all { it.isDead }) {
             gameplayLogic.onAction(GameplayLogic.ToActions.AllBirdsDead)
         } else {
             gameplayLogic.onAction(GameplayLogic.ToActions.BirdsStillFlying)
@@ -156,6 +179,11 @@ class GameplayStage(
             }
             it.start()
         }
+    }
+
+    override fun dispose() {
+        for (particle in feathersParticle) particle.dispose()
+        super.dispose()
     }
 
     companion object {
