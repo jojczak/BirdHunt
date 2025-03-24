@@ -21,6 +21,7 @@ class GameplayUIStageInputListener(
             lastDragX = (x / WORLD_WIDTH) * BaseStage.WORLD_WIDTH
             lastDragY = (y / WORLD_WIDTH) * BaseStage.WORLD_WIDTH
         } else if (pointer == 1) {
+            gameplayLogic.onAction(GameplayLogic.ToActions.DisablePGSByTouch)
             gameplayLogic.onAction(GameplayLogic.ToActions.Shot)
         }
 
@@ -35,6 +36,10 @@ class GameplayUIStageInputListener(
 
             val dx = scaledX - lastDragX
             val dy = scaledY - lastDragY
+
+            if (dx > PGS_DISABLE_THRESHOLD || dy > PGS_DISABLE_THRESHOLD) {
+                gameplayLogic.onAction(GameplayLogic.ToActions.DisablePGSByTouch)
+            }
 
             lastDragX = scaledX
             lastDragY = scaledY
@@ -55,5 +60,6 @@ class GameplayUIStageInputListener(
         private const val TAG = "GameplayUIStageInputListener"
 
         private const val TOUCH_TO_S_PEN_SCALE = 100f
+        private const val PGS_DISABLE_THRESHOLD = 0.7f
     }
 }

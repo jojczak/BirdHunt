@@ -27,8 +27,8 @@ class ControlsStage(
         cT.add(Label(i18N.get("controls_touch"), skin, Asset.FONT_MEDIUM, Color.BLACK)).padTop(PAD).row()
         cT.add(sPenImage).size(sPenImage.prefWidth * 6f, sPenImage.prefHeight * 6f).padTop(PAD).padLeft(PAD).padRight(PAD / 2)
         cT.add(touchImage).size(touchImage.prefWidth * 6f, touchImage.prefHeight * 6f).padTop(PAD).padLeft(PAD / 2).padRight(PAD).row()
-        cT.add(Label(i18N.get("controls_s_pen_desc"), skin, Asset.FONT_SMALL, Color.BLACK).apply { wrap = true }).fillX().expandX().padTop(PAD).padRight(PAD)
-        cT.add(Label(i18N.get("controls_touch_desc"), skin, Asset.FONT_SMALL, Color.BLACK).apply { wrap = true }).fillX().expandX().padTop(PAD).padLeft(PAD).top()
+        cT.add(Label(i18N.get("controls_s_pen_desc"), skin, Asset.FONT_SMALL, Color.BLACK).apply { wrap = true }).fillX().expandX().padTop(PAD).padRight(PAD).top().uniformX()
+        cT.add(Label(i18N.get("controls_touch_desc"), skin, Asset.FONT_SMALL, Color.BLACK).apply { wrap = true }).fillX().expandX().padTop(PAD).padLeft(PAD).uniformX()
     }
 
     private val scrollPane = ScrollPane(controlsTable, skin, "blank").also { sP ->

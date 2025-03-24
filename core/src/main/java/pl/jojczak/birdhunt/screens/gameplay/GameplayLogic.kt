@@ -4,6 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import com.badlogic.gdx.utils.I18NBundle
+import pl.jojczak.birdhunt.assetsloader.Asset
+import pl.jojczak.birdhunt.assetsloader.AssetsLoader
 import pl.jojczak.birdhunt.base.DisposableActor
 import pl.jojczak.birdhunt.screens.gameplay.GameplayLogic.Companion.HITS_PER_ROUND
 import pl.jojczak.birdhunt.os.helpers.PlayServicesHelper
@@ -56,6 +59,7 @@ interface GameplayLogic {
         data object AllBirdsRemoved : ToActions<Unit>()
         data object GetState: ToActions<GameplayState>()
         data object GetRound: ToActions<Int>()
+        data object DisablePGSByTouch: ToActions<Unit>()
         data object PauseGame: ToActions<Unit>()
         data object ResumeGame: ToActions<Unit>()
         data object RestartGame: ToActions<Unit>()
@@ -119,6 +123,7 @@ class GameplayLogicImpl(
     private var anyBirdsInAir = false
 
     private var playedGames = 0
+    private var pgsDisabledByTouch = false
 
     init {
         sPenHelperInstance.addEventListener(this)
@@ -182,7 +187,7 @@ class GameplayLogicImpl(
                 hit++
                 killedBirds++
 
-                if (points > 1000 && !Preferences.get(PREF_ACH_1K_POINTS_UNLOCKED)) {
+                if (points > 1000 && !Preferences.get(PREF_ACH_1K_POINTS_UNLOCKED) && !pgsDisabledByTouch) {
                     playServicesHelperInstance.unlockAchievement(PlayServicesHelper.ACHIEVEMENT_1000_POINTS)
                     Preferences.put(PREF_ACH_1K_POINTS_UNLOCKED, true)
                     Preferences.flush()
@@ -199,14 +204,16 @@ class GameplayLogicImpl(
             }
 
             is GameplayLogic.ToActions.CheckBirdsKilledAchievements -> {
-                if (action.killedBirds == 2 && !Preferences.get(PREF_ACH_TWO_BIRDS_UNLOCKED)) {
-                    playServicesHelperInstance.unlockAchievement(PlayServicesHelper.ACHIEVEMENT_KILL_TWO_BIRDS)
-                    Preferences.put(PREF_ACH_TWO_BIRDS_UNLOCKED, true)
-                    Preferences.flush()
-                } else if (action.killedBirds == 3 && !Preferences.get(PREF_ACH_THREE_BIRDS_UNLOCKED)) {
-                    playServicesHelperInstance.unlockAchievement(PlayServicesHelper.ACHIEVEMENT_KILL_THREE_BIRDS)
-                    Preferences.put(PREF_ACH_THREE_BIRDS_UNLOCKED, true)
-                    Preferences.flush()
+                if (!pgsDisabledByTouch) {
+                    if (action.killedBirds == 2 && !Preferences.get(PREF_ACH_TWO_BIRDS_UNLOCKED)) {
+                        playServicesHelperInstance.unlockAchievement(PlayServicesHelper.ACHIEVEMENT_KILL_TWO_BIRDS)
+                        Preferences.put(PREF_ACH_TWO_BIRDS_UNLOCKED, true)
+                        Preferences.flush()
+                    } else if (action.killedBirds == 3 && !Preferences.get(PREF_ACH_THREE_BIRDS_UNLOCKED)) {
+                        playServicesHelperInstance.unlockAchievement(PlayServicesHelper.ACHIEVEMENT_KILL_THREE_BIRDS)
+                        Preferences.put(PREF_ACH_THREE_BIRDS_UNLOCKED, true)
+                        Preferences.flush()
+                    }
                 }
             }
 
@@ -241,6 +248,13 @@ class GameplayLogicImpl(
                 return round as R
             }
 
+            is GameplayLogic.ToActions.DisablePGSByTouch -> {
+                if (!pgsDisabledByTouch && gameplayState is GameplayState.Playing && !gameplayState.paused) {
+                    pgsDisabledByTouch = true
+                    osCoreHelper.showToast(AssetsLoader.get<I18NBundle>(Asset.I18N).get("game_touch_info"))
+                }
+            }
+
             is GameplayLogic.ToActions.PauseGame -> {
                 osCoreHelper.setKeepScreenOn(false)
                 notifyActionsListeners { pauseStateUpdated(true) }
@@ -262,6 +276,7 @@ class GameplayLogicImpl(
                 round = DEF_ROUND
                 killedBirds = 0
                 firedShots = 0
+                pgsDisabledByTouch = false
                 playedGames++
                 notifyActionsListeners { restartGame() }
                 notifyActionsListeners { displayWarning(null) }
@@ -315,7 +330,7 @@ class GameplayLogicImpl(
             Preferences.put(Preferences.PREF_HIGH_SCORE, points)
             Preferences.flush()
 
-            playServicesHelperInstance.submitScore(points)
+            if (!pgsDisabledByTouch) playServicesHelperInstance.submitScore(points)
         }
     }
 

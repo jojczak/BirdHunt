@@ -24,7 +24,7 @@ class OsCoreHelperAndroidImpl(
     override fun showToast(message: String) {
         Gdx.app.debug(TAG, "showToast: $message")
         Handler(Looper.getMainLooper()).post {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
     }
 
