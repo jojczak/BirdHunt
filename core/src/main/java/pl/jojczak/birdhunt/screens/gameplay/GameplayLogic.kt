@@ -257,12 +257,14 @@ class GameplayLogicImpl(
 
             is GameplayLogic.ToActions.PauseGame -> {
                 osCoreHelper.setKeepScreenOn(false)
+                soundManager.pause()
                 notifyActionsListeners { pauseStateUpdated(true) }
                 gameplayState.paused = true
             }
 
             is GameplayLogic.ToActions.ResumeGame -> {
                 osCoreHelper.setKeepScreenOn(true)
+                soundManager.resume()
                 notifyActionsListeners { pauseStateUpdated(false) }
                 gameplayState.paused = false
             }
@@ -278,6 +280,7 @@ class GameplayLogicImpl(
                 firedShots = 0
                 pgsDisabledByTouch = false
                 playedGames++
+                soundManager.stop()
                 notifyActionsListeners { restartGame() }
                 notifyActionsListeners { displayWarning(null) }
                 soundManager.play(SoundManager.Sound.START_COUNTDOWN)
@@ -285,6 +288,7 @@ class GameplayLogicImpl(
 
             is GameplayLogic.ToActions.ExitGame -> {
                 osCoreHelper.setKeepScreenOn(false)
+                soundManager.stop()
                 checkHighScoreAndSave()
                 gameplayScreenActionReceiver(GameplayScreenAction.NavigateToMainMenu)
             }

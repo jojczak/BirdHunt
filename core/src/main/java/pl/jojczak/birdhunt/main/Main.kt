@@ -167,6 +167,11 @@ class Main(
         AssetsLoader.dispose()
     }
 
+    override fun pause() {
+        soundManager.stop()
+        super.pause()
+    }
+
     companion object {
         private const val TAG = "Main"
     }

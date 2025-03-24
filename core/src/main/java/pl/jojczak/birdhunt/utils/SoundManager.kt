@@ -36,4 +36,22 @@ class SoundManager {
     fun play(sound: Sound) {
         if (soundEnabled) soundsMap[sound]?.play()
     }
+
+    fun pause() {
+        soundsMap.forEach {
+            it.value.pause()
+        }
+    }
+
+    fun resume() {
+        soundsMap.forEach {
+            it.value.resume()
+        }
+    }
+
+    fun stop() {
+        soundsMap.forEach {
+            it.value.stop()
+        }
+    }
 }
