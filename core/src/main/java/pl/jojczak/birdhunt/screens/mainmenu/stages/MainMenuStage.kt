@@ -57,10 +57,10 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
         })
     }
 
-    private val shareButton = ImageButton(skin, "share").also { aB ->
+    private val feedbackButton = ImageButton(skin, "discuss").also { aB ->
         aB.addListener(ButtonListener { _, _ ->
             Gdx.app.log(TAG, "Share button clicked")
-            osCoreHelper.shareApp()
+            fadeOut { mainActionReceiver(MainAction.NavigateToFeedback) }
         })
     }
 
@@ -160,7 +160,7 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
             bT.add(aboutButton).padBottom(ROW_PAD).row()
             bT.add(settingsButton).padBottom(ROW_PAD).row()
             bT.add(Table().also { gpT ->
-                gpT.add(shareButton).padRight(ROW_PAD)
+                gpT.add(feedbackButton).padRight(ROW_PAD)
                 gpT.add(leaderboardButton).padRight(ROW_PAD)
                 gpT.add(achievementsButton)
             }).padBottom(ROW_PAD).row()
@@ -183,7 +183,7 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
             bT.add(aboutButton).padBottom(ROW_PAD).row()
             bT.add(settingsButton).padBottom(ROW_PAD).row()
             bT.add(Table().also { gpT ->
-                gpT.add(shareButton).padRight(ROW_PAD)
+                gpT.add(feedbackButton).padRight(ROW_PAD)
                 gpT.add(leaderboardButton).padRight(ROW_PAD)
                 gpT.add(achievementsButton)
             }).padBottom(ROW_PAD).row()

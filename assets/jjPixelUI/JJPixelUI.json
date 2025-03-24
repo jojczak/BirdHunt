@@ -81,13 +81,9 @@
 		"parent": "default",
 		"imageUp": "img_bt_achievements"
 	},
-	"settings": {
+	"discuss": {
 		"parent": "default",
-		"imageUp": "img_settings"
-	},
-	"share": {
-		"parent": "default",
-		"imageUp": "img_share_no_padding"
+		"imageUp": "img_discuss"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {

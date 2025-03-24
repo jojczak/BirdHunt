@@ -17,6 +17,7 @@ import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.os.helpers.SPenHelper
 import pl.jojczak.birdhunt.utils.SoundManager
 import pl.jojczak.birdhunt.os.helpers.sPenHelperInstance
+import pl.jojczak.birdhunt.screens.feedback.FeedbackStage
 
 class Main(
     private val onLoadingFinished: () -> Unit
@@ -121,13 +122,24 @@ class Main(
                 )
             }
 
-            MainAction.NavigateToAbout -> {
+            is MainAction.NavigateToAbout -> {
                 getScreen().dispose()
                 setScreen(
                     ScreenWithUIStage(
                         mainActionReceiver = ::onAction,
                         backgroundStage = backgroundStage,
                         stage = AboutStage()
+                    )
+                )
+            }
+
+            MainAction.NavigateToFeedback -> {
+                getScreen().dispose()
+                setScreen(
+                    ScreenWithUIStage(
+                        mainActionReceiver = ::onAction,
+                        backgroundStage = backgroundStage,
+                        stage = FeedbackStage()
                     )
                 )
             }

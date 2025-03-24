@@ -102,6 +102,13 @@ img_bt_leaderboard
   orig: 84, 84
   offset: 0, 0
   index: -1
+img_discuss
+  rotate: false
+  xy: 1537, 1639
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
 img_settings
   rotate: false
   xy: 515, 818
@@ -114,13 +121,6 @@ img_share
   xy: 1, 7
   size: 114, 84
   orig: 114, 84
-  offset: 0, 0
-  index: -1
-img_share_no_padding
-  rotate: false
-  xy: 1537, 1639
-  size: 84, 84
-  orig: 84, 84
   offset: 0, 0
   index: -1
 button_disabled
