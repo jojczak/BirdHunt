@@ -7,4 +7,5 @@ interface OsCoreHelper {
     fun setKeepScreenOn(value: Boolean)
     fun shareApp()
     fun shareAppWithScreenshot(screenshotFile: File)
+    fun reviewApp()
 }

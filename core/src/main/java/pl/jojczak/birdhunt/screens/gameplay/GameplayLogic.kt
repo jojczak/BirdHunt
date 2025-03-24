@@ -110,18 +110,15 @@ class GameplayLogicImpl(
     private var gameplayState: GameplayState = GameplayState.Init()
         set(value) {
             field = value
-            if (value is GameplayState.GameOver) {
-                osCoreHelper.setKeepScreenOn(false)
-                checkHighScoreAndSave()
-                soundManager.play(SoundManager.Sound.GAME_OVER)
-            }
+            onGameplayStateChanged()
             notifyActionsListeners { gameplayStateUpdate(value) }
         }
 
     private var killedBirds = 0
     private var firedShots = 0
-
     private var anyBirdsInAir = false
+
+    private var playedGames = 0
 
     init {
         sPenHelperInstance.addEventListener(this)
@@ -265,12 +262,10 @@ class GameplayLogicImpl(
                 round = DEF_ROUND
                 killedBirds = 0
                 firedShots = 0
+                playedGames++
                 notifyActionsListeners { restartGame() }
                 notifyActionsListeners { displayWarning(null) }
                 soundManager.play(SoundManager.Sound.START_COUNTDOWN)
-                delayAction(2f) {
-                    gameplayState = GameplayState.GameOver.OutOfAmmo(1, 1, 1)
-                }
             }
 
             is GameplayLogic.ToActions.ExitGame -> {
@@ -282,6 +277,15 @@ class GameplayLogicImpl(
 
         @Suppress("UNCHECKED_CAST")
         return Unit as R
+    }
+
+    private fun onGameplayStateChanged() {
+        if (gameplayState is GameplayState.GameOver) {
+            osCoreHelper.setKeepScreenOn(false)
+            checkHighScoreAndSave()
+            soundManager.play(SoundManager.Sound.GAME_OVER)
+            if (playedGames == 3) osCoreHelper.reviewApp()
+        }
     }
 
     private fun spawnBirdsAndResetShots() {

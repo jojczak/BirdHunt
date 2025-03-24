@@ -1,5 +1,6 @@
 package pl.jojczak.birdhunt.android
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Handler
@@ -9,6 +10,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.badlogic.gdx.Gdx
+import com.google.android.play.core.review.ReviewManagerFactory
 import pl.jojczak.birdhunt.R
 import pl.jojczak.birdhunt.os.helpers.OsCoreHelper
 import java.io.File
@@ -17,6 +19,8 @@ class OsCoreHelperAndroidImpl(
     private val context: Context,
     private val window: Window
 ): OsCoreHelper {
+    private val reviewManager = ReviewManagerFactory.create(context)
+
     override fun showToast(message: String) {
         Gdx.app.debug(TAG, "showToast: $message")
         Handler(Looper.getMainLooper()).post {
@@ -55,6 +59,19 @@ class OsCoreHelperAndroidImpl(
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
         context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_title)))
+    }
+
+    override fun reviewApp() {
+        Gdx.app.log(TAG, "Reviewing app")
+        val reviewRequest = reviewManager.requestReviewFlow()
+        reviewRequest.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Gdx.app.log(TAG, "Successfully requested review flow")
+                reviewManager.launchReviewFlow(context as Activity, task.result)
+            } else {
+                Gdx.app.error(TAG, "Failed to request review flow", task.exception)
+            }
+        }
     }
 
     companion object {
