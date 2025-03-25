@@ -29,7 +29,7 @@ class SettingsStage : ScreenWithUIStage.ScreenStage() {
         i18nKey = "settings_sensitivity_label",
         preference = PREF_SENSITIVITY,
         min = 1f,
-        max = 40f,
+        max = 60f,
         step = 0.1f
     )
 
