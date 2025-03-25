@@ -33,6 +33,10 @@ class PlayServicesHelperAndroidImpl(
         showToast(R.string.pgs_unavailable_error)
     }
 
+    override fun getUserName(callback: (String?) -> Unit) {
+        callback(null)
+    }
+
     private fun showToast(@StringRes message: Int) {
         Gdx.app.postRunnable {
             activity.runOnUiThread {
