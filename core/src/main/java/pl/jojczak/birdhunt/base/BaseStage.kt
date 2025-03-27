@@ -63,19 +63,34 @@ abstract class BaseStage(
         Preferences.addListener(PREF_GAME_SCALE, gameScaleListener)
     }
 
+    // TBH, I have no idea why a NullPointerException occurs here. The issue appears randomly
+    // in com.badlogic.gdx.scenes.scene2d.ui.Table.computeSize (Table.java:806), or I just
+    // haven't noticed a pattern yet. Either way, debugging this will take a lot of time and
+    // this workaround works - the app doesn’t crash, and there are no changes in gameplay.
+    // Since this seems to be the most common crash according to the stats, I’m leaving
+    // it like this for now.
+    override fun act() {
+        try {
+            super.act()
+        } catch (e: NullPointerException) {
+            Gdx.app.error("$TAG/$subClassName", "NullPointerException in act()", e)
+            super.getBatch().end()
+        } catch (e: ArrayIndexOutOfBoundsException) {
+            Gdx.app.error("$TAG/$subClassName", "ArrayIndexOutOfBoundsException in act()", e)
+            super.getBatch().end()
+        }
+    }
+
     override fun draw() {
         viewport.apply()
 
-        // TBH, I have no idea why a NullPointerException occurs here. The issue appears randomly
-        // in com.badlogic.gdx.scenes.scene2d.ui.Table.computeSize (Table.java:806), or I just
-        // haven't noticed a pattern yet. Either way, debugging this will take a lot of time and
-        // this workaround works - the app doesn’t crash, and there are no changes in gameplay.
-        // Since this seems to be the most common crash according to the stats, I’m leaving
-        // it like this for now.
         try {
             super.draw()
         } catch (e: NullPointerException) {
             Gdx.app.error("$TAG/$subClassName", "NullPointerException in draw()", e)
+            super.getBatch().end()
+        } catch (e: ArrayIndexOutOfBoundsException) {
+            Gdx.app.error("$TAG/$subClassName", "ArrayIndexOutOfBoundsException in draw()", e)
             super.getBatch().end()
         }
     }

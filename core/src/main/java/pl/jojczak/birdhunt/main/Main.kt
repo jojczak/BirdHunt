@@ -168,7 +168,9 @@ class Main(
     }
 
     override fun pause() {
-        soundManager.stop()
+        if (this::soundManager.isInitialized) {
+            soundManager.stop()
+        }
         super.pause()
     }
 
