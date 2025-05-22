@@ -84,6 +84,14 @@
 	"discuss": {
 		"parent": "default",
 		"imageUp": "img_discuss"
+	},
+	"penmouse_s": {
+		"parent": "default",
+		"imageUp": "img_penmouse_s"
+	},
+	"settings": {
+		"parent": "default",
+		"imageUp": "img_settings"
 	}
 },
 "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {

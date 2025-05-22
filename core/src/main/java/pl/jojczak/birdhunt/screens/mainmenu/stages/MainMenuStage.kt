@@ -50,7 +50,14 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
         })
     }
 
-    private val settingsButton = TextButton(i18N.get("bt_settings"), skin).also { sB ->
+    private val penMouseSAdButton = ImageButton(skin, "penmouse_s").also { pm ->
+        pm.addListener(ButtonListener { _, _ ->
+            Gdx.app.log(TAG, "PenMouse button clicked")
+            Gdx.net.openURI(i18N.get("main_menu_penmouse_s_url"))
+        })
+    }
+
+    private val settingsButton = ImageButton(skin, "settings").also { sB ->
         sB.addListener(ButtonListener { _, _ ->
             Gdx.app.log(TAG, "Settings button clicked")
             fadeOut { mainActionReceiver(MainAction.NavigateToSettings) }
@@ -158,13 +165,14 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
         cT.add(Table().also { bT ->
             bT.add(startGameButton).padBottom(ROW_PAD).row()
             bT.add(aboutButton).padBottom(ROW_PAD).row()
-            bT.add(settingsButton).padBottom(ROW_PAD).row()
             bT.add(Table().also { gpT ->
+                gpT.add(settingsButton).padRight(ROW_PAD)
                 gpT.add(feedbackButton).padRight(ROW_PAD)
                 gpT.add(leaderboardButton).padRight(ROW_PAD)
                 gpT.add(achievementsButton)
             }).padBottom(ROW_PAD).row()
             bT.add(highScoreLabel).row()
+            bT.add(penMouseSAdButton).padTop(ROW_PAD * 1.5f).row()
         }).expand().center().padRight(50f)
     }
 
@@ -181,13 +189,14 @@ class MainMenuStage : ScreenWithUIStage.ScreenStage() {
             bT.pad(ROW_PAD * 8, 0f, ROW_PAD * 8, 0f)
             bT.add(startGameButton).padBottom(ROW_PAD).row()
             bT.add(aboutButton).padBottom(ROW_PAD).row()
-            bT.add(settingsButton).padBottom(ROW_PAD).row()
             bT.add(Table().also { gpT ->
+                gpT.add(settingsButton).padRight(ROW_PAD)
                 gpT.add(feedbackButton).padRight(ROW_PAD)
                 gpT.add(leaderboardButton).padRight(ROW_PAD)
                 gpT.add(achievementsButton)
             }).padBottom(ROW_PAD).row()
             bT.add(highScoreLabel).row()
+            bT.add(penMouseSAdButton).padTop(ROW_PAD * 1.5f).row()
         }).expandY().align(Align.top).row()
 
         cT.add().minHeight(50f).expandY()
