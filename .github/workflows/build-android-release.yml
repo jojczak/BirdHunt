@@ -36,6 +36,13 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew assemblePGS_OnRelease
 
+      - name: Build release AAB with PGS
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew bundlePGS_OnRelease
+
       - name: Build release APK without PGS
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -68,6 +75,16 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: android/build/outputs/apk/PGS_On/release/android-PGS_On-release.apk
           asset_name: BirdHunt_v${{ env.VERSION_NAME }}_PGS.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload AAB with PGS to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: android/build/outputs/bundle/PGS_OnRelease/android-PGS_On-release.aab
+          asset_name: BirdHunt_v${{ env.VERSION_NAME }}_PGS.aab
           asset_content_type: application/vnd.android.package-archive
 
       - name: Upload APK without PGS to Release
