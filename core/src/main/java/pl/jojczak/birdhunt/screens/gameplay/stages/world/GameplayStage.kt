@@ -24,7 +24,6 @@ import pl.jojczak.birdhunt.screens.gameplay.stages.world.actors.GameOverBird
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_SCREEN_FLASHING
 import pl.jojczak.birdhunt.utils.realToStage
-import java.awt.Shape
 
 class GameplayStage(
     private val gameplayLogic: GameplayLogic,

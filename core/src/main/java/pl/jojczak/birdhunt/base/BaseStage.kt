@@ -69,14 +69,20 @@ abstract class BaseStage(
     // this workaround works - the app doesn’t crash, and there are no changes in gameplay.
     // Since this seems to be the most common crash according to the stats, I’m leaving
     // it like this for now.
-    override fun act() {
+    override fun act(delta: Float) {
         try {
-            super.act()
+            super.act(delta)
         } catch (e: NullPointerException) {
             Gdx.app.error("$TAG/$subClassName", "NullPointerException in act()", e)
             super.getBatch().end()
         } catch (e: ArrayIndexOutOfBoundsException) {
             Gdx.app.error("$TAG/$subClassName", "ArrayIndexOutOfBoundsException in act()", e)
+            super.getBatch().end()
+        } catch (e: IllegalStateException) {
+            Gdx.app.error("$TAG/$subClassName", "IllegalStateException in act()", e)
+            super.getBatch().end()
+        } catch (e: IndexOutOfBoundsException) {
+            Gdx.app.error("$TAG/$subClassName", "IndexOutOfBoundsException in act()", e)
             super.getBatch().end()
         }
     }
@@ -91,6 +97,12 @@ abstract class BaseStage(
             super.getBatch().end()
         } catch (e: ArrayIndexOutOfBoundsException) {
             Gdx.app.error("$TAG/$subClassName", "ArrayIndexOutOfBoundsException in draw()", e)
+            super.getBatch().end()
+        } catch (e: IllegalStateException) {
+            Gdx.app.error("$TAG/$subClassName", "IllegalStateException in draw()", e)
+            super.getBatch().end()
+        } catch (e: IndexOutOfBoundsException) {
+            Gdx.app.error("$TAG/$subClassName", "IndexOutOfBoundsException in draw()", e)
             super.getBatch().end()
         }
     }
