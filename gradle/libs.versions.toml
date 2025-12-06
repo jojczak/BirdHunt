@@ -1,0 +1,43 @@
+[versions]
+appId = "pl.jojczak.birdhunt"
+projectVersion = "1.4.3"
+android-targetSdk = "36"
+android-compileSdk = "36"
+android-minSdk = "31"
+android-versionCode = "11"
+
+kotlin = "2.2.21"
+agp = "8.13.1"
+gdx = "1.14.0"
+graal-helper = "2.0.1"
+androidx-core = "1.17.0"
+androidx-splashscreen = "1.2.0"
+play-review = "2.0.2"
+play-games = "20.1.2"
+desugar = "2.1.5"
+construo = "2.1.0"
+graalvm-native = "0.11.3"
+
+[libraries]
+# libGDX
+gdx = { module = "com.badlogicgames.gdx:gdx", version.ref = "gdx" }
+gdx-backend-lwjgl3 = { module = "com.badlogicgames.gdx:gdx-backend-lwjgl3", version.ref = "gdx" }
+gdx-backend-android = { module = "com.badlogicgames.gdx:gdx-backend-android", version.ref = "gdx" }
+gdx-svmhelper-backend = { module = "io.github.berstanio:gdx-svmhelper-backend-lwjgl3", version.ref = "graal-helper" }
+gdx-svmhelper-annotations = { module = "io.github.berstanio:gdx-svmhelper-annotations", version.ref = "graal-helper" }
+
+#android
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-splashscreen" }
+play-review = { module = "com.google.android.play:review", version.ref = "play-review" }
+play-review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "play-review" }
+play-games = { module = "com.google.android.gms:play-services-games-v2", version.ref = "play-games" }
+desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+construo = { id = "io.github.fourlastor.construo", version.ref = "construo" }
+graalvm-native = { id = "org.graalvm.buildtools.native", version.ref = "graalvm-native" }

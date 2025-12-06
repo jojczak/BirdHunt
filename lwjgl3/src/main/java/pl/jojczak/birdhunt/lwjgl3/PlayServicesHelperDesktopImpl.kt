@@ -4,7 +4,7 @@ import pl.jojczak.birdhunt.os.helpers.PlayServicesHelper
 import pl.jojczak.birdhunt.utils.Preferences
 import pl.jojczak.birdhunt.utils.Preferences.PREF_PGS_AUTH
 
-class PlayServicesHelperDesktopImpl: PlayServicesHelper {
+class PlayServicesHelperDesktopImpl : PlayServicesHelper {
     override fun initPlayServices() {
         Preferences.put(PREF_PGS_AUTH, false)
         Preferences.flush()
@@ -15,4 +15,5 @@ class PlayServicesHelperDesktopImpl: PlayServicesHelper {
     override fun showAchievements() = Unit
     override fun unlockAchievement(id: String) = Unit
     override fun signIn() = Unit
+    override fun getUserName(callback: (String?) -> Unit) = Unit
 }
