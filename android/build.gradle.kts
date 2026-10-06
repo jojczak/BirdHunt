@@ -1,10 +1,9 @@
 import java.util.Properties
 
-val natives: Configuration by configurations.creating
+val natives: Configuration = configurations.create("natives")
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -37,8 +36,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+        }
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -56,12 +59,12 @@ android {
     sourceSets {
         getByName("main") {
             manifest.srcFile("AndroidManifest.xml")
-            java.srcDirs("src/main/java", "src/main/kotlin")
-            aidl.srcDirs("src/main/java", "src/main/kotlin")
-            renderscript.srcDirs("src/main/java", "src/main/kotlin")
-            res.srcDirs("res")
-            assets.srcDirs("../assets")
-            jniLibs.srcDirs("libs")
+            java.directories += setOf("src/main/java", "src/main/kotlin")
+            aidl.directories += setOf("src/main/java", "src/main/kotlin")
+            renderscript.directories += setOf("src/main/java", "src/main/kotlin")
+            res.directories += "res"
+            assets.directories += "../assets"
+            jniLibs.directories += "libs"
         }
     }
 
@@ -119,7 +122,10 @@ dependencies {
     "PGS_OnImplementation"(libs.play.games)
 }
 
-val copyAndroidNatives by tasks.registering {
+val copyAndroidNatives = tasks.register("copyAndroidNatives") {
+    group = "build"
+    description = "Copies native .so files from dependencies into the libs directory."
+
     doFirst {
         file("libs/armeabi-v7a/").mkdirs()
         file("libs/arm64-v8a/").mkdirs()
@@ -146,6 +152,9 @@ tasks.withType<com.android.build.gradle.tasks.MergeSourceSetFolders>().configure
 }
 
 tasks.register<Exec>("run") {
+    group = "application"
+    description = "Runs the application on a connected Android device via ADB."
+
     val localProperties = project.rootProject.file("local.properties")
     var sdkPath = System.getenv("ANDROID_SDK_ROOT")
 

@@ -4,12 +4,11 @@ import org.gradle.api.plugins.JavaPluginExtension
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.jvm) apply false
 }
 
 allprojects {
-    apply(plugin = "idea")
+    pluginManager.apply(IdeaPlugin::class.java)
 
     configure<IdeaModel> {
         module {
@@ -21,8 +20,8 @@ allprojects {
 
 subprojects {
     if (this.name != "android") {
-        apply(plugin = "java-library")
-        apply(plugin = "kotlin")
+        pluginManager.apply(JavaLibraryPlugin::class.java)
+        pluginManager.apply("org.jetbrains.kotlin.jvm")
 
         configure<JavaPluginExtension> {
             toolchain {

@@ -34,7 +34,7 @@ class GameplayStage(
     private val shotgunActor = ShotgunActor()
 
     private val feathersParticle = Array(3) {
-        ParticleEffect(AssetsLoader.get(Asset.PT_FEATHERS))
+        ParticleEffect(AssetsLoader.get(Asset.PT_FEATHERS)).apply { reset() }
     }
 
     private val shapeRenderer = ShapeRenderer()
@@ -56,7 +56,16 @@ class GameplayStage(
             root.actions.forEach { it.act(delta) }
             return
         }
-        for (particle in feathersParticle) particle.takeIf { !it.isComplete }?.update(delta)
+
+        for (particle in feathersParticle) {
+            try {
+                particle.takeIf { !it.isComplete }?.update(delta)
+            } catch (e: ArrayIndexOutOfBoundsException) {
+                Gdx.app.error(TAG, "Particle effect error", e)
+                particle.reset()
+            }
+        }
+
         shotgunActor.scopePosition = Vector2(scopeActor.x, scopeActor.y)
         super.act(delta)
     }
