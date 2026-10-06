@@ -1,3 +1,5 @@
+[![Download](https://playbadges.pavi2410.me/badge/downloads?id=pl.jojczak.birdhunt)](https://play.google.com/store/apps/details?id=pl.jojczak.birdhunt)
+
 <p align="center">
   <img alt="eInk Photo Converter logo" src="android/res/mipmap-xxxhdpi/ic_launcher.webp" />
 </p>
